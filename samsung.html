@@ -1,0 +1,467 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>삼성전자 종목 평가 자료 분석</title>
+  <style>
+    :root{
+      --bg:#0b0f14;
+      --panel:#101827;
+      --panel-2:#0f172a;
+      --text:#e5e7eb;
+      --muted:#9ca3af;
+      --line:#1f2937;
+      --accent:#34d399; /* emerald */
+      --accent-2:#60a5fa; /* blue */
+      --warn:#f59e0b;
+      --danger:#f87171;
+      --radius:16px;
+      --shadow: 0 10px 30px rgba(0,0,0,.35);
+      --max: 980px;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      --sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", Arial, "Helvetica Neue", sans-serif;
+    }
+
+    *{ box-sizing:border-box; }
+    html,body{ height:100%; }
+    body{
+      margin:0;
+      font-family:var(--sans);
+      color:var(--text);
+      background:
+        radial-gradient(1000px 600px at 20% 0%, rgba(52,211,153,.14), transparent 55%),
+        radial-gradient(900px 500px at 90% 10%, rgba(96,165,250,.14), transparent 60%),
+        linear-gradient(180deg, #070a0f, var(--bg) 30%);
+      line-height:1.6;
+    }
+
+    a{ color:inherit; text-decoration:none; }
+    a:hover{ text-decoration:underline; }
+
+    .container{ max-width:var(--max); margin:0 auto; padding:24px; }
+
+    /* Header */
+    .hero{
+      background: linear-gradient(180deg, rgba(16,24,39,.9), rgba(16,24,39,.55));
+      border:1px solid rgba(255,255,255,.06);
+      border-radius: calc(var(--radius) + 8px);
+      box-shadow: var(--shadow);
+      padding:28px;
+      position:relative;
+      overflow:hidden;
+    }
+    .hero::before{
+      content:"";
+      position:absolute;
+      inset:-2px;
+      background: radial-gradient(600px 280px at 20% 10%, rgba(52,211,153,.20), transparent 60%),
+                  radial-gradient(560px 260px at 90% 30%, rgba(96,165,250,.18), transparent 62%);
+      pointer-events:none;
+      filter: blur(0px);
+    }
+    .hero > *{ position:relative; }
+
+    .title{
+      display:flex;
+      gap:12px;
+      align-items:flex-start;
+      justify-content:space-between;
+      flex-wrap:wrap;
+    }
+    .title h1{ margin:0; font-size:28px; letter-spacing:-.3px; }
+    .badge{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(15,23,42,.55);
+      padding:8px 12px;
+      border-radius:999px;
+      color:var(--muted);
+      font-size:12px;
+      white-space:nowrap;
+    }
+    .badge .dot{
+      width:8px; height:8px; border-radius:999px;
+      background: var(--accent);
+      box-shadow: 0 0 0 6px rgba(52,211,153,.10);
+    }
+
+    .meta{
+      margin-top:12px;
+      display:grid;
+      grid-template-columns: repeat(3, minmax(0,1fr));
+      gap:12px;
+    }
+    .meta .item{
+      border:1px solid rgba(255,255,255,.08);
+      background: rgba(15,23,42,.45);
+      border-radius: var(--radius);
+      padding:12px 14px;
+    }
+    .meta .k{ color:var(--muted); font-size:12px; }
+    .meta .v{ font-weight:600; margin-top:4px; }
+
+    @media (max-width: 720px){
+      .meta{ grid-template-columns: 1fr; }
+    }
+
+    /* Layout */
+    .grid{
+      margin-top:18px;
+      display:grid;
+      grid-template-columns: 280px 1fr;
+      gap:18px;
+      align-items:start;
+    }
+    @media (max-width: 980px){
+      .grid{ grid-template-columns: 1fr; }
+    }
+
+    /* Sidebar */
+    .side{
+      position:sticky;
+      top:18px;
+      border:1px solid rgba(255,255,255,.08);
+      background: rgba(16,24,39,.65);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+    @media (max-width: 980px){
+      .side{ position:static; }
+    }
+
+    .side .head{
+      padding:14px 16px;
+      border-bottom:1px solid rgba(255,255,255,.08);
+      background: rgba(15,23,42,.55);
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:10px;
+    }
+    .side .head .label{ font-weight:700; }
+    .side .head .hint{ color:var(--muted); font-size:12px; }
+
+    .nav{ padding:8px; }
+    .nav a{
+      display:flex;
+      gap:10px;
+      align-items:center;
+      padding:10px 12px;
+      border-radius:12px;
+      color:var(--text);
+      border:1px solid transparent;
+    }
+    .nav a:hover{
+      background: rgba(96,165,250,.08);
+      border-color: rgba(96,165,250,.18);
+      text-decoration:none;
+    }
+    .nav .idx{
+      width:28px;
+      height:28px;
+      display:grid;
+      place-items:center;
+      border-radius:10px;
+      background: rgba(52,211,153,.10);
+      border:1px solid rgba(52,211,153,.18);
+      color: var(--accent);
+      font-family:var(--mono);
+      font-size:12px;
+      flex:0 0 auto;
+    }
+    .nav .txt{ font-size:14px; }
+
+    /* Content */
+    main{ display:flex; flex-direction:column; gap:16px; }
+
+    .card{
+      border:1px solid rgba(255,255,255,.08);
+      background: rgba(16,24,39,.60);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+    .card .top{
+      padding:16px 18px;
+      border-bottom:1px solid rgba(255,255,255,.08);
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-start;
+      gap:10px;
+      background: rgba(15,23,42,.55);
+    }
+    .card h2{ margin:0; font-size:18px; letter-spacing:-.2px; }
+    .pill{
+      font-size:12px;
+      color:var(--muted);
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(15,23,42,.40);
+      padding:6px 10px;
+      border-radius:999px;
+      white-space:nowrap;
+    }
+    .card .body{ padding:18px; }
+
+    .body p{ margin:0 0 12px; color: rgba(229,231,235,.92); }
+    .body p:last-child{ margin-bottom:0; }
+
+    .subhead{
+      margin:16px 0 8px;
+      font-weight:800;
+      color: #f3f4f6;
+    }
+
+    .callout{
+      margin-top:12px;
+      padding:12px 14px;
+      border-radius: 14px;
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(52,211,153,.08);
+    }
+    .callout strong{ color: var(--accent); }
+
+    .callout.warn{ background: rgba(245,158,11,.10); }
+    .callout.warn strong{ color: var(--warn); }
+
+    .callout.danger{ background: rgba(248,113,113,.10); }
+    .callout.danger strong{ color: var(--danger); }
+
+    /* Table */
+    table{
+      width:100%;
+      border-collapse:separate;
+      border-spacing:0;
+      overflow:hidden;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(11,15,20,.35);
+    }
+    th,td{ padding:12px 12px; text-align:left; vertical-align:top; }
+    th{ font-size:12px; color:var(--muted); background: rgba(15,23,42,.55); }
+    tr + tr td{ border-top:1px solid rgba(255,255,255,.08); }
+    td{ color: rgba(229,231,235,.92); }
+
+    /* Footer */
+    footer{
+      margin:24px 0 10px;
+      color: var(--muted);
+      font-size:12px;
+      text-align:center;
+    }
+    .kbd{
+      font-family:var(--mono);
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(15,23,42,.55);
+      padding:2px 6px;
+      border-radius:8px;
+      color: rgba(229,231,235,.9);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header class="hero" id="top">
+      <div class="title">
+        <h1>삼성전자 종목 평가 자료 분석</h1>
+        <div class="badge" title="템플릿 기반 Chapter 구조">
+          <span class="dot" aria-hidden="true"></span>
+          Chapter 기반 보고서 형식
+        </div>
+      </div>
+
+      <div class="meta" aria-label="문서 메타 정보">
+        <div class="item">
+          <div class="k">등록일자</div>
+          <div class="v">2026.01.27</div>
+        </div>
+        <div class="item">
+          <div class="k">분석 대상</div>
+          <div class="v">삼성전자 (005930)</div>
+        </div>
+        <div class="item">
+          <div class="k">분석 기간</div>
+          <div class="v">2025.12.13 ~ 2026.01.26</div>
+        </div>
+      </div>
+    </header>
+
+    <div class="grid">
+      <aside class="side" aria-label="목차">
+        <div class="head">
+          <div class="label">목차</div>
+          <div class="hint">클릭하여 이동</div>
+        </div>
+        <nav class="nav">
+          <a href="#ch1"><span class="idx">1</span><span class="txt">Chapter.1 분석 목적 &amp; 배경</span></a>
+          <a href="#ch2"><span class="idx">2</span><span class="txt">Chapter.2 활용 데이터</span></a>
+          <a href="#ch3"><span class="idx">3</span><span class="txt">Chapter.3 분석 과정</span></a>
+          <a href="#ch4"><span class="idx">4</span><span class="txt">Chapter.4 분석 결과</span></a>
+          <a href="#ch5"><span class="idx">5</span><span class="txt">Chapter.5 한계점 및 결론</span></a>
+          <a href="#top"><span class="idx">↑</span><span class="txt">상단으로</span></a>
+        </nav>
+      </aside>
+
+      <main>
+        <!-- Chapter 1 -->
+        <section class="card" id="ch1">
+          <div class="top">
+            <h2>Chapter.1 분석 목적 &amp; 배경</h2>
+            <span class="pill">목적/배경</span>
+          </div>
+          <div class="body">
+            <p>본 분석은 단기(약 3개월) 관점에서 삼성전자 주식의 가격 흐름과 투자 리스크를 데이터 기반으로 평가하는 것을 목적으로 한다.</p>
+            <p>최근 삼성전자 주가는 급격한 추세 형성보다는 제한적인 변동성 속에서 박스권 흐름을 보이고 있으며, 이에 따라 <strong>언제 대응하고 언제 쉬어야 하는지</strong>에 대한 판단 근거를 제공하고자 한다.</p>
+            <div class="callout">
+              <strong>핵심 포인트</strong> — 단기 예측 ‘숫자’ 자체보다, <strong>리스크 구간(과열/불확실) 식별</strong>과 <strong>대응 원칙</strong>을 우선한다.
+            </div>
+          </div>
+        </section>
+
+        <!-- Chapter 2 -->
+        <section class="card" id="ch2">
+          <div class="top">
+            <h2>Chapter.2 활용 데이터</h2>
+            <span class="pill">데이터 정의</span>
+          </div>
+          <div class="body">
+            <div class="subhead">2-1. 분석 대상 데이터</div>
+            <ul>
+              <li>종목: 삼성전자(005930)</li>
+              <li>기간: 2025년 12월 13일 ~ 2026년 1월 26일</li>
+              <li>유형: 일별 종가, 거래량, 기술적 파생 지표(이동평균·변동성 등)</li>
+            </ul>
+
+            <div class="subhead">2-2. 데이터 특성</div>
+            <ul>
+              <li>실제 시장에서 형성된 실현값 기반</li>
+              <li>결측치·이상치 점검 후 분석에 활용</li>
+              <li>단기 시계열(Short-horizon) 분석에 적합한 구조</li>
+            </ul>
+
+            <div class="callout warn">
+              <strong>주의</strong> — 본 문서는 데이터 기반 종목 평가이며, 투자 손익을 보장하지 않는다.
+            </div>
+          </div>
+        </section>
+
+        <!-- Chapter 3 -->
+        <section class="card" id="ch3">
+          <div class="top">
+            <h2>Chapter.3 분석 과정</h2>
+            <span class="pill">프로세스</span>
+          </div>
+          <div class="body">
+            <div class="subhead">3-1. 분석 절차</div>
+            <ol>
+              <li>원천 데이터 정제 및 구조 점검</li>
+              <li>일변량 EDA로 가격·변동성 특성 파악</li>
+              <li>다변량 EDA로 종가–거래량–지표 간 관계 분석</li>
+              <li>시각화(라인 플롯, 히트맵)로 패턴 확인</li>
+              <li>투자자 관점 해석 및 단기 전망 도출</li>
+            </ol>
+
+            <div class="subhead">3-2. 분석 관점</div>
+            <ul>
+              <li>단기 예측 정확도보다 <strong>방향성</strong>과 <strong>리스크 구간</strong>에 초점</li>
+              <li>상관 구조(히트맵)를 활용해 과열/안정 구간을 구분</li>
+            </ul>
+          </div>
+        </section>
+
+        <!-- Chapter 4 -->
+        <section class="card" id="ch4">
+          <div class="top">
+            <h2>Chapter.4 분석 결과</h2>
+            <span class="pill">결과 요약</span>
+          </div>
+          <div class="body">
+            <div class="subhead">4-1. 종가 흐름 분석</div>
+            <ul>
+              <li>급격한 상승·하락 없이 제한된 범위 내 움직임</li>
+              <li>이동평균선 인근에서 반복적인 수렴</li>
+              <li>추세 추종(trend-following) 전략 효율이 낮은 구조</li>
+            </ul>
+            <div class="callout">
+              <strong>해석</strong> — 강한 방향성보다 <strong>구간 반복(레인지)</strong> 성격이 강하다.
+            </div>
+
+            <div class="subhead">4-2. 거래량 및 변동성 분석</div>
+            <ul>
+              <li>거래량 증가 구간에서 단기 변동성 확대 경향</li>
+              <li>거래량이 동반되지 않은 상승은 지속성 약화 가능</li>
+            </ul>
+            <div class="callout">
+              <strong>해석</strong> — 거래량은 단기 신뢰도(움직임의 힘)를 판단하는 보조 신호로 유효하다.
+            </div>
+
+            <div class="subhead">4-3. 히트맵 기반 상관 구조 분석</div>
+            <ul>
+              <li>주요 기술지표 상관 구조는 전반적으로 안정적</li>
+              <li>특정 구간에서 모멘텀 지표 ↔ 변동성 지표 상관이 급증</li>
+            </ul>
+            <div class="callout danger">
+              <strong>투자 판단(휴식 구간)</strong> — 모멘텀과 변동성이 동시에 강하게 결합(상관 집중)되는 구간은 <strong>과열</strong> 또는 <strong>불확실성 확대</strong> 신호로 해석 가능. 신규 진입보다 관망/분할 청산이 합리적.
+            </div>
+
+            <div class="subhead">4-4. 단기(3개월) 시나리오 분석</div>
+            <table aria-label="3개월 시나리오 표">
+              <thead>
+                <tr>
+                  <th style="width:120px;">시나리오</th>
+                  <th>내용</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>긍정</td>
+                  <td>거래량 동반 상승이 확인되면 박스권 상단 테스트 가능</td>
+                </tr>
+                <tr>
+                  <td>중립</td>
+                  <td>현재 가격대 중심 횡보 지속(가장 우세)</td>
+                </tr>
+                <tr>
+                  <td>부정</td>
+                  <td>외부 변수(업황/매크로/리스크 이벤트) 발생 시 하단 재확인 가능</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- Chapter 5 -->
+        <section class="card" id="ch5">
+          <div class="top">
+            <h2>Chapter.5 한계점 및 결론</h2>
+            <span class="pill">한계/결론</span>
+          </div>
+          <div class="body">
+            <div class="subhead">5-1. 분석 한계</div>
+            <ul>
+              <li>단기 데이터 기반 분석으로 중장기 구조 반영에는 한계</li>
+              <li>거시경제·정책 변수의 정량 반영은 제한적</li>
+            </ul>
+
+            <div class="subhead">5-2. 결론</div>
+            <p>삼성전자는 현 시점에서 공격적 수익 추구보다 <strong>안정적 관리 관점</strong>에 적합한 종목으로 평가된다.</p>
+            <p>데이터와 시각화 결과를 종합할 때, 뚜렷한 추세가 확인되기 전까지는 무리한 진입보다 <strong>리스크 관리와 휴식 구간 구분</strong>이 합리적이다.</p>
+
+            <div class="callout">
+              <strong>종합 판단 요약</strong> — “지금은 방향을 맞히는 구간이 아니라, <strong>리스크를 관리하는 구간</strong>.”
+            </div>
+          </div>
+        </section>
+
+        <footer>
+          <div>키보드로 빠르게: <span class="kbd">Ctrl</span> + <span class="kbd">F</span> (검색)</div>
+          <div style="margin-top:6px;">© 2026. 데이터 기반 종목 평가 문서(웹페이지 버전)</div>
+        </footer>
+      </main>
+    </div>
+  </div>
+</body>
+</html>
