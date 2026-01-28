@@ -1,0 +1,486 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>소방청 연령별 구급활동 정보 분석 보고서</title>
+  <style>
+    :root{
+      --bg:#0b1020;
+      --card:#101a33;
+      --muted:#a9b4d0;
+      --text:#eef2ff;
+      --brand:#7c9bff;
+      --brand2:#67e8f9;
+      --border:rgba(255,255,255,.12);
+      --shadow: 0 12px 40px rgba(0,0,0,.35);
+      --radius:18px;
+      --max: 1040px;
+    }
+
+    *{ box-sizing:border-box; }
+    html,body{ height:100%; }
+    body{
+      margin:0;
+      font-family: system-ui, -apple-system, "Apple SD Gothic Neo", "Malgun Gothic", "NanumGothic", "Noto Sans KR", Segoe UI, Roboto, sans-serif;
+      background:
+        radial-gradient(900px 500px at 15% 10%, rgba(124,155,255,.22), transparent 55%),
+        radial-gradient(700px 500px at 85% 15%, rgba(103,232,249,.18), transparent 55%),
+        linear-gradient(180deg, #070a14, var(--bg));
+      color:var(--text);
+      line-height:1.65;
+    }
+
+    a{ color:inherit; text-decoration:none; }
+
+    /* Layout */
+    .wrap{ max-width:var(--max); margin:0 auto; padding:28px 18px 80px; }
+
+    header.hero{
+      padding:26px 0 8px;
+    }
+
+    .hero-top{
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap:16px;
+      flex-wrap:wrap;
+    }
+
+    .badge{
+      display:inline-flex;
+      gap:8px;
+      align-items:center;
+      font-size:12px;
+      padding:6px 10px;
+      border-radius:999px;
+      border:1px solid var(--border);
+      background:rgba(255,255,255,.06);
+      color:var(--muted);
+      backdrop-filter: blur(10px);
+    }
+
+    h1{
+      margin:10px 0 6px;
+      font-size: clamp(26px, 4vw, 42px);
+      line-height:1.12;
+      letter-spacing:-.02em;
+    }
+
+    .subtitle{
+      margin:0;
+      max-width: 72ch;
+      color:var(--muted);
+      font-size: 15px;
+    }
+
+    .hero-meta{
+      margin-top:16px;
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+    }
+
+    .pill{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:10px 12px;
+      border-radius:999px;
+      border:1px solid var(--border);
+      background: rgba(255,255,255,.05);
+    }
+
+    .pill b{ font-weight:700; }
+    .pill span{ color: var(--muted); font-size: 13px; }
+
+    /* Grid */
+    .grid{
+      display:grid;
+      grid-template-columns: 1fr;
+      gap:14px;
+      margin-top:18px;
+    }
+
+    @media (min-width: 960px){
+      .grid{
+        grid-template-columns: 280px 1fr;
+        gap:16px;
+      }
+    }
+
+    /* Sidebar */
+    aside{
+      position: sticky;
+      top: 18px;
+      align-self: start;
+      display:none;
+    }
+    @media (min-width: 960px){
+      aside{ display:block; }
+    }
+
+    .toc{
+      border:1px solid var(--border);
+      border-radius: var(--radius);
+      background: rgba(255,255,255,.05);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+
+    .toc h2{
+      margin:0;
+      padding:14px 14px 8px;
+      font-size: 14px;
+      color: var(--muted);
+      letter-spacing:.02em;
+      text-transform: uppercase;
+    }
+
+    .toc nav{
+      padding: 6px 8px 12px;
+      display:flex;
+      flex-direction:column;
+      gap:4px;
+    }
+
+    .toc a{
+      padding:10px 10px;
+      border-radius: 12px;
+      border:1px solid transparent;
+      color: var(--text);
+      font-size: 14px;
+      opacity: .92;
+    }
+
+    .toc a:hover{
+      background: rgba(124,155,255,.12);
+      border-color: rgba(124,155,255,.22);
+    }
+
+    /* Main content */
+    main{ display:flex; flex-direction:column; gap:14px; }
+
+    section.card{
+      border:1px solid var(--border);
+      border-radius: var(--radius);
+      background: rgba(255,255,255,.05);
+      box-shadow: var(--shadow);
+      padding: 18px 18px;
+    }
+
+    section.card h2{
+      margin:0 0 10px;
+      font-size: 18px;
+      letter-spacing:-.01em;
+    }
+
+    section.card h3{
+      margin:14px 0 8px;
+      font-size: 15px;
+    }
+
+    .kpi{
+      display:grid;
+      grid-template-columns: 1fr;
+      gap:10px;
+      margin-top: 10px;
+    }
+
+    @media (min-width: 680px){
+      .kpi{ grid-template-columns: repeat(3, 1fr); }
+    }
+
+    .kpi .box{
+      border:1px solid var(--border);
+      border-radius: 16px;
+      padding: 12px 12px;
+      background: rgba(16,26,51,.65);
+    }
+
+    .kpi .box .label{ color: var(--muted); font-size: 12px; }
+    .kpi .box .value{ font-size: 18px; font-weight: 800; margin-top: 2px; }
+    .kpi .box .note{ color: var(--muted); font-size: 12px; margin-top: 4px; }
+
+    .callout{
+      margin-top: 12px;
+      border:1px solid rgba(103,232,249,.22);
+      background: rgba(103,232,249,.08);
+      border-radius: 16px;
+      padding: 12px 12px;
+    }
+
+    .callout b{ color: var(--brand2); }
+
+    .muted{ color: var(--muted); }
+
+    ul{ margin: 8px 0 0 18px; }
+    li{ margin: 6px 0; }
+
+    /* Figure placeholders */
+    .figure{
+      margin-top: 12px;
+      border: 1px dashed rgba(255,255,255,.25);
+      border-radius: 16px;
+      padding: 14px;
+      background: rgba(0,0,0,.14);
+    }
+
+    .figure .cap{
+      display:flex;
+      justify-content:space-between;
+      gap:10px;
+      flex-wrap:wrap;
+      margin-bottom: 10px;
+    }
+
+    .figure .cap b{ font-size: 14px; }
+    .figure .cap span{ color: var(--muted); font-size: 12px; }
+
+    .figure .ph{
+      width:100%;
+      aspect-ratio: 16/7;
+      border-radius: 14px;
+      background: linear-gradient(135deg, rgba(124,155,255,.16), rgba(103,232,249,.10));
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      color: rgba(238,242,255,.9);
+      font-weight: 650;
+      letter-spacing: -.01em;
+    }
+
+    /* Footer */
+    footer{
+      margin-top: 18px;
+      padding: 16px 2px;
+      color: var(--muted);
+      font-size: 13px;
+      display:flex;
+      justify-content:space-between;
+      flex-wrap:wrap;
+      gap:10px;
+      opacity: .9;
+    }
+
+    code.inline{
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      font-size: 12px;
+      background: rgba(255,255,255,.08);
+      border: 1px solid rgba(255,255,255,.12);
+      padding: 2px 6px;
+      border-radius: 8px;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header class="hero">
+      <div class="hero-top">
+        <div>
+          <div class="badge">EDA 보고서 · 2020년 데이터 · 소방청</div>
+          <h1>소방청 연령별 구급활동 정보<br/>분석 보고서</h1>
+          <p class="subtitle">
+            2020년 「소방청 연령별 구급활동 정보」를 기반으로 연령·지역(본부구분)별 구급 이송 수요의 분포 특성을 탐색하고,
+            자원 배분 및 정책 설계를 위한 실무 시사점을 도출했다.
+          </p>
+        </div>
+        <div class="hero-meta">
+          <div class="pill"><b>대상</b>&nbsp;<span>연령별 × 본부구분</span></div>
+          <div class="pill"><b>지표</b>&nbsp;<span>이송환자수(합계)</span></div>
+          <div class="pill"><b>방법</b>&nbsp;<span>단변량/다변량 EDA</span></div>
+        </div>
+      </div>
+    </header>
+
+    <div class="grid">
+      <aside>
+        <div class="toc">
+          <h2>목차</h2>
+          <nav>
+            <a href="#sec-1">1. 분석 개요</a>
+            <a href="#sec-2">2. 데이터 개요</a>
+            <a href="#sec-3">3. 단변량 분석</a>
+            <a href="#sec-4">4. 본부(지역) 분석</a>
+            <a href="#sec-5">5. 다변량 분석</a>
+            <a href="#sec-6">6. 종합 시사점</a>
+            <a href="#sec-7">7. 정책 활용 제언</a>
+            <a href="#sec-8">8. 결론</a>
+          </nav>
+        </div>
+      </aside>
+
+      <main>
+        <section id="sec-1" class="card">
+          <h2>1. 분석 개요</h2>
+          <p>
+            본 보고서는 2020년 기준 「소방청 연령별 구급활동 정보」를 활용하여 <b>연령</b>과 <b>지역(본부구분)</b>에 따른
+            구급 이송 수요의 구조적 특성을 파악하고, 향후 <b>구급 자원 배분</b> 및 <b>정책 설계</b>에 활용 가능한 인사이트를 제시한다.
+          </p>
+          <div class="callout">
+            <b>핵심 관점:</b> 평균 중심 해석보다, 분포(중앙값·변동성·이상치)와 연령×지역 결합 구조를 중점적으로 분석.
+          </div>
+        </section>
+
+        <section id="sec-2" class="card">
+          <h2>2. 데이터 개요</h2>
+          <div class="kpi">
+            <div class="box">
+              <div class="label">관측치</div>
+              <div class="value">228 행</div>
+              <div class="note">연령별 × 본부구분 결합 단위</div>
+            </div>
+            <div class="box">
+              <div class="label">주요 범주형</div>
+              <div class="value">연령별, 본부구분</div>
+              <div class="note">연령대: 10세 미만 ~ 100세 이상</div>
+            </div>
+            <div class="box">
+              <div class="label">수치형 지표</div>
+              <div class="value">이송환자수</div>
+              <div class="note">집계/비교의 핵심 변수</div>
+            </div>
+          </div>
+          <p class="muted" style="margin-top:10px;">
+            참고: 분석 과정에서 값이 존재하지 않는 불필요 컬럼은 제거하여 데이터 품질을 확보하였다.
+          </p>
+        </section>
+
+        <section id="sec-3" class="card">
+          <h2>3. 이송환자수 단변량 분석</h2>
+
+          <h3>3.1 이송환자수 분포 특성</h3>
+          <p>
+            히스토그램 기준으로 이송환자수는 <b>강한 우측 편향(right-skewed)</b>을 보인다.
+            대부분의 관측치는 낮은 값에 집중되어 있으나, 일부 연령·본부 조합에서 매우 큰 값이 나타난다.
+          </p>
+          <ul>
+            <li><b>평균</b>은 소수의 큰 값(이상치 후보)에 의해 과대평가될 수 있음 → <b>중앙값</b> 중심 해석 권장</li>
+            <li>큰 값은 오류가 아니라, <b>수요가 특정 집단에 집중</b>되었음을 시사</li>
+          </ul>
+
+          <div class="figure">
+            <div class="cap"><b>그림 1. 이송환자수 히스토그램</b><span>단변량 · 분포 형태 확인</span></div>
+            <div class="ph">(여기에 히스토그램 이미지 삽입)</div>
+          </div>
+
+          <h3>3.2 연령별 이송환자수 규모</h3>
+          <p>
+            연령별 합계 막대그래프에서는 <b>50대부터 급증</b>하고, <b>60대에서 최대</b>치를 기록한 뒤
+            70·80대에서도 높은 수준이 유지되다가 90대 이상에서 감소하는 패턴이 관찰된다.
+          </p>
+          <div class="figure">
+            <div class="cap"><b>그림 2. 연령별 이송환자수 합계</b><span>단변량(범주형) · 규모 비교</span></div>
+            <div class="ph">(여기에 연령별 막대그래프 이미지 삽입)</div>
+          </div>
+        </section>
+
+        <section id="sec-4" class="card">
+          <h2>4. 지역(본부) 단변량 분석</h2>
+          <p>
+            본부구분별 합계 비교 결과, 경기·서울·부산 등 <b>대도시 및 인구 밀집 지역</b>에서 높은 이송환자수가 확인된다.
+            반면 일부 지역은 상대적으로 낮은 수치를 보인다.
+          </p>
+          <ul>
+            <li>단순 총량 비교 시 <b>인구 규모</b>·<b>도시화</b>·<b>연령 구조</b>를 함께 고려해야 함</li>
+            <li>분포(중앙값·변동성) 차이가 지역별로 상이</li>
+          </ul>
+
+          <div class="figure">
+            <div class="cap"><b>그림 3. 본부구분별 이송환자수 합계</b><span>단변량(범주형) · 지역 비교</span></div>
+            <div class="ph">(여기에 본부별 막대그래프 이미지 삽입)</div>
+          </div>
+        </section>
+
+        <section id="sec-5" class="card">
+          <h2>5. 연령·지역 다변량 분석</h2>
+
+          <h3>5.1 연령별 이송환자수 분포 (박스플롯)</h3>
+          <p>
+            연령별 박스플롯에서는 연령 증가에 따라 <b>중앙값</b>과 <b>변동성(IQR)</b>이 함께 증가하는 경향이 나타난다.
+            특히 50대 이상에서 이상치가 다수 관찰되며, 이는 특정 지역에서 고령층 수요가 집중되는 구조를 시사한다.
+          </p>
+          <div class="figure">
+            <div class="cap"><b>그림 4. 연령별 이송환자수 박스플롯</b><span>다변량 · 분포/이상치 확인</span></div>
+            <div class="ph">(여기에 연령별 박스플롯 이미지 삽입)</div>
+          </div>
+
+          <h3>5.2 본부구분별 이송환자수 분포 (박스플롯)</h3>
+          <p>
+            본부구분별 박스플롯에서는 경기·서울이 높은 중앙값과 넓은 IQR을 보여
+            수요 수준뿐 아니라 변동성도 크다는 점이 확인된다.
+            일부 본부는 전체적으로 낮지만 특정 연령대에서 급격한 증가가 나타난다.
+          </p>
+          <div class="figure">
+            <div class="cap"><b>그림 5. 본부구분별 이송환자수 박스플롯</b><span>다변량 · 지역별 분포 비교</span></div>
+            <div class="ph">(여기에 본부별 박스플롯 이미지 삽입)</div>
+          </div>
+
+          <h3>5.3 연령 × 본부 수치형 히트맵</h3>
+          <p>
+            히트맵은 연령 효과와 지역 효과가 결합될 때 수요가 어떻게 증폭되는지 직관적으로 보여준다.
+            경기·서울의 50~70대 구간에서 가장 강한 집중(높은 수요)이 나타났고,
+            다수 본부에서 50대 이후 급증하는 공통 구조가 관찰되었다.
+          </p>
+          <div class="callout">
+            <b>핵심 메시지:</b> 구급 이송 수요는 단일 요인 문제가 아니라 <b>연령 × 지역 결합 구조</b>로 이해해야 한다.
+          </div>
+          <div class="figure">
+            <div class="cap"><b>그림 6. 연령별 × 본부구분 이송환자수 히트맵</b><span>다변량 · 결합 구조 시각화</span></div>
+            <div class="ph">(여기에 히트맵 이미지 삽입)</div>
+          </div>
+
+          <h3>5.4 상위 조합(본부×연령) 요약</h3>
+          <p>
+            상위 10개 조합 분석에서 경기×50·60·70·80대가 다수를 차지했고,
+            서울×60·70대도 상위권을 유지했다.
+            이는 수요가 ‘전국적으로 고르게’가 아니라 ‘특정 지역×특정 연령’에 집중됨을 재확인한다.
+          </p>
+          <div class="figure">
+            <div class="cap"><b>그림 7. 본부×연령 상위 10개 조합</b><span>다변량 · 집중 구간 요약</span></div>
+            <div class="ph">(여기에 상위 조합 막대그래프 이미지 삽입)</div>
+          </div>
+        </section>
+
+        <section id="sec-6" class="card">
+          <h2>6. 종합 분석 결과 및 시사점</h2>
+          <ol>
+            <li>구급 이송 수요는 정규분포를 따르지 않으며, 일부 연령·지역 조합에 집중된다.</li>
+            <li>핵심 수요 연령대는 50~70대로, 고령화 진행에 따라 중·장기 수요 증가는 불가피하다.</li>
+            <li>경기·서울 등 대도시 본부는 구조적으로 높은 수요와 변동성을 동시에 부담한다.</li>
+            <li>단일 변수 분석만으로는 수요 구조 설명이 불충분하며, 연령과 지역의 결합 분석이 필수다.</li>
+          </ol>
+          <div class="callout">
+            <b>실무적 결론:</b> 지역 단위 정책은 <b>연령 구조</b>를 포함한 결합 지표 기반으로 설계해야 정확도가 올라간다.
+          </div>
+        </section>
+
+        <section id="sec-7" class="card">
+          <h2>7. 정책적 활용 방안 제언</h2>
+          <ul>
+            <li><b>고령층 비중이 높은 본부</b> 중심으로 구급 인력·장비의 선제적 확충</li>
+            <li>50대 이상 인구 구조 변화에 대응한 <b>중·장기 수요 예측</b> 체계 구축</li>
+            <li>연령×지역 결합 지표를 활용한 <b>정밀 자원 배분 체계</b> 도입</li>
+          </ul>
+        </section>
+
+        <section id="sec-8" class="card">
+          <h2>8. 결론</h2>
+          <p>
+            본 분석을 통해 구급 이송 활동은 연령과 지역의 복합적 요인에 의해 결정되는 구조적 특성을 지니며,
+            특히 <b>대도시(경기·서울) × 50~70대</b> 구간이 수요를 주도함을 확인했다.
+            본 보고서의 다변량 분석 결과를 정책 설계에 반영한다면 보다 효율적이고 선제적인 구급 서비스 제공이 가능하다.
+          </p>
+          <p class="muted">추가 확장(선택): 인구 대비 이송률, 정규화 히트맵(행/열 기준), 고령층(65+) 집중 분석 등</p>
+        </section>
+
+        <footer>
+          <div>© 소방청 연령별 구급활동 정보 EDA 보고서 (웹페이지 템플릿)</div>
+          <div class="muted">제작 메모: 실제 그래프 이미지는 각 <span class="inline">(여기에 이미지 삽입)</span> 영역에 교체하여 사용</div>
+        </footer>
+      </main>
+    </div>
+  </div>
+</body>
+</html>
