@@ -76,6 +76,12 @@
             height: 38px;
         }
 
+        /* 공통 a 태그 hover 설정 (이미지 링크 등에 적용) */
+        a:hover {
+            color: #000;
+            text-decoration: none;
+        }
+
         /* 텍스트 하이퍼링크 영역 */
         .text-link {
             margin: 15px 0;
@@ -85,7 +91,15 @@
             font-size: 14px;
             color: #551A8B;
             /* 보라색 계열의 방문한 링크 색상 구현 */
+            text-decoration: none;
+            /* 기본 상태에서는 밑줄 숨김 */
+        }
+
+        /* 문자 하이퍼링크 Hover(마우스 오버) 효과 추가 */
+        .text-link a:hover {
+            color: #000;
             text-decoration: underline;
+            /* 마우스를 올렸을 때 밑줄 생성 */
         }
 
         /* 푸터(카피라이트) 텍스트 */
