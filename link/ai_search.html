@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>검색엔진 하이퍼링크 실습</title>
+    <style>
+        /* 기본 여백 초기화 및 폰트 설정 */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Malgun Gothic', '맑은 고딕', 'Apple SD Gothic Neo', sans-serif;
+            background-color: #ffffff;
+            text-align: center;
+            /* 전체 텍스트 가운데 정렬 */
+        }
+
+        /* 콘텐츠를 담는 중앙 컨테이너 */
+        .container {
+            margin-top: 100px;
+            /* 상단 여백 (이미지와 비슷한 위치로 조정) */
+        }
+
+        /* 메인 제목 스타일 */
+        h1 {
+            font-size: 32px;
+            color: #000000;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+
+        /* 제목 아래 보라색 구분선 스타일 */
+        hr {
+            border: none;
+            height: 2px;
+            background-color: #a4649e;
+            /* 이미지와 유사한 차분한 보라색 */
+            width: 200px;
+            /* 선의 길이 지정 */
+            margin: 0 auto 30px auto;
+            /* 가운데 정렬 및 하단 여백 */
+        }
+
+        /* p 태그 기본 여백 초기화 및 간격 설정 */
+        p {
+            margin: 0 0 18px 0;
+            /* 각 링크 사이의 세로 간격 */
+            padding: 0;
+        }
+
+        /* 하이퍼링크 기본 스타일 */
+        a {
+            text-decoration: none;
+            /* 밑줄 제거 */
+            color: #333333;
+            /* 짙은 회색 */
+            font-size: 16px;
+            transition: color 0.2s ease;
+            /* 호버 시 부드러운 색상 전환 효과 */
+        }
+
+        /* 마우스 호버(올렸을 때) 스타일 */
+        a:hover {
+            text-decoration: underline;
+            /* 밑줄 생성 */
+            color: #000000;
+            /* 완전한 검은색으로 강조 */
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <h1>검색엔진</h1>
+        <hr>
+
+        <!-- 각 항목별 하이퍼링크 설정 (target="_blank"로 새 창 열기) -->
+        <p><a href="https://www.naver.com" target="_blank" title="네이버로 이동">네이버</a></p>
+        <p><a href="https://www.daum.net" target="_blank" title="다음으로 이동">다음</a></p>
+        <p><a href="https://www.google.com" target="_blank" title="구글로 이동">구글</a></p>
+        <p><a href="https://www.nate.com" target="_blank" title="네이트로 이동">네이트</a></p>
+        <p><a href="https://www.epost.go.kr" target="_blank" title="인터넷우체국 배송조회로 이동">배송조회</a></p>
+        <p><a href="./ai_imgresearch.html" target="_blank" title="이미지 검색엔진 사이트로 이동">이미지 검색엔진으로 가기</a></p>
+    </div>
+
+</body>
+
+</html>

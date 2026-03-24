@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>검색엔진(이미지)</title>
+    <style>
+        /* 전체 페이지 스타일 설정 */
+        body {
+            font-family: 'Malgun Gothic', '맑은 고딕', sans-serif;
+            text-align: center;
+            margin: 0;
+            padding-top: 80px;
+            background-color: #ffffff;
+        }
+
+        /* 콘텐츠를 가운데 정렬하기 위한 래퍼 */
+        .container {
+            display: inline-block;
+            text-align: center;
+        }
+
+        /* 제목 스타일 */
+        h2 {
+            font-size: 22px;
+            margin: 0 0 15px 0;
+            font-weight: bold;
+            color: #000;
+        }
+
+        /* 짧은 빨간색 구분선 (위/아래) */
+        .line-short {
+            width: 150px;
+            height: 2px;
+            background-color: #b51a1a;
+            /* 시안에 맞는 붉은색 지정 */
+            border: none;
+            margin: 15px auto;
+        }
+
+        /* 긴 빨간색 구분선 (맨 아래) */
+        .line-long {
+            width: 300px;
+            height: 2px;
+            background-color: #9c1c1c;
+            border: none;
+            margin: 20px auto;
+        }
+
+        /* 로고 이미지들을 수직으로 배치 */
+        .logos {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            /* 로고 사이의 간격 */
+            margin: 20px 0;
+        }
+
+        /* 로고 이미지 공통 스타일 및 크기 조정 */
+        .logos img {
+            display: block;
+            object-fit: contain;
+        }
+
+        .logo-naver {
+            height: 26px;
+        }
+
+        .logo-daum {
+            height: 38px;
+        }
+
+        .logo-google {
+            height: 38px;
+        }
+
+        /* 텍스트 하이퍼링크 영역 */
+        .text-link {
+            margin: 15px 0;
+        }
+
+        .text-link a {
+            font-size: 14px;
+            color: #551A8B;
+            /* 보라색 계열의 방문한 링크 색상 구현 */
+            text-decoration: underline;
+        }
+
+        /* 푸터(카피라이트) 텍스트 */
+        .footer-text {
+            font-size: 13px;
+            color: #000;
+            margin-top: 15px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <!-- 1. 제목 -->
+        <h2>검색엔진(이미지)</h2>
+
+        <!-- 짧은 붉은색 구분선 -->
+        <hr class="line-short">
+
+        <!-- 2. 이미지 하이퍼링크 영역 -->
+        <div class="logos">
+            <a href="https://www.naver.com" target="_blank" title="네이버로 이동">
+                <img src="./imgs/naver.svg" alt="NAVER" class="logo-naver">
+            </a>
+            <a href="https://www.daum.net" target="_blank" title="다음으로 이동">
+                <img src="./imgs/daum.svg" alt="Daum" class="logo-daum">
+            </a>
+            <a href="https://www.google.com" target="_blank" title="구글로 이동">
+                <img src="./imgs/Google.svg" alt="Google" class="logo-google">
+            </a>
+        </div>
+
+        <!-- 짧은 붉은색 구분선 -->
+        <hr class="line-short">
+
+        <!-- 3. 문자 하이퍼링크 영역 -->
+        <div class="text-link">
+            <!-- 임시 링크 처리 (#) -->
+            <a href="./ai_search.html">[검색엔진(문자)로 가기]</a>
+        </div>
+
+        <!-- 긴 붉은색 구분선 -->
+        <hr class="line-long">
+
+        <!-- 4. 하단 카피라이트 -->
+        <div class="footer-text">
+            CopyWrite &copy; 조영희.com All Rights Reserved.
+        </div>
+    </div>
+
+</body>
+
+</html>
