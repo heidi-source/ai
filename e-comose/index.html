@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=1440" />
-    <title>BLACKUP Desktop Mockup</title>
+    <title>BLACKUP Desktop Page</title>
     <style>
         * {
             box-sizing: border-box;
@@ -14,10 +14,15 @@
         body {
             margin: 0;
             padding: 0;
-            font-family: Arial, Helvetica, sans-serif;
-            background: #000;
-            color: #111;
+            width: 100%;
             min-width: 1440px;
+            background: #ffffff;
+            color: #111;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            overflow-x: auto;
         }
 
         a {
@@ -25,278 +30,317 @@
             text-decoration: none;
         }
 
-        .page {
-            width: 100%;
-            background: #000;
+        img {
+            display: block;
+            max-width: 100%;
         }
 
-        .top-header {
+        .site {
             width: 100%;
-            height: 96px;
-            background: #f2f2f2;
+            min-width: 1440px;
+            background: #fff;
+        }
+
+        .header {
+            height: 80px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 0 32px;
+            padding: 0 28px;
+            background: #fff;
         }
 
-        .top-left,
-        .top-right {
-            width: 320px;
+        .header-left,
+        .header-right {
+            width: 260px;
             display: flex;
             align-items: center;
             gap: 28px;
             font-size: 14px;
             font-weight: 700;
-            letter-spacing: 0.3px;
-            color: #111;
+            letter-spacing: -0.2px;
         }
 
-        .top-right {
+        .header-right {
             justify-content: flex-end;
         }
 
         .logo {
-            font-size: 44px;
+            font-size: 52px;
             font-weight: 900;
-            letter-spacing: -2px;
+            letter-spacing: -2.2px;
             line-height: 1;
-            transform: scaleY(0.72);
-            display: inline-block;
+            transform: scaleY(0.58);
             color: #000;
         }
 
-        .category-bar {
-            width: 100%;
-            height: 42px;
+        .gnb {
+            height: 38px;
             background: #000;
-            color: #fff;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 52px;
-            font-size: 12px;
+            color: #fff;
+            font-size: 11px;
             font-weight: 700;
             letter-spacing: -0.1px;
-            border-top: 1px solid #111;
-            border-bottom: 1px solid #111;
         }
 
         .hero {
             width: 100%;
-            background: #fff;
-            padding: 0;
+            background: #f2f2f2;
         }
 
-        .hero-inner {
+        .hero img {
             width: 100%;
-            height: 760px;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .hero-model {
-            position: absolute;
-            inset: 0;
-        }
-
-        .hero-image {
-            width: 100%;
-            height: 100%;
+            height: 430px;
             object-fit: cover;
-            display: block;
+            object-position: center center;
         }
 
-        .hero-model-box::before {
-            content: "MAIN LOOKBOOK IMAGE";
-            position: absolute;
-            left: 50%;
-            top: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 26px;
-            font-weight: 800;
-            color: #999;
-            letter-spacing: 1px;
-        }
-
-        .floating-scroll {
+        .floating-nav {
             position: fixed;
-            right: 20px;
-            bottom: 130px;
-            width: 48px;
-            z-index: 20;
-            border: 1px solid #777;
-            background: rgba(30, 30, 30, 0.95);
+            right: 14px;
+            top: 50%;
+            transform: translateY(-8%);
+            width: 34px;
+            z-index: 50;
+            background: #222;
+            border: 1px solid #646464;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
         }
 
-        .floating-scroll a {
+        .floating-nav a {
+            width: 34px;
+            height: 32px;
             display: flex;
             align-items: center;
             justify-content: center;
-            width: 48px;
-            height: 48px;
             color: #fff;
-            font-size: 20px;
-            border-bottom: 1px solid #555;
+            font-size: 18px;
+            border-bottom: 1px solid #575757;
         }
 
-        .floating-scroll a:last-child {
+        .floating-nav a:last-child {
             border-bottom: 0;
         }
 
-        .content-wrap {
-            width: 1440px;
+        .section-wrap {
+            width: 100%;
+            background: #efefef;
+            padding: 64px 0 0;
+        }
+
+        .inner {
+            width: 676px;
             margin: 0 auto;
-            background: #000;
+        }
+
+        .only-title {
+            margin: 0 0 16px;
+            font-size: 26px;
+            font-weight: 900;
+            letter-spacing: -0.8px;
+            color: #111;
         }
 
         .feature-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
-            padding: 130px 120px 180px;
-            background: #000;
+            gap: 4px;
         }
 
-        .feature-card {
-            height: 520px;
-            border: 1px solid #5c5c5c;
-            background: linear-gradient(180deg, #f8f8f8 0%, #ececec 100%);
-            position: relative;
-            overflow: hidden;
+        .feature-card img {
+            width: 100%;
+            height: 307px;
+            object-fit: cover;
         }
 
-        .feature-card.dark {
-            background: #050505;
+        .feature-card h3 {
+            margin: 10px 0 4px;
+            font-size: 12px;
+            line-height: 1.1;
+            font-weight: 900;
+            letter-spacing: -0.2px;
         }
 
-        .feature-card::before {
-            content: attr(data-label);
-            position: absolute;
-            left: 50%;
-            top: 50%;
-            transform: translate(-50%, -50%);
-            color: #9b9b9b;
-            font-size: 22px;
-            font-weight: 800;
-            letter-spacing: 0.6px;
+        .feature-card p {
+            margin: 0;
+            font-size: 7px;
+            line-height: 1.3;
+            color: #222;
+            font-weight: 700;
+            letter-spacing: -0.1px;
+        }
+
+        .lookbook-section {
+            padding: 96px 0 70px;
             text-align: center;
-            width: 80%;
         }
 
-        .product-section {
-            background: #000;
-            padding: 0 120px 120px;
+        .lookbook-section h2 {
+            margin: 0;
+            font-size: 28px;
+            font-weight: 900;
+            letter-spacing: -0.7px;
+            color: #111;
+        }
+
+        .lookbook-section .sub {
+            margin: 8px 0 34px;
+            font-size: 12px;
+            font-weight: 800;
+            color: #111;
         }
 
         .product-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            gap: 12px;
-        }
-
-        .product-card {
-            height: 390px;
-            border: 1px solid #4f4f4f;
-            background: linear-gradient(180deg, #f7f7f7 0%, #ececec 100%);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .product-card::after {
-            content: "BLACKUP\A PROJECT";
-            white-space: pre;
-            position: absolute;
-            top: 10px;
-            left: 10px;
-            font-size: 12px;
-            line-height: 1;
-            font-weight: 800;
-            color: #222;
-            opacity: 0.8;
-        }
-
-        .product-card::before {
-            content: attr(data-item);
-            position: absolute;
-            left: 50%;
-            top: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 20px;
-            font-weight: 800;
-            color: #9a9a9a;
-            letter-spacing: 0.4px;
+            gap: 6px;
+            text-align: left;
         }
 
         .product-grid+.product-grid {
-            margin-top: 16px;
+            margin-top: 28px;
         }
 
-        .more-link {
-            text-align: center;
-            color: #cfcfcf;
-            font-size: 11px;
+        .product-card {
+            position: relative;
+        }
+
+        .brand-badge {
+            position: absolute;
+            top: 6px;
+            left: 6px;
+            font-size: 7px;
+            font-weight: 900;
+            line-height: 1;
+            color: #000;
+            letter-spacing: -0.2px;
+            z-index: 2;
+        }
+
+        .product-card {
+            position: relative;
+        }
+
+        .product-thumb {
+            width: 100%;
+            height: 219px;
+            object-fit: cover;
+            background: #f7f7f7;
+        }
+
+        .product-meta {
+            padding-top: 5px;
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 6px;
+        }
+
+        .product-info {
+            min-width: 0;
+            flex: 1;
+        }
+
+        .product-name {
+            margin: 0;
+            font-size: 8px;
+            line-height: 1.25;
             font-weight: 700;
-            padding: 34px 0 90px;
-            letter-spacing: 0.2px;
+            color: #1a1a1a;
+            letter-spacing: -0.15px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .product-price {
+            margin: 2px 0 0;
+            font-size: 8px;
+            font-weight: 900;
+            letter-spacing: -0.1px;
+            color: #111;
+        }
+
+        .wishlist {
+            font-size: 9px;
+            line-height: 1;
+            color: #333;
+            padding-top: 1px;
+            flex-shrink: 0;
+        }
+
+        .more-btn {
+            width: 210px;
+            height: 29px;
+            margin: 34px auto 0;
+            background: #000;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 8px;
+            font-weight: 800;
+            letter-spacing: -0.1px;
         }
 
         .footer {
-            width: 100%;
-            background: #1d1d1f;
-            color: #d8d8d8;
-            padding: 70px 0 60px;
-            border-top: 1px solid #242424;
+            margin-top: 74px;
+            background: #1f2023;
+            color: #fff;
+            padding: 50px 0 48px;
         }
 
         .footer-inner {
-            width: 1440px;
+            width: 676px;
             margin: 0 auto;
-            padding: 0 120px;
             display: grid;
             grid-template-columns: repeat(6, 1fr);
-            gap: 28px;
+            column-gap: 18px;
             align-items: start;
         }
 
-        .footer-col h4 {
-            margin: 0 0 28px;
-            color: #ffffff;
-            font-size: 14px;
+        .footer h4 {
+            margin: 0 0 26px;
+            font-size: 10px;
             font-weight: 800;
+            letter-spacing: -0.1px;
+            color: #fff;
         }
 
-        .footer-col p {
+        .footer p {
             margin: 0;
-            color: #a6a6a6;
-            font-size: 10px;
-            line-height: 1.9;
+            font-size: 6px;
+            line-height: 1.8;
+            color: #d0d0d0;
+            letter-spacing: -0.05px;
             white-space: pre-line;
         }
 
-        .footer-col.right p {
+        .footer .right {
             text-align: right;
         }
     </style>
 </head>
 
 <body>
-    <div class="page" id="top">
-        <header class="top-header">
-            <div class="top-left">
+    <div class="site" id="top">
+        <header class="header">
+            <div class="header-left">
                 <a href="#">SHOP</a>
             </div>
-
             <div class="logo">BLACKUP</div>
-
-            <div class="top-right">
+            <div class="header-right">
                 <a href="#">SEARCH</a>
                 <a href="#">ACCOUNT</a>
                 <a href="#">BAG : 0</a>
             </div>
         </header>
 
-        <nav class="category-bar">
+        <nav class="gnb">
             <a href="#">25HS LOOKBOOK</a>
             <a href="#">실시간 인기상품</a>
             <a href="#">신상품</a>
@@ -305,82 +349,170 @@
         </nav>
 
         <section class="hero">
-            <div class="hero-inner">
-                <div class="hero-model">
-                    <img src="./imgs/main_visual.jpg" alt="메인비주얼">
+            <img src="./imgs/main_visual.jpg" alt="메인 비주얼" />
+        </section>
+
+        <div class="section-wrap">
+            <div class="inner">
+                <h2 class="only-title">ONLY BLACKUP</h2>
+
+                <section class="feature-grid">
+                    <article class="feature-card">
+                        <img src="./imgs/bebasic.jpg" alt="베이직1">
+                        <h3>B-BASIC &amp; B-DENIM</h3>
+                        <p>2025 HOT SUMMER 신상품 할인</p>
+                    </article>
+                    <article class="feature-card">
+                        <img src="./imgs/bebasic2.jpg" alt="베이직2">
+                        <h3>BLACKUP PROJECT</h3>
+                        <p>남다른 자체제작</p>
+                    </article>
+                    <article class="feature-card">
+                        <img src="./imgs/bebasic3.jpg" alt="베이직3">
+                        <h3>TODAY DELIVERY</h3>
+                        <p>오늘도착 + 오늘출발</p>
+                    </article>
+                </section>
+
+                <section class="lookbook-section">
+                    <h2>2025 HS LOOKBOOK</h2>
+                    <p class="sub">핫썸머 신상품 발매</p>
+
+                    <div class="product-grid">
+                        <article class="product-card">
+                            <div class="brand-badge">BLACKUP<br>PROJECT</div>
+                            <img class="product-thumb" img src="./imgs/item1.jpg" alt="product 1" />
+                            <div class="product-meta">
+                                <div class="product-info">
+                                    <p class="product-name">[MADE] 카브 핀트 슬쇼어 반팬티</p>
+                                    <p class="product-price">29,000원</p>
+                                </div>
+                                <div class="wishlist">♡</div>
+                            </div>
+                        </article>
+                        <article class="product-card">
+                            <div class="brand-badge">BLACKUP<br>PROJECT</div>
+                            <img class="product-thumb" img src="./imgs/item2.jpg" alt="product 2" />
+                            <div class="product-meta">
+                                <div class="product-info">
+                                    <p class="product-name">[MADE] 카브 핀트 톤 슬쇼어 반팬티</p>
+                                    <p class="product-price">29,000원</p>
+                                </div>
+                                <div class="wishlist">♡</div>
+                            </div>
+                        </article>
+                        <article class="product-card">
+                            <div class="brand-badge">BLACKUP<br>PROJECT</div>
+                            <img class="product-thumb" src="./imgs/item3.jpg" alt="product 3" />
+                            <div class="product-meta">
+                                <div class="product-info">
+                                    <p class="product-name">[MADE] 카브 핀트 톤 슬쇼어 반팬티</p>
+                                    <p class="product-price">29,000원</p>
+                                </div>
+                                <div class="wishlist">♡</div>
+                            </div>
+                        </article>
+                        <article class="product-card">
+                            <div class="brand-badge">BLACKUP<br>PROJECT</div>
+                            <img class="product-thumb" src="./imgs/item4.jpg" alt="product 4" />
+                            <div class="product-meta">
+                                <div class="product-info">
+                                    <p class="product-name">[MADE] 카브 핀트 톤 슬쇼어 반팬티</p>
+                                    <p class="product-price">29,000원</p>
+                                </div>
+                                <div class="wishlist">♡</div>
+                            </div>
+                        </article>
+                    </div>
+
+                    <div class="product-grid">
+                        <article class="product-card">
+                            <div class="brand-badge">BLACKUP<br>PROJECT</div>
+                            <img class="product-thumb" src="./imgs/item5.jpg" alt="product 5" />
+                            <div class="product-meta">
+                                <div class="product-info">
+                                    <p class="product-name">[MADE] 카브 핀트 토트 슬쇼어 반팬티</p>
+                                    <p class="product-price">29,000원</p>
+                                </div>
+                                <div class="wishlist">♡</div>
+                            </div>
+                        </article>
+                        <article class="product-card">
+                            <div class="brand-badge">BLACKUP<br>PROJECT</div>
+                            <img class="product-thumb" img src="./imgs/item6.jpg" alt="product 6" />
+                            <div class="product-meta">
+                                <div class="product-info">
+                                    <p class="product-name">[MADE] 카브 핀트 토트 슬쇼어 반팬티</p>
+                                    <p class="product-price">29,000원</p>
+                                </div>
+                                <div class="wishlist">♡</div>
+                            </div>
+                        </article>
+                        <article class="product-card">
+                            <div class="brand-badge">BLACKUP<br>PROJECT</div>
+                            <img class="product-thumb" src="./imgs/item7.jpg" alt="product 7" />
+                            <div class="product-meta">
+                                <div class="product-info">
+                                    <p class="product-name">[MADE] 카브 핀트 토트 슬쇼어 반팬티</p>
+                                    <p class="product-price">29,000원</p>
+                                </div>
+                                <div class="wishlist">♡</div>
+                            </div>
+                        </article>
+                        <article class="product-card">
+                            <div class="brand-badge">BLACKUP<br>PROJECT</div>
+                            <img class="product-thumb" src="./imgs/item8.jpg" alt="product 8" />
+                            <div class="product-meta">
+                                <div class="product-info">
+                                    <p class="product-name">[MADE] 카브 핀트 토트 슬쇼어 반팬티</p>
+                                    <p class="product-price">29,000원</p>
+                                </div>
+                                <div class="wishlist">♡</div>
+                            </div>
+                        </article>
+                    </div>
+
+                    <div class="more-btn">25HS 룩북 전체 상품 보러가기</div>
+                </section>
+            </div>
+
+            <footer class="footer" id="bottom">
+                <div class="footer-inner">
+                    <div>
+                        <h4>AGREEMENT</h4>
+                        <p>TEL : 02-1555-9873
+                            E-MAIL : CONTACT@BLACKUP.CO.KR
+                            BUSINESS LICENSE : 419-87-00897 [CHECK]
+                            E-COMMERCE PERMIT : 2017-SEOUL-MAPO-2279
+                            ADDRESS : 04062 5F 12, JANDARI-RO, MAPO-GU, SEOUL, REPUBLIC OF KOREA</p>
+                    </div>
+                    <div>
+                        <h4>GUIDE</h4>
+                    </div>
+                    <div>
+                        <h4>PRIVACYPOLICY</h4>
+                    </div>
+                    <div>
+                        <h4>CONTACTUS</h4>
+                    </div>
+                    <div>
+                        <h4>SHOPPINGGUIDE</h4>
+                    </div>
+                    <div class="right">
+                        <h4>CUSTOMERCARE</h4>
+                        <p>COMPANY : 비업 CORP.
+                            OWNER : CHOI YUNHAE
+
+                            © BLACKUP 2025</p>
+                    </div>
                 </div>
-            </div>
-    </div>
-    </section>
-
-    <div class="content-wrap">
-        <section class="feature-grid">
-            <div><img src="./imgs/bebasic.jpg" alt="비베이식"></div>
-            <div><img src="./imgs/bebasic2.jpg" alt="비베이식2"></div>
-            <div><img src="./imgs/bebasic3.jpg" alt="비베이식3"></div>
-        </section>
-
-        <section class="product-section">
-            <div class="product-grid">
-                <div><img src="./imgs/item1.jpg" alt="룩북1"></div>
-                <div><img src="./imgs/item2.jpg" alt="룩북2"></div>
-                <div><img src="./imgs/item3.jpg" alt="룩북3"></div>
-                <div><img src="./imgs/item4.jpg" alt="룩북4"></div>
-            </div>
-
-            <div class="product-grid">
-                <div><img src="./imgs/item5.jpg" alt="룩북5"></div>
-                <div><img src="./imgs/item6.jpg" alt="룩북6"></div>
-                <div><img src="./imgs/item7.jpg" alt="룩북7"></div>
-                <div><img src="./imgs/item8.jpg" alt="룩북8"></div>
-            </div>
-
-            <div class="more-link">25HS 룩북 전체 상품 보러가기</div>
-        </section>
-    </div>
-
-    <footer class="footer">
-        <div class="footer-inner">
-            <div class="footer-col">
-                <h4>AGREEMENT</h4>
-                <p>TEL : 02-1555-9873
-                    E-MAIL : CONTACT@BLACKUP.CO.KR
-                    BUSINESS LICENSE : 419-87-00897 [CHECK]
-                    E-COMMERCE PERMIT : 2017-SEOUL-MAPO-2279
-                    ADDRESS : 04062 5F 12, JANDARI-RO, MAPO-GU, SEOUL, REPUBLIC OF KOREA</p>
-            </div>
-
-            <div class="footer-col">
-                <h4>GUIDE</h4>
-            </div>
-
-            <div class="footer-col">
-                <h4>PRIVACYPOLICY</h4>
-            </div>
-
-            <div class="footer-col">
-                <h4>CONTACTUS</h4>
-            </div>
-
-            <div class="footer-col">
-                <h4>SHOPPINGGUIDE</h4>
-            </div>
-
-            <div class="footer-col right">
-                <h4>CUSTOMERCARE</h4>
-                <p>COMPANY : 비업 CORP.
-                    OWNER : CHOI YUNHAE
-
-                    © BLACKUP 2025</p>
-            </div>
+            </footer>
         </div>
-    </footer>
 
-    <div class="floating-scroll">
-        <a href="#top">˄</a>
-        <a href="#bottom">˅</a>
-    </div>
-    <div id="bottom"></div>
+        <div class="floating-nav">
+            <a href="#top">˄</a>
+            <a href="#bottom">˅</a>
+        </div>
     </div>
 </body>
 
