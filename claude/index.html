@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Claude Header</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+            background: #ffffff;
+        }
+
+        .header {
+            width: 100%;
+            min-width: 1400px;
+            height: 80px;
+            background: #ffffff;
+            border-bottom: 1px solid #f1f1f1;
+        }
+
+        .header-inner {
+            width: 1400px;
+            height: 80px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            color: #111111;
+            flex-shrink: 0;
+        }
+
+        .logo-mark {
+            font-size: 36px;
+            line-height: 1;
+            color: #dd7d53;
+            margin-right: 10px;
+            transform: translateY(-1px);
+        }
+
+        .logo-text {
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: 28px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            color: #111111;
+        }
+
+        .gnb {
+            display: flex;
+            align-items: center;
+            gap: 54px;
+            margin-left: 40px;
+            margin-right: auto;
+        }
+
+        .gnb a {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            height: 80px;
+            text-decoration: none;
+            color: #333333;
+            font-size: 15px;
+            font-weight: 700;
+            letter-spacing: -0.2px;
+            transition: color 0.2s ease;
+        }
+
+        .gnb a::after {
+            content: "";
+            position: absolute;
+            left: 50%;
+            bottom: 0;
+            width: 0;
+            height: 4px;
+            background: #df825a;
+            transform: translateX(-50%);
+            transition: width 0.2s ease;
+        }
+
+        .gnb a:hover {
+            color: #df825a;
+        }
+
+        .gnb a:hover::after {
+            width: 72px;
+        }
+
+        .actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-shrink: 0;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            height: 36px;
+            padding: 0 20px;
+            border-radius: 999px;
+            text-decoration: none;
+            font-size: 15px;
+            font-weight: 700;
+            letter-spacing: -0.2px;
+        }
+
+        .btn-dark {
+            background: #2f2f31;
+            color: #ffffff;
+        }
+
+        .btn-orange {
+            background: #cf835f;
+            color: #ffffff;
+        }
+    </style>
+</head>
+
+<body>
+    <header class="header">
+        <div class="header-inner">
+            <a href="#" class="logo">
+                <span class="logo-mark">✳</span>
+                <span class="logo-text">Claude</span>
+            </a>
+
+            <nav class="gnb">
+                <a href="#">ABOUT</a>
+                <a href="#">PRODUCTS</a>
+                <a href="#">EDUCATION</a>
+                <a href="#">PARTNERSHIP</a>
+                <a href="#">WHAT’S NEW</a>
+                <a href="#">SURPORT</a>
+            </nav>
+
+            <div class="actions">
+                <a href="#" class="btn btn-dark">매장찾기</a>
+                <a href="#" class="btn btn-orange">클로드마켓</a>
+            </div>
+        </div>
+    </header>
+</body>
+
+</html>
