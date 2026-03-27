@@ -14,6 +14,7 @@ table {
     width: 600px;
 
     margin: 0 auto;
+    border-spacing: 0;
 
     border-collapse: collapse;
     background: gray;
@@ -32,6 +33,7 @@ th {
     border: solid #000;
     height: 40px;
     background-color: #FFCC01;
+    border-collapse: collapse;
 }
 
 .tt {
