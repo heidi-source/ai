@@ -1,0 +1,47 @@
+@charset "utf-8";
+
+body {
+    font-family: "맑은 고딕";
+}
+
+table {
+    border-top: 1px solid #000;
+    border-left: 2px dotted #f00;
+    border-right: 5px #0f0;
+    border-bottom: 10px solid #000;
+
+    border: 1px solid #000;
+    width: 600px;
+
+    margin: 0 auto;
+
+    border-collapse: collapse;
+    background: gray;
+
+}
+
+td {
+    text-align: center;
+    border: 1px solid #000;
+    height: 40px;
+    width: 200px;
+    background: #E4E4E4;
+}
+
+th {
+    border: solid #000;
+    height: 40px;
+    background-color: #FFCC01;
+}
+
+.tt {
+    background: #00CCFF;
+}
+
+.ttt {
+    background: #00CCFF;
+}
+
+.tttt {
+    background: #00CCFF;
+}
