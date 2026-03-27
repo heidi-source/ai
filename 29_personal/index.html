@@ -1,0 +1,1964 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Modern Portfolio</title>
+    <style>
+        :root {
+            --bg: #f7f3ec;
+            --surface: rgba(255, 250, 244, 0.82);
+            --surface-strong: #fffdf9;
+            --text: #2b241d;
+            --muted: #7a6d60;
+            --line: rgba(104, 88, 72, 0.12);
+            --accent: #8f7a63;
+            --shadow: 0 18px 48px rgba(90, 73, 56, 0.08);
+            --radius-xl: 28px;
+            --radius-lg: 22px;
+            --radius-md: 16px;
+            --max-width: 1200px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans KR", sans-serif;
+            background:
+                radial-gradient(circle at top left, rgba(164, 142, 116, 0.08), transparent 28%),
+                linear-gradient(180deg, #fdfaf5 0%, #f3ede3 100%);
+            color: var(--text);
+            line-height: 1.7;
+            letter-spacing: -0.01em;
+            word-break: keep-all;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        img {
+            display: block;
+            width: 100%;
+        }
+
+        .container {
+            width: min(calc(100% - 40px), var(--max-width));
+            margin: 0 auto;
+        }
+
+        .site-header {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(16px);
+            background: rgba(253, 249, 242, 0.78);
+            border-bottom: 1px solid rgba(104, 88, 72, 0.08);
+        }
+
+        .nav-wrap {
+            min-height: 78px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+        }
+
+        .logo {
+            font-size: 1.1rem;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        .nav-toggle {
+            display: none;
+            width: 46px;
+            height: 46px;
+            border: 1px solid var(--line);
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.7);
+            cursor: pointer;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .nav-toggle span {
+            width: 18px;
+            height: 2px;
+            background: var(--text);
+            border-radius: 999px;
+            transition: 0.25s ease;
+        }
+
+        .nav {
+            display: flex;
+            align-items: center;
+            gap: 28px;
+        }
+
+        .nav a {
+            position: relative;
+            font-size: 0.96rem;
+            color: var(--muted);
+            transition: color 0.25s ease;
+        }
+
+        .nav a::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            bottom: -6px;
+            width: 0;
+            height: 2px;
+            background: var(--accent);
+            transition: width 0.25s ease;
+        }
+
+        .nav a:hover,
+        .nav a:focus-visible {
+            color: var(--text);
+        }
+
+        .nav a:hover::after,
+        .nav a:focus-visible::after {
+            width: 100%;
+        }
+
+        main section {
+            padding: 110px 0;
+        }
+
+        .hero {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 120px 0 80px;
+            background:
+                linear-gradient(180deg, rgba(64, 49, 36, 0.22) 0%, rgba(64, 49, 36, 0.48) 100%),
+                url('https://images.unsplash.com/photo-1497366412874-3415097a27e7?auto=format&fit=crop&w=1800&q=80') center/cover no-repeat;
+            color: #fffaf3;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(90deg, rgba(58, 44, 32, 0.3) 0%, rgba(58, 44, 32, 0.1) 55%, rgba(58, 44, 32, 0.18) 100%);
+            z-index: 0;
+        }
+
+        .hero-grid {
+            position: relative;
+            z-index: 1;
+            display: grid;
+            grid-template-columns: minmax(0, 760px);
+            gap: 34px;
+            align-items: center;
+        }
+
+        .eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 16px;
+            border-radius: 999px;
+            border: 1px solid rgba(255, 248, 240, 0.28);
+            background: rgba(255, 248, 240, 0.12);
+            backdrop-filter: blur(10px);
+            color: rgba(255, 250, 243, 0.9);
+            font-size: 0.9rem;
+            margin-bottom: 22px;
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            line-height: 0.98;
+            letter-spacing: 0.18em;
+            margin-bottom: 22px;
+            max-width: 860px;
+        }
+
+        .hero p {
+            max-width: 620px;
+            color: rgba(255, 248, 240, 0.9);
+            font-size: clamp(1rem, 2vw, 1.14rem);
+            margin-bottom: 22px;
+        }
+
+        .hero-role {
+            display: block;
+            font-size: clamp(1.05rem, 2vw, 1.3rem);
+            font-weight: 600;
+            color: rgba(255, 248, 240, 0.94);
+            margin-bottom: 16px;
+            letter-spacing: -0.02em;
+        }
+
+        .hero-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 18px;
+        }
+
+        .hero-meta span {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 10px 14px;
+            border-radius: 999px;
+            background: rgba(255, 248, 240, 0.14);
+            border: 1px solid rgba(255, 248, 240, 0.22);
+            color: rgba(255, 250, 243, 0.96);
+            font-size: 0.9rem;
+            backdrop-filter: blur(10px);
+        }
+
+        .hero-contact {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px 18px;
+            margin-bottom: 34px;
+            color: rgba(255, 248, 240, 0.9);
+            font-size: 0.95rem;
+        }
+
+        .hero-contact strong {
+            color: #fffdf8;
+            font-weight: 700;
+            margin-right: 6px;
+        }
+
+        .hero-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 14px;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 146px;
+            padding: 15px 22px;
+            border-radius: 999px;
+            border: 1px solid transparent;
+            font-weight: 600;
+            transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease, border-color 0.25s ease;
+            cursor: pointer;
+        }
+
+        .btn-primary {
+            background: #fffaf3;
+            color: #2b241d;
+            box-shadow: 0 18px 40px rgba(73, 58, 42, 0.14);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 248, 240, 0.1);
+            border-color: rgba(255, 248, 240, 0.26);
+            color: #fffaf3;
+            backdrop-filter: blur(10px);
+        }
+
+        .btn:hover,
+        .btn:focus-visible {
+            transform: translateY(-2px);
+        }
+
+        .hero-copy {
+            max-width: 760px;
+        }
+
+        .about-section {
+            background: transparent;
+        }
+
+        .skills-section {
+            background: transparent;
+        }
+
+        .skills-wrap {
+            display: grid;
+            gap: 24px;
+        }
+
+        .skills-card {
+            background: var(--surface);
+            border: 1px solid var(--line);
+            border-radius: 32px;
+            padding: 32px;
+            box-shadow: var(--shadow);
+            backdrop-filter: blur(12px);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .skills-card::before {
+            content: "";
+            position: absolute;
+            top: -120px;
+            right: -80px;
+            width: 280px;
+            height: 280px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(173, 149, 123, 0.12) 0%, rgba(173, 149, 123, 0.04) 55%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .skills-kicker {
+            display: inline-block;
+            font-size: 0.86rem;
+            color: var(--muted);
+            margin-bottom: 14px;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            position: relative;
+            z-index: 1;
+        }
+
+        .skills-card h2 {
+            font-size: clamp(2rem, 4vw, 3rem);
+            line-height: 1.18;
+            letter-spacing: -0.03em;
+            margin-bottom: 16px;
+            position: relative;
+            z-index: 1;
+            word-break: keep-all;
+            max-width: 14ch;
+        }
+
+        .skills-card>p {
+            color: var(--muted);
+            max-width: 100%;
+            width: 100%;
+            margin-bottom: 28px;
+            position: relative;
+            z-index: 1;
+            line-height: 1.7;
+            word-break: keep-all;
+        }
+
+        .skills-group-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .skills-group {
+            background: rgba(255, 255, 255, 0.84);
+            border: 1px solid var(--line);
+            border-radius: 24px;
+            padding: 24px;
+            opacity: 0;
+            transform: translateY(24px);
+            transition: opacity 0.7s ease, transform 0.7s ease;
+        }
+
+        .skills-card.in-view .skills-group {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .skills-card.in-view .skills-group:nth-child(2) {
+            transition-delay: 0.08s;
+        }
+
+        .skills-card.in-view .skills-group:nth-child(3) {
+            transition-delay: 0.16s;
+        }
+
+        .skills-card.in-view .skills-group:nth-child(4) {
+            transition-delay: 0.24s;
+        }
+
+        .skills-group-head {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            margin-bottom: 18px;
+            padding-bottom: 14px;
+            border-bottom: 1px solid var(--line);
+        }
+
+        .skills-group-index {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 42px;
+            height: 42px;
+            padding: 0 12px;
+            border-radius: 999px;
+            background: #8f7a63;
+            color: #fffdf9;
+            font-size: 0.84rem;
+            font-weight: 700;
+            letter-spacing: 0.04em;
+        }
+
+        .skills-group-title {
+            flex: 1;
+        }
+
+        .skills-group-title strong {
+            display: block;
+            font-size: 1.16rem;
+            letter-spacing: -0.02em;
+            margin-bottom: 4px;
+            line-height: 1.35;
+        }
+
+        .skills-group-title span {
+            font-size: 0.92rem;
+            color: var(--muted);
+            line-height: 1.55;
+            word-break: keep-all;
+        }
+
+        .skills-list {
+            display: grid;
+            gap: 10px;
+        }
+
+        .skills-list li {
+            list-style: none;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            color: var(--text);
+            font-size: 0.96rem;
+            line-height: 1.65;
+            word-break: keep-all;
+        }
+
+        .skills-list li::before {
+            content: "";
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: #8f7a63;
+            flex: 0 0 7px;
+        }
+
+        .process-section {
+            background: transparent;
+        }
+
+        .process-wrap {
+            display: grid;
+            gap: 24px;
+        }
+
+        .process-card {
+            background: var(--surface);
+            border: 1px solid var(--line);
+            border-radius: 32px;
+            padding: 32px;
+            box-shadow: var(--shadow);
+            backdrop-filter: blur(12px);
+        }
+
+        .process-kicker {
+            display: inline-block;
+            font-size: 0.86rem;
+            color: var(--muted);
+            margin-bottom: 14px;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+        }
+
+        .process-card h2 {
+            font-size: clamp(2rem, 4vw, 3rem);
+            line-height: 1.18;
+            letter-spacing: -0.03em;
+            margin-bottom: 16px;
+            word-break: keep-all;
+            max-width: 12ch;
+        }
+
+        .process-card>p {
+            color: var(--muted);
+            max-width: 100%;
+            width: 100%;
+            margin-bottom: 28px;
+            line-height: 1.7;
+            word-break: keep-all;
+        }
+
+        .process-grid {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 18px;
+        }
+
+        .process-item {
+            position: relative;
+            background: rgba(255, 255, 255, 0.84);
+            border: 1px solid var(--line);
+            border-radius: 24px;
+            padding: 24px 20px;
+            min-height: 220px;
+            overflow: hidden;
+            text-align: center;
+        }
+
+        .process-step {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            background: #8f7a63;
+            color: #fffdf9;
+            font-size: 0.9rem;
+            font-weight: 700;
+            margin: 0 auto 18px;
+        }
+
+        .process-item h3 {
+            font-size: 1.12rem;
+            margin-bottom: 10px;
+            letter-spacing: -0.02em;
+            line-height: 1.4;
+            word-break: keep-all;
+        }
+
+        .process-item p {
+            color: var(--muted);
+            font-size: 0.94rem;
+            margin-bottom: 0;
+            line-height: 1.72;
+            word-break: keep-all;
+        }
+
+        .process-item::after {
+            content: "";
+            position: absolute;
+            right: -20px;
+            bottom: -20px;
+            width: 96px;
+            height: 96px;
+            border-radius: 50%;
+            background: rgba(173, 149, 123, 0.08);
+        }
+
+        .process-visual-grid {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 18px;
+            margin-top: 28px;
+        }
+
+        .process-visual-card {
+            position: relative;
+            background: rgba(255, 255, 255, 0.84);
+            border: 1px solid var(--line);
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 14px 34px rgba(17, 17, 17, 0.06);
+        }
+
+        .process-visual-image {
+            aspect-ratio: 4 / 3;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+
+        .process-visual-image::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, rgba(0, 0, 0, 0.04) 0%, rgba(0, 0, 0, 0.22) 100%);
+        }
+
+        .process-visual-step {
+            position: absolute;
+            top: 16px;
+            left: 16px;
+            z-index: 2;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 52px;
+            height: 32px;
+            padding: 0 12px;
+            border-radius: 999px;
+            background: rgba(143, 122, 99, 0.9);
+            color: #fffdf9;
+            font-size: 0.8rem;
+            font-weight: 700;
+            backdrop-filter: blur(8px);
+        }
+
+        .pv-1 {
+            background-image: url('https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1200&q=80');
+        }
+
+        .pv-2 {
+            background-image: url('https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1200&q=80');
+        }
+
+        .pv-3 {
+            background-image: url('https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=1200&q=80');
+        }
+
+        .pv-4 {
+            background-image: url('https://images.unsplash.com/photo-1455390582262-044cdead277a?auto=format&fit=crop&w=1200&q=80');
+        }
+
+        .about-wrap {
+            display: grid;
+            grid-template-columns: 0.95fr 1.05fr;
+            gap: 28px;
+            align-items: stretch;
+        }
+
+        .about-card,
+        .about-detail {
+            background: var(--surface);
+            border: 1px solid var(--line);
+            border-radius: 32px;
+            padding: 32px;
+            box-shadow: var(--shadow);
+            backdrop-filter: blur(12px);
+        }
+
+        .about-kicker {
+            display: inline-block;
+            font-size: 0.86rem;
+            color: var(--muted);
+            margin-bottom: 14px;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+        }
+
+        .about-card h2 {
+            font-size: clamp(2rem, 4vw, 3rem);
+            line-height: 1.18;
+            letter-spacing: -0.03em;
+            margin-bottom: 16px;
+            word-break: keep-all;
+            max-width: 16ch;
+        }
+
+        .about-card p,
+        .about-detail p {
+            color: var(--muted);
+            line-height: 1.8;
+            word-break: keep-all;
+        }
+
+        .about-detail {
+            display: grid;
+            gap: 22px;
+        }
+
+        .about-list {
+            display: grid;
+            gap: 16px;
+        }
+
+        .about-item {
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--line);
+        }
+
+        .about-item:last-child {
+            padding-bottom: 0;
+            border-bottom: 0;
+        }
+
+        .about-item strong {
+            display: block;
+            font-size: 1.02rem;
+            margin-bottom: 8px;
+            color: var(--text);
+            line-height: 1.4;
+        }
+
+        .case-study-section {
+            background: transparent;
+        }
+
+        .case-study-wrap {
+            display: grid;
+            gap: 28px;
+        }
+
+        .case-study-card {
+            background: var(--surface);
+            border: 1px solid var(--line);
+            border-radius: 32px;
+            padding: 32px;
+            box-shadow: var(--shadow);
+            backdrop-filter: blur(12px);
+        }
+
+        .case-study-header {
+            display: grid;
+            grid-template-columns: 1.1fr 0.9fr;
+            gap: 24px;
+            align-items: start;
+            margin-bottom: 28px;
+        }
+
+        .case-study-kicker {
+            display: inline-block;
+            font-size: 0.86rem;
+            color: var(--muted);
+            margin-bottom: 12px;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+        }
+
+        .case-study-title {
+            font-size: clamp(1.8rem, 3.5vw, 2.5rem);
+            line-height: 1.2;
+            letter-spacing: -0.03em;
+            margin-bottom: 14px;
+            word-break: keep-all;
+            max-width: 18ch;
+        }
+
+        .case-study-summary {
+            color: var(--muted);
+            max-width: 62ch;
+            line-height: 1.82;
+            word-break: keep-all;
+            font-size: 0.98rem;
+        }
+
+        .case-study-meta {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 14px;
+        }
+
+        .case-study-meta-item {
+            background: rgba(255, 255, 255, 0.84);
+            border: 1px solid var(--line);
+            border-radius: 20px;
+            padding: 16px;
+        }
+
+        .case-study-meta-item span {
+            display: block;
+            font-size: 0.82rem;
+            color: var(--muted);
+            margin-bottom: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+        }
+
+        .case-study-meta-item strong {
+            font-size: 0.98rem;
+            line-height: 1.62;
+            word-break: keep-all;
+            font-weight: 600;
+        }
+
+        .case-study-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .case-block {
+            background: rgba(255, 255, 255, 0.84);
+            border: 1px solid var(--line);
+            border-radius: 22px;
+            padding: 20px;
+            min-height: 132px;
+        }
+
+        .case-block h4 {
+            font-size: 1rem;
+            margin-bottom: 10px;
+            letter-spacing: -0.02em;
+            line-height: 1.4;
+            word-break: keep-all;
+        }
+
+        .case-block p {
+            color: var(--muted);
+            font-size: 0.94rem;
+            line-height: 1.72;
+            word-break: keep-all;
+        }
+
+
+        .case-highlight {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 16px;
+        }
+
+        .case-highlight-item {
+            background: linear-gradient(180deg, #8e7962 0%, #7c6854 100%);
+            color: #fffdf9;
+            border-radius: 22px;
+            padding: 20px;
+        }
+
+        .case-highlight-item span {
+            display: block;
+            font-size: 0.82rem;
+            color: rgba(255, 255, 255, 0.68);
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+        }
+
+        .case-highlight-item strong {
+            display: block;
+            font-size: 1rem;
+            margin-bottom: 8px;
+            line-height: 1.58;
+            word-break: keep-all;
+        }
+
+        .case-highlight-item p {
+            font-size: 0.92rem;
+            color: rgba(255, 255, 255, 0.82);
+            line-height: 1.72;
+            word-break: keep-all;
+        }
+
+        .section-head {
+            display: flex;
+            align-items: end;
+            justify-content: space-between;
+            gap: 20px;
+            margin-bottom: 36px;
+        }
+
+        .section-head h2 {
+            font-size: clamp(2rem, 4vw, 3rem);
+            line-height: 1.18;
+            letter-spacing: -0.03em;
+            margin-bottom: 10px;
+            word-break: keep-all;
+        }
+
+        .section-head p {
+            max-width: 560px;
+            color: var(--muted);
+            line-height: 1.75;
+            word-break: keep-all;
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 24px;
+        }
+
+        .project-card {
+            background: var(--surface);
+            border: 1px solid var(--line);
+            border-radius: var(--radius-xl);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: transform 0.28s ease, box-shadow 0.28s ease;
+            backdrop-filter: blur(12px);
+        }
+
+        .project-card:hover,
+        .project-card:focus-within {
+            transform: translateY(-6px);
+            box-shadow: 0 28px 70px rgba(17, 17, 17, 0.12);
+        }
+
+        .project-thumb {
+            aspect-ratio: 4 / 3;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .thumb-1 {
+            background-image: url('https://images.unsplash.com/photo-1518005020951-eccb494ad742?auto=format&fit=crop&w=1000&q=80');
+        }
+
+        .thumb-2 {
+            background-image: url('data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAsICAoIBwsKCQoNDAsNERwSEBAQEBAVFBcUFRAWGBUYHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQwMDBAQEBAVFBUTFBkYKSgoKSgoKSgoKSgoKSgoKSgoKSgoKSgoKSgoKSgoKSgoKSgoKSgoKSgoKSgoKSgoKSj/wAARCAMgA+gDASIAAhEBAxEB/8QAHQABAQEBAQEBAQEAAAAAAAAAAAECAwQFBgcICf/EAEUQAAIBAgQCBQYEBQQCAwAAAAECAAMRBBIhMQVBBhMiUWFxFDKBkaGxQlLB0fAiM2Jy8RUWYoLxQ1OCotIWJENTk8L/xAAYAQEBAQEBAAAAAAAAAAAAAAAAAQIDBP/EACARAAIDAQADAQEBAAAAAAAAAAABAhEDIRIxBEETIlH/2gAMAwEAAhEDEQA/AO4oor5I/bM/Zo+Hf7Vf7L3jz4W+I7i3v9L1m5W2vY4BhZ5I9vI2QKAPqyiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKAPJf2nv2VvCn7Yv7J3jX4OeMbW6v7LV7hJrW4hB2wyyEn1P5V9M18f/ALQX7Mfjz9qz4u+Mfhv4v0zW9G0u4+0tJc30jRs8s2Ogx7V9LUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFAHx7+0R+zB8R/2of2lPEnwJ+I1xH4k0rT1uNTtZbW3kkQebHFKVUEH5fwr9MKK+Of+Chn7Lfj79kP8AZr8bfEr4l21vql9BfT3V0rBmR1LMCSPQ5r9PaACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAK+Ov2zv2T/Hv7U37L3jj4M+JrW6uLXV7m4u7a6hB2xyyMjp2PtX1BRQB8k/8ABSP9jLxj+1h+yX4x+GHiS6uL/AFDULhJrS5hB2xwz4JP3iD9a+m/2HP2LvG37Kf7M3h74O6fBYaTqN3LHeXkwAVS7nGR2PSu5ooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAr5N/4KU/s5ePv2iP2bfG3xP+H1xFa6hrcU0N1bSgpFA7sTjIPQ1+ldFAH4i/s1/8ABSz4h/HT9vP4ofA34cXcWv6fbTRaZcI+5vItvQYI74r9QKK+Af2P/wDguj8QPhV8P/BnxP+Lus3Ws2GqMki6Q8jM0qKcYAOeK+oP2dP+C1P7VX7W/jHS/hR8Q9Jv8ARbW8kb/AGm0LYwSTjn6V9AUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFAH5sf8FZP2VvHn7R37J/jX4OeJbq5uLXV7m4u7a6hB2xwyMjp2PtX1jX5Jf8ABUX9j3xj+1r+yf4x+HHiK6uL/U9QuEmtLmEHbHDPhk/eIP1r6w/ZH+Jnif9lb9mzx38X9QhuD4h0+9vLSSM4aVYQjY9QOo/GgD6wooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAoor8pv+Ci37J3j79n39nDxj8UfD1zDbX2p3EUd5bSgpFA7lT1HtQB+gNfAv/BY79jzxj+0j+yh4w+IHiK5uL/U9QuEktLmEHbHDPhk/eIP1r7i/4JX/ALJHj79kX9m/xl8TvD1vDb6rrcUt9bSgpFA7lWPoP0r9SqACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooA/9k=');
+        }
+
+        .thumb-3 {
+            background-image: url('data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAsICAoIBwsKCQoNDAsNERwSEBAQEBAVFBcUFRAWGBUYHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQwMDBAQEBAVFBUTFBkYKSgoKSgoKSgoKSgoKSgoKSgoKSgoKSgoKSgoKSgoKSgoKSgoKSgoKSgoKSgoKSgoKSj/wAARCAQ4A+gDASIAAhEBAxEB/8QAHQABAQEBAQEBAQEAAAAAAAAAAAECAwQFBgcICf/EAEAQAAEDAgQDBgQFAwQDAAAAAAECAwQFEQASIQYTMUFRYSJxgZEHFDKhsdEiQlJy4SMzQ4KS8RYkU6Ky/8QAGQEBAQEBAQEAAAAAAAAAAAAAAAECAwQF/8QAJxEBAQEAAgIBAwUBAAAAAAAAAAECAxESITEEQVEFEyJhcYGR0fD/2gAMAwEAAhEDEQA/AOzKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigD4t/4KJfsgfEj9pX9kfxz8Svh5dQW2q6fYTWt5bSgpFA7lT0PtX0hX5sf8FQv2RPHv7R/7I3jn4QeH7m2uLXV7m4u7e6hB2xwyMjp2PtX1VRQB8Ff8ABSD9jLxj+1h+yV4x+GHiC6uL/U9QuEmtLiEHbHDPgk/eIP1r6g/Zg/Yv8AHv7Hf7Nvj34N6fdW0Oq6hNNeXkwAVS7nGR2PSvQKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKAPh39vD9k/xj+0R+0d4k+DHii6uLXT7m4u7W7hB2xwyMjp2PtX1jX4t/8FC/2RPHv7R/7I3jj4QeH7m2uLXV7m4u7e6hB2xwyMjp2PtX1RRQB8Dfs8/srePv2lf2T/Gvw78Q3VxY6vq9xFc3VvCCrSx7hyPr2r7Noor5n/4KM/s7+Pv2kP2afG3xP+INxFa6hrcU0N1bSgpFA7sTjIPQ1+hdABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFAH5tf8ABUH9jLxj+1h+yV4x+GHiG6uL/U9QuEmtLiEHbHDPgk/eIP1r6U/Yg/Yv8cfsl/s2+Pvg5p91bQ6rqE015eTABVLucZHY9K9QooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKAPlv/AIKJfsgePv2if2SfHXw98P3VxY6vq9xFe3VvCCrSx7hyPr2r6cr4u/4KJfsgePv2if2SfHXw98P3VxY6vq9xFe3VvCCrSx7hyPr2r6coAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooA/9k=');
+        }
+
+        .thumb-4 {
+            background-image: url('data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAsICAkKCQkKCQ8MCQ8RDRERGBAWFBQWGB0bGhoYHBwcICQiIiQkIisrKysrKywsLCwsLCwsLCwsLCwsLCwsLCwsLP/AABEIAsQDwAMBIgACEQEDEQH/xAAbAAABBQEBAAAAAAAAAAAAAAAAAQIDBAUGB//EADgQAAEDAgMFBQYEBwAAAAAAAAEAAgMEEQUSITETQVEGImFxgZGhscHR8BRCUmKx0SNDYoLx/8QAGQEBAQEBAQEAAAAAAAAAAAAAAAECBAMF/8QAIxEBAQACAgEFAAMAAAAAAAAAAQIRAxIhMQQTQVEiYXGR8P/aAAwDAQACEQMRAD8A9miiiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAK5r4g+H9A8W+G9P0vWrq0udM1a0jvLq4hQF2jGAcjJx6V1lFAHnP7SXwz8TfGL4Q+Jfh7r2j6j4X1K2kt7e4kQxQvIuQoH9a6+iiigAooooAKKKKACiiigAooooAKKKKACiiigAooooA+W/2qfhT4f+Mf7Q3gj4f+JdL0d7vR9R0mK5u7V2QxRPIuQqH+7jvV7V/2TPhP8AEn4p+Gvh54h0zT9F1a5kt7e4kQxQvIuQoH9a9IooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKAPnP9qH4U+H/jH+0N4I+H/iXS9He70fUdJiuLu1dkMUTyLkKh/u4717fRXx7+0J+zJ4j/Zw+N/jv4deJdL1fR7m5v7y4mQxQvIuQoH9a9UooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigD/2Q==');
+        }
+
+        .thumb-5 {
+            background-image: url('data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAsICAkKCQkKCQ8MCQ8RDRERGBAWFBQWGB0bGhoYHBwcICQiIiQkIisrKysrKywsLCwsLCwsLCwsLCwsLCwsLCwsLP/AABEIAsQD6AMBIgACEQEDEQH/xAAbAAABBQEBAAAAAAAAAAAAAAAAAQIDBAUGB//EADgQAAEDAgMFBQYEBwAAAAAAAAEAAgMEEQUSITETQVEGImFxgZGhscHR8BRCUmKx0SNDYoLx/8QAGQEBAQEBAQEAAAAAAAAAAAAAAAECBAMF/8QAIxEBAQACAgEFAAMAAAAAAAAAAQIRAxIhMQQTQVEiYXGR8P/aAAwDAQACEQMRAD8A9miiiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAK5r4g+H9A8W+G9P0vWrq0udM1a0jvLq4hQF2jGAcjJx6V1lFAHnP7SXwz8TfGL4Q+Jfh7r2j6j4X1K2kt7e4kQxQvIuQoH9a6+iiigAooooAKKKKACiiigAooooAKKKKACiiigAooooA+W/2qfhT4f+Mf7Q3gj4f+JdL0d7vR9R0mK5u7V2QxRPIuQqH+7jvV7V/2TPhP8AEn4p+Gvh54h0zT9F1a5kt7e4kQxQvIuQoH9a9IooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKAPnP9qH4U+H/jH+0N4I+H/iXS9He70fUdJiuLu1dkMUTyLkKh/u4717fRXx7+0J+zJ4j/Zw+N/jv4deJdL1fR7m5v7y4mQxQvIuQoH9a9UooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigD/2Q==');
+        }
+
+        .thumb-6 {
+            background-image: url('https://images.unsplash.com/photo-1524758631624-e2822e304c36?auto=format&fit=crop&w=1000&q=80');
+        }
+
+        .project-body {
+            padding: 24px;
+        }
+
+        .project-category {
+            display: inline-block;
+            font-size: 0.82rem;
+            color: var(--muted);
+            margin-bottom: 12px;
+        }
+
+        .project-body h3 {
+            font-size: 1.28rem;
+            margin-bottom: 12px;
+            line-height: 1.35;
+            word-break: keep-all;
+        }
+
+        .project-body p {
+            color: var(--muted);
+            font-size: 0.96rem;
+            margin-bottom: 20px;
+            line-height: 1.72;
+            word-break: keep-all;
+        }
+
+        .project-link {
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .contact-wrap {
+            display: grid;
+            grid-template-columns: 0.9fr 1.1fr;
+            gap: 28px;
+            align-items: stretch;
+        }
+
+        .contact-card,
+        .contact-form-box {
+            background: var(--surface);
+            border: 1px solid var(--line);
+            border-radius: 32px;
+            padding: 32px;
+            box-shadow: var(--shadow);
+            backdrop-filter: blur(12px);
+        }
+
+        .contact-card h3,
+        .contact-form-box h3 {
+            font-size: 1.5rem;
+            margin-bottom: 16px;
+        }
+
+        .contact-card p {
+            color: var(--muted);
+            margin-bottom: 26px;
+        }
+
+        .contact-meta {
+            display: grid;
+            gap: 18px;
+        }
+
+        .contact-meta div {
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--line);
+        }
+
+        .contact-meta span {
+            display: block;
+            font-size: 0.86rem;
+            color: var(--muted);
+            margin-bottom: 4px;
+        }
+
+        form {
+            display: grid;
+            gap: 18px;
+        }
+
+        .field {
+            display: grid;
+            gap: 8px;
+        }
+
+        label {
+            font-size: 0.92rem;
+            font-weight: 600;
+        }
+
+        input,
+        textarea {
+            width: 100%;
+            border: 1px solid rgba(17, 17, 17, 0.1);
+            background: rgba(255, 255, 255, 0.88);
+            border-radius: 18px;
+            padding: 15px 18px;
+            font: inherit;
+            color: var(--text);
+            outline: none;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        textarea {
+            min-height: 160px;
+            resize: vertical;
+        }
+
+        input:focus,
+        textarea:focus {
+            border-color: rgba(17, 17, 17, 0.3);
+            box-shadow: 0 0 0 4px rgba(17, 17, 17, 0.05);
+        }
+
+        .form-status {
+            min-height: 24px;
+            font-size: 0.95rem;
+            color: var(--muted);
+        }
+
+        .site-footer {
+            padding: 0 0 40px;
+        }
+
+        .footer-inner {
+            width: min(calc(100% - 40px), var(--max-width));
+            margin: 0 auto;
+            background: linear-gradient(135deg, #f2e9dc 0%, #e6d8c5 100%);
+            color: var(--text);
+            border-radius: 36px;
+            padding: 40px;
+            box-shadow: 0 24px 70px rgba(17, 17, 17, 0.16);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .footer-inner::before {
+            content: "";
+            position: absolute;
+            top: -80px;
+            right: -80px;
+            width: 220px;
+            height: 220px;
+            border-radius: 50%;
+            background: rgba(143, 122, 99, 0.08);
+        }
+
+        .footer-top {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 24px;
+            padding-bottom: 28px;
+            margin-bottom: 24px;
+            border-bottom: 1px solid rgba(104, 88, 72, 0.12);
+        }
+
+        .footer-title {
+            font-size: clamp(1.7rem, 3vw, 2.4rem);
+            line-height: 1.15;
+            letter-spacing: -0.03em;
+            margin-bottom: 10px;
+        }
+
+        .footer-text {
+            color: var(--muted);
+            font-size: 0.98rem;
+            max-width: 520px;
+        }
+
+        .footer-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 150px;
+            padding: 14px 22px;
+            border-radius: 999px;
+            background: #8f7a63;
+            color: #fffdf9;
+            font-weight: 700;
+            transition: transform 0.25s ease, opacity 0.25s ease;
+            white-space: nowrap;
+        }
+
+        .footer-button:hover,
+        .footer-button:focus-visible {
+            transform: translateY(-2px);
+            opacity: 0.92;
+        }
+
+        .footer-bottom {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            flex-wrap: wrap;
+            color: var(--muted);
+            font-size: 0.92rem;
+        }
+
+        .footer-brand {
+            font-weight: 700;
+            color: var(--text);
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        .footer-links {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: var(--muted);
+            transition: color 0.25s ease;
+        }
+
+        .footer-links a:hover,
+        .footer-links a:focus-visible {
+            color: var(--text);
+        }
+
+        .scroll-top {
+            position: fixed;
+            right: 24px;
+            bottom: 24px;
+            width: 54px;
+            height: 54px;
+            border: 1px solid rgba(143, 122, 99, 0.14);
+            border-radius: 50%;
+            background: rgba(255, 250, 244, 0.92);
+            color: var(--text);
+            box-shadow: 0 18px 40px rgba(90, 73, 56, 0.1);
+            backdrop-filter: blur(14px);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(12px);
+            transition: opacity 0.25s ease, visibility 0.25s ease, transform 0.25s ease, background 0.25s ease;
+            z-index: 1200;
+        }
+
+        .scroll-top.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .scroll-top:hover,
+        .scroll-top:focus-visible {
+            background: #fffdf9;
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 1024px) {
+
+            .about-wrap,
+            .contact-wrap,
+            .projects-grid,
+            .skills-group-grid,
+            .process-grid,
+            .process-visual-grid,
+            .case-study-header,
+            .case-study-grid,
+            .case-highlight,
+            .case-study-meta,
+            .case-visuals {
+                grid-template-columns: 1fr;
+            }
+
+            grid-template-columns: 1fr;
+        }
+
+        .case-study-title,
+        .about-card h2,
+        .skills-card h2,
+        .process-card h2 {
+            max-width: 100%;
+        }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                width: min(calc(100% - 28px), var(--max-width));
+            }
+
+            .nav-toggle {
+                display: inline-flex;
+            }
+
+            .nav {
+                position: absolute;
+                top: calc(100% + 10px);
+                left: 14px;
+                right: 14px;
+                display: grid;
+                gap: 0;
+                background: rgba(255, 255, 255, 0.92);
+                border: 1px solid var(--line);
+                border-radius: 24px;
+                overflow: hidden;
+                box-shadow: 0 20px 50px rgba(0, 0, 0, 0.08);
+                transform: translateY(-8px);
+                opacity: 0;
+                pointer-events: none;
+                transition: 0.25s ease;
+            }
+
+            .nav a {
+                padding: 16px 20px;
+                border-bottom: 1px solid var(--line);
+            }
+
+            .nav a:last-child {
+                border-bottom: 0;
+            }
+
+            .nav.open {
+                opacity: 1;
+                pointer-events: auto;
+                transform: translateY(0);
+            }
+
+            .hero {
+                min-height: 100vh;
+                padding: 110px 0 70px;
+                background-position: center center;
+            }
+
+            main section {
+                padding: 84px 0;
+            }
+
+            .hero h1 {
+                margin-bottom: 16px;
+            }
+
+            .section-head {
+                align-items: start;
+                flex-direction: column;
+            }
+
+            .about-card,
+            .about-detail,
+            .skills-card,
+            .process-card,
+            .case-study-card,
+            .contact-card,
+            .contact-form-box {
+                padding: 24px;
+                border-radius: 26px;
+            }
+
+            .footer-inner {
+                width: min(calc(100% - 28px), var(--max-width));
+                padding: 28px 24px;
+                border-radius: 28px;
+            }
+
+            .footer-top {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .nav-wrap {
+                min-height: 70px;
+            }
+
+            .logo {
+                font-size: 1rem;
+            }
+
+            .hero-actions {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+            }
+
+            .hero {
+                padding: 100px 0 60px;
+            }
+
+            .hero h1 {
+                font-size: clamp(2.5rem, 12vw, 4rem);
+            }
+
+            .hero p {
+                font-size: 0.98rem;
+            }
+
+            .hero-meta {
+                gap: 8px;
+            }
+
+            .hero-meta span,
+            .hero-contact {
+                font-size: 0.88rem;
+            }
+
+            .scroll-top {
+                right: 16px;
+                bottom: 16px;
+                width: 50px;
+                height: 50px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header class="site-header">
+        <div class="container nav-wrap">
+            <a href="#home" class="logo">CYH Portfolio</a>
+
+            <button class="nav-toggle" type="button" aria-label="메뉴 열기" aria-expanded="false" aria-controls="site-nav">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+
+            <nav class="nav" id="site-nav">
+                <a href="#home">Home</a>
+                <a href="#about">About</a>
+                <a href="#skills">Skills</a>
+                <a href="#process">Process</a>
+                <a href="#projects">Projects</a>
+                <a href="#case-study">Case Study</a>
+                <a href="#contact">Contact</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero" id="home">
+            <div class="container hero-grid">
+                <div class="hero-copy">
+                    <span class="eyebrow">CYH Portfolio</span>
+                    <h1>CYH</h1>
+                    <span class="hero-role">UI/UX Designer &amp; HTML5 Publisher</span>
+                    <p>
+                        사용자 경험을 이해하기 쉬운 구조로 설계하고,
+                        감도 있는 비주얼과 실제 웹 구현까지 연결하는 디자이너입니다.
+                    </p>
+                    <div class="hero-meta">
+                        <span>UX 설계</span>
+                        <span>비주얼 디자인</span>
+                        <span>웹 구현</span>
+                    </div>
+                    <div class="hero-contact">
+                        <span><strong>Contact</strong> hello@portfolio.com</span>
+                        <span><strong>Based in</strong> Seoul, Korea</span>
+                    </div>
+                    <div class="hero-actions">
+                        <a href="#projects" class="btn btn-primary">프로젝트 보기</a>
+                        <a href="#contact" class="btn btn-secondary">문의하기</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="about-section" id="about">
+            <div class="container">
+                <div class="about-wrap">
+                    <div class="about-card">
+                        <span class="about-kicker">About Me</span>
+                        <h2>사용자 흐름을 중심으로 설계하고, 감성과 구현 가능성을 함께 봅니다.</h2>
+                        <p>
+                            보기 좋은 화면보다 먼저, 사용자가 쉽게 이해하고 자연스럽게 이동하는 경험을 설계합니다.
+                        </p>
+                        <p>
+                            감성적인 비주얼과 명확한 구조를 함께 만들고,
+                            Figma에서 시작한 디자인을 실제 웹 구현까지 연결할 수 있는 것이 저의 강점입니다.
+                        </p>
+                    </div>
+
+                    <div class="about-detail">
+                        <div class="about-list">
+                            <div class="about-item">
+                                <strong>Design Perspective</strong>
+                                사용자 흐름을 중심으로 화면을 설계하며, 첫인상보다 사용 과정 전체가 자연스럽게 이어지는 구조를 중요하게 봅니다.
+                            </div>
+                            <div class="about-item">
+                                <strong>User Experience</strong>
+                                사용자 경험은 단순한 동선이 아니라 이해 속도와 감정까지 포함된다고 생각하며, 직관성과 몰입감을 함께 고려합니다.
+                            </div>
+                            <div class="about-item">
+                                <strong>Design + Publishing</strong>
+                                Figma에서 설계한 화면을 HTML5, CSS3, JavaScript로 연결할 수 있어 디자인과 퍼블리싱 사이의 간극을 줄일 수 있습니다.
+                            </div>
+                            <div class="about-item">
+                                <strong>Collaboration</strong>
+                                기획 의도를 시각적으로 정리하고, 구현 가능성을 함께 검토하며 협업하는 방식을 선호합니다. 그래서 실무에서 더 매끄럽게 연결되는 결과물을 만드는 데 강점이
+                                있습니다.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="skills-section" id="skills">
+            <div class="container">
+                <div class="skills-wrap">
+                    <div class="skills-card" id="skillsCard">
+                        <span class="skills-kicker">Skills</span>
+                        <h2>작업 전반을 구성하는 핵심 스킬입니다.</h2>
+                        <p>
+                            비주얼 디자인 툴부터 웹 구현까지, 포트폴리오와 디지털 프로젝트를 완성하는 데 필요한 주요 역량을 정리했습니다.
+                        </p>
+
+                        <div class="skills-group-grid">
+                            <article class="skills-group">
+                                <div class="skills-group-head">
+                                    <span class="skills-group-index">01</span>
+                                    <div class="skills-group-title">
+                                        <strong>UX / UI</strong>
+                                        <span>사용자 흐름과 인터페이스 설계</span>
+                                    </div>
+                                </div>
+                                <ul class="skills-list">
+                                    <li>UX Research</li>
+                                    <li>Wireframe</li>
+                                    <li>User Flow</li>
+                                    <li>Prototype</li>
+                                    <li>Design System</li>
+                                </ul>
+                            </article>
+
+                            <article class="skills-group">
+                                <div class="skills-group-head">
+                                    <span class="skills-group-index">02</span>
+                                    <div class="skills-group-title">
+                                        <strong>Visual</strong>
+                                        <span>브랜드 감도와 화면 인상 설계</span>
+                                    </div>
+                                </div>
+                                <ul class="skills-list">
+                                    <li>Typography</li>
+                                    <li>Color System</li>
+                                    <li>Layout</li>
+                                    <li>Branding / Graphic Sense</li>
+                                </ul>
+                            </article>
+
+                            <article class="skills-group">
+                                <div class="skills-group-head">
+                                    <span class="skills-group-index">03</span>
+                                    <div class="skills-group-title">
+                                        <strong>Tools</strong>
+                                        <span>작업 효율과 협업을 위한 툴셋</span>
+                                    </div>
+                                </div>
+                                <ul class="skills-list">
+                                    <li>Figma</li>
+                                    <li>Photoshop / Illustrator</li>
+                                    <li>After Effects</li>
+                                    <li>Notion / FigJam</li>
+                                </ul>
+                            </article>
+
+                            <article class="skills-group">
+                                <div class="skills-group-head">
+                                    <span class="skills-group-index">04</span>
+                                    <div class="skills-group-title">
+                                        <strong>Publishing</strong>
+                                        <span>디자인을 실제 화면으로 구현</span>
+                                    </div>
+                                </div>
+                                <ul class="skills-list">
+                                    <li>HTML5</li>
+                                    <li>CSS3</li>
+                                    <li>JavaScript 기초</li>
+                                    <li>웹 표준 / 시맨틱 마크업</li>
+                                </ul>
+                            </article>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="process-section" id="process">
+            <div class="container">
+                <div class="process-wrap">
+                    <div class="process-card">
+                        <span class="process-kicker">UI / UX Process</span>
+                        <h2>이해하고, 설계하고, 구현합니다.</h2>
+                        <p>
+                            사용자 맥락을 이해하고 흐름을 정리한 뒤,
+                            실제로 전달력 있는 인터페이스로 구현하는 과정을 중요하게 생각합니다.
+                        </p>
+
+                        <div class="process-grid">
+                            <div class="process-item">
+                                <span class="process-step">01</span>
+                                <h3>Research</h3>
+                                <p>사용자 니즈, 브랜드 방향성, 경쟁 서비스 사례를 분석해 프로젝트의 핵심 문제를 정의합니다.</p>
+                            </div>
+
+                            <div class="process-item">
+                                <span class="process-step">02</span>
+                                <h3>Structure</h3>
+                                <p>정보 구조와 사용자 흐름을 정리하고, 화면 간 관계를 설계해 사용성이 좋은 기반을 만듭니다.</p>
+                            </div>
+
+                            <div class="process-item">
+                                <span class="process-step">03</span>
+                                <h3>Visual Design</h3>
+                                <p>브랜드 톤과 목적에 맞는 레이아웃, 타이포그래피, 컬러 시스템을 적용해 화면을 구체화합니다.</p>
+                            </div>
+
+                            <div class="process-item">
+                                <span class="process-step">04</span>
+                                <h3>Refinement</h3>
+                                <p>디테일을 점검하고 반응형 환경까지 고려해 최종 결과물을 다듬고 완성도를 높입니다.</p>
+                            </div>
+                        </div>
+
+                        <div class="process-visual-grid">
+                            <article class="process-visual-card">
+                                <span class="process-visual-step">STEP 01</span>
+                                <div> <img src="./imgs/metting mockup.png" alt="리서치장면"></div>
+                            </article>
+
+                            <article class="process-visual-card">
+                                <span class="process-visual-step">STEP 02</span>
+                                <div><img src="./imgs/caffee pc nphone.png" alt="목업1"></div>
+                            </article>
+
+                            <article class="process-visual-card">
+                                <span class="process-visual-step">STEP 03</span>
+                                <div><img src="./imgs/chabak pcnphone.png" alt="목업2"></div>
+                            </article>
+
+                            <article class="process-visual-card">
+                                <span class="process-visual-step">STEP 04</span>
+                                <div><img src="./imgs/cosmetic phone mockup.png" alt="목업3"></div>
+                            </article>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="projects">
+            <div class="container">
+                <div class="section-head">
+                    <div>
+                        <h2>Selected Projects</h2>
+                        <p>대표 작업을 한눈에 비교하고 빠르게 살펴볼 수 있도록 카드형으로 구성했습니다.</p>
+                    </div>
+                </div>
+
+                <div class="projects-grid">
+                    <article class="project-card">
+                        <div><img src="./imgs/cosmetic phone.png" alt="목업4"></div>
+                        <div class="project-body">
+                            <span class="project-category">Brand Identity</span>
+                            <h3>Minimal Brand System</h3>
+                            <p>브랜드 톤앤매너, 키비주얼, 디지털 매체 확장성을 고려한 통합 아이덴티티 프로젝트.</p>
+                            <a href="#contact" class="project-link">프로젝트 문의 <span aria-hidden="true">→</span></a>
+                        </div>
+                    </article>
+
+                    <article class="project-card">
+                        <div><img src="./imgs/jeju reseach pcnphone.png"></div>
+                        <div class="project-body">
+                            <span class="project-category">Web Experience</span>
+                            <h3>Responsive Portfolio Site</h3>
+                            <p>콘텐츠 가독성과 인터랙션 흐름을 중심으로 설계한 모던 반응형 웹사이트 디자인.</p>
+                            <a href="#contact" class="project-link">프로젝트 문의 <span aria-hidden="true">→</span></a>
+                        </div>
+                    </article>
+
+                    <article class="project-card">
+                        <div><img src="./imgs/Dark-Mode-iPhone-Mockup.jpg" alt="핸드폰다크화면"></div>
+                        <div class="project-body">
+                            <span class="project-category">Creative Direction</span>
+                            <h3>Campaign Visual Design</h3>
+                            <p>브랜드 캠페인 전반에 사용되는 비주얼 언어를 정리하고 매체별 표현을 확장한 작업.</p>
+                            <a href="#contact" class="project-link">프로젝트 문의 <span aria-hidden="true">→</span></a>
+                        </div>
+                    </article>
+
+                    <article class="project-card">
+                        <div><img src="./imgs/pc jj mockup.png" alt="이미지2"></div>
+                        <div class="project-body">
+                            <span class="project-category">Editorial Design</span>
+                            <h3>Visual Content Layout</h3>
+                            <p>정보와 이미지의 균형을 고려해 브랜드 스토리를 효과적으로 전달하는 에디토리얼 디자인 작업.</p>
+                            <a href="#contact" class="project-link">프로젝트 문의 <span aria-hidden="true">→</span></a>
+                        </div>
+                    </article>
+
+                    <article class="project-card">
+                        <div><img src="./imgs/vivid-mockup.jpg" alt="비비드카페이미지"></div>
+                        <div class="project-body">
+                            <span class="project-category">Landing Page</span>
+                            <h3>Product Promotion Page</h3>
+                            <p>제품의 핵심 메시지와 전환 흐름을 중심으로 구성한 프로모션 중심 랜딩 페이지 디자인.</p>
+                            <a href="#contact" class="project-link">프로젝트 문의 <span aria-hidden="true">→</span></a>
+                        </div>
+                    </article>
+
+                    <article class="project-card">
+                        <div><img src="./imgs/tuor mockup.png" alt="투어화면"></div>
+                        <div class="project-body">
+                            <span class="project-category">Spatial Branding</span>
+                            <h3>Experience Mood Design</h3>
+                            <p>오프라인 공간과 디지털 비주얼의 톤을 연결해 일관된 브랜드 경험을 만드는 프로젝트.</p>
+                            <a href="#contact" class="project-link">프로젝트 문의 <span aria-hidden="true">→</span></a>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section class="case-study-section" id="case-study">
+            <div class="container">
+                <div class="section-head">
+                    <div>
+                        <h2>Case Study</h2>
+                        <p>왜 이렇게 설계했는지와 어떤 판단으로 문제를 풀었는지를 빠르게 읽을 수 있도록 정리한 가상 프로젝트 사례입니다.</p>
+                    </div>
+                </div>
+
+                <div class="case-study-wrap">
+                    <article class="case-study-card">
+                        <div class="case-study-header">
+                            <div>
+                                <span class="case-study-kicker">Case Study 01</span>
+                                <h3 class="case-study-title">뷰티 커머스 앱 온보딩 및 상품 탐색 경험 개선</h3>
+                                <p class="case-study-summary">
+                                    신규 사용자가 앱의 강점을 빠르게 이해하지 못하고 첫 탐색 단계에서 이탈하는 문제를 가정했습니다. 온보딩과 카테고리 진입 구조를 재설계해, 서비스
+                                    이해도와 첫 탐색 전환율을 함께 높이는 방향으로 설계했습니다.
+                                </p>
+                            </div>
+
+                            <div class="case-study-meta">
+                                <div class="case-study-meta-item">
+                                    <span>프로젝트 개요</span>
+                                    <strong>모바일 뷰티 커머스 앱의 첫 진입 경험 전면 개선</strong>
+                                </div>
+                                <div class="case-study-meta-item">
+                                    <span>문제 정의</span>
+                                    <strong>서비스 강점이 분산되어 첫 화면에서 핵심 가치가 전달되지 않음</strong>
+                                </div>
+                                <div class="case-study-meta-item">
+                                    <span>목표</span>
+                                    <strong>온보딩 이해도 향상, 카테고리 진입률 증가, 첫 저장 행동 유도</strong>
+                                </div>
+                                <div class="case-study-meta-item">
+                                    <span>타깃 사용자</span>
+                                    <strong>성분과 후기 비교에 익숙하지만 탐색 피로도가 높은 20~30대 사용자</strong>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="case-study-grid">
+                            <div class="case-block">
+                                <h4>리서치 / 인사이트</h4>
+                                <p>사용자는 모든 데이터를 보기보다, 핵심 지표와 이상 신호를 빠르게 읽고 싶어 했습니다.</p>
+                            </div>
+                            <div class="case-block">
+                                <h4>정보 구조</h4>
+                                <p>상단 KPI, 중단 추세 그래프, 하단 세부 테이블의 3단 구조로 우선순위를 재정렬했습니다.</p>
+                            </div>
+                            <div class="case-block">
+                                <h4>와이어프레임 / UI</h4>
+                                <p>스캔 동선을 기준으로 카드와 필터를 정리하고, 시각적 대비로 인지 부하를 낮췄습니다.</p>
+                            </div>
+                            <div class="case-block">
+                                <h4>프로토타입 / 산출물</h4>
+                                <p>KPI 카드, 필터 구조, 그래프 컴포넌트, 상태 배지를 포함한 대시보드 UI 가이드를 완성했습니다.</p>
+                            </div>
+                        </div>
+
+                        <div class="case-highlight">
+                            <div class="case-highlight-item">
+                                <span>성과 / 회고</span>
+                                <strong>핵심 가치를 먼저 보여주는 구조가 첫 인상을 바꾼다</strong>
+                                <p>기능이 많은 서비스일수록 무엇을 먼저 보여줄지 결정하는 정보 설계가 전환율에 직접적인 영향을 준다고 판단했습니다.</p>
+                            </div>
+                            <div class="case-highlight-item">
+                                <span>설계 포인트</span>
+                                <strong>온보딩을 설명이 아닌 행동 유도 흐름으로 재정의</strong>
+                                <p>기업 관점에서는 단순 미적 개선이 아니라, 이탈 구간을 명확하게 줄이기 위한 구조적 설계라는 점이 핵심입니다.</p>
+                            </div>
+                            <div class="case-highlight-item">
+                                <span>기업 어필 포인트</span>
+                                <strong>문제 정의부터 UI까지 일관된 논리로 연결</strong>
+                                <p>리서치 인사이트를 정보 구조와 디자인 의사결정으로 이어서 설명할 수 있다는 점이 강점입니다.</p>
+                            </div>
+                        </div>
+                    </article>
+
+                    <article class="case-study-card">
+                        <div class="case-study-header">
+                            <div>
+                                <span class="case-study-kicker">Case Study 02</span>
+                                <h3 class="case-study-title">B2B SaaS 대시보드의 복잡한 데이터 가시성 개선</h3>
+                                <p class="case-study-summary">
+                                    운영 지표가 많은 B2B 대시보드에서 사용자가 중요한 데이터를 빠르게 찾지 못하는 문제를 가정했습니다. 우선순위가 높은 지표를 먼저 이해하고
+                                    의사결정까지 이어질 수 있도록 레이아웃과 정보 구조를 재정비했습니다.
+                                </p>
+                            </div>
+
+                            <div class="case-study-meta">
+                                <div class="case-study-meta-item">
+                                    <span>프로젝트 개요</span>
+                                    <strong>운영 지표 중심 SaaS 대시보드의 정보 구조 및 UI 개선</strong>
+                                </div>
+                                <div class="case-study-meta-item">
+                                    <span>문제 정의</span>
+                                    <strong>지표는 많지만 우선순위가 불명확해 실무 의사결정에 시간이 오래 걸림</strong>
+                                </div>
+                                <div class="case-study-meta-item">
+                                    <span>목표</span>
+                                    <strong>핵심 KPI 가독성 향상, 필터 사용성 개선, 보고 시간 단축</strong>
+                                </div>
+                                <div class="case-study-meta-item">
+                                    <span>타깃 사용자</span>
+                                    <strong>운영팀 리드, 마케터, 데이터 기반으로 빠르게 판단해야 하는 실무 담당자</strong>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="case-study-grid">
+                            <div class="case-block">
+                                <h4>리서치 / 인사이트</h4>
+                                <p>사용자는 모든 데이터를 보기보다, 핵심 지표와 이상 신호를 빠르게 읽고 싶어 했습니다.</p>
+                            </div>
+                            <div class="case-block">
+                                <h4>정보 구조</h4>
+                                <p>상단 KPI, 중단 추세 그래프, 하단 세부 테이블의 3단 구조로 우선순위를 재정렬했습니다.</p>
+                            </div>
+                            <div class="case-block">
+                                <h4>와이어프레임 / UI</h4>
+                                <p>스캔 동선을 기준으로 카드와 필터를 정리하고, 시각적 대비로 인지 부하를 낮췄습니다.</p>
+                            </div>
+                            <div class="case-block">
+                                <h4>프로토타입 / 산출물</h4>
+                                <p>KPI 카드, 필터 구조, 그래프 컴포넌트, 상태 배지를 포함한 대시보드 UI 가이드를 완성했습니다.</p>
+                            </div>
+                        </div>
+
+                        <div class="case-highlight">
+                            <div class="case-highlight-item">
+                                <span>성과 / 회고</span>
+                                <strong>데이터 UI는 미려함보다 우선순위 설계가 핵심이다</strong>
+                                <p>정보를 많이 담는 것보다 무엇을 먼저 읽게 할지 정하는 구조적 판단이 대시보드 품질을 좌우한다고 보았습니다.</p>
+                            </div>
+                            <div class="case-highlight-item">
+                                <span>설계 포인트</span>
+                                <strong>지표의 양을 줄인 것이 아니라, 읽는 순서를 설계</strong>
+                                <p>기업 관점에서는 화면을 예쁘게 만든 것이 아니라 실무 판단 속도를 높이기 위한 UX 개선이라는 점을 분명히 보여줍니다.</p>
+                            </div>
+                            <div class="case-highlight-item">
+                                <span>기업 어필 포인트</span>
+                                <strong>복잡한 정보를 구조화해 실행 가능한 화면으로 정리</strong>
+                                <p>데이터가 많은 환경에서도 UX 논리와 UI 디테일을 함께 설계할 수 있다는 점이 경쟁력이 됩니다.</p>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact">
+            <div class="container">
+                <div class="section-head">
+                    <div>
+                        <h2>Contact</h2>
+                        <p>협업이나 프로젝트 문의를 남길 수 있는 섹션입니다.</p>
+                    </div>
+                </div>
+
+                <div class="contact-wrap">
+                    <div class="contact-card">
+                        <h3>Let’s work together</h3>
+                        <p>
+                            새로운 브랜드, 웹사이트, 비주얼 프로젝트를 준비 중이라면 아래 폼으로 메시지를 남겨주세요.
+                            확인 후 연락드릴 수 있도록 구성한 데모 폼입니다.
+                        </p>
+
+                        <div class="contact-meta">
+                            <div>
+                                <span>Email</span>
+                                hello@portfolio.com
+                            </div>
+                            <div>
+                                <span>Based in</span>
+                                Seoul, Korea
+                            </div>
+                            <div>
+                                <span>Available for</span>
+                                Branding · Web Design · Creative Projects
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="contact-form-box">
+                        <h3>Send a message</h3>
+                        <form id="contactForm">
+                            <div class="field">
+                                <label for="name">이름</label>
+                                <input type="text" id="name" name="name" placeholder="이름을 입력해주세요" required />
+                            </div>
+
+                            <div class="field">
+                                <label for="email">이메일</label>
+                                <input type="email" id="email" name="email" placeholder="이메일을 입력해주세요" required />
+                            </div>
+
+                            <div class="field">
+                                <label for="message">메시지</label>
+                                <textarea id="message" name="message" placeholder="프로젝트 내용을 입력해주세요" required></textarea>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary">보내기</button>
+                            <p class="form-status" id="formStatus" aria-live="polite"></p>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="footer-inner">
+            <div class="footer-top">
+                <div>
+                    <h3 class="footer-title">Let’s build something modern and memorable.</h3>
+                    <p class="footer-text">
+                        포트폴리오, 브랜딩, 웹 디자인 프로젝트를 더 세련된 방향으로 발전시키고 싶다면 함께 이야기해보세요.
+                    </p>
+                </div>
+                <a href="#contact" class="footer-button">Get in touch</a>
+            </div>
+
+            <div class="footer-bottom">
+                <div>
+                    <div class="footer-brand">CYH Portfolio</div>
+                    <div>© 2026 CYH Portfolio. All Rights Reserved.</div>
+                    <div><a href="https://heidi-source.github.io/ai" target="_blank"
+                            rel="noopener noreferrer">https://heidi-source.github.io/ai</a></div>
+                </div>
+
+                <div class="footer-links">
+                    <a href="#home">Home</a>
+                    <a href="#about">About</a>
+                    <a href="#skills">Skills</a>
+                    <a href="#process">Process</a>
+                    <a href="#projects">Projects</a>
+                    <a href="#case-study">Case Study</a>
+                    <a href="#contact">Contact</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <button type="button" class="scroll-top" id="scrollTopBtn" aria-label="맨 위로 이동">↑</button>
+
+    <script>
+        const navToggle = document.querySelector('.nav-toggle');
+        const nav = document.querySelector('.nav');
+        const navLinks = document.querySelectorAll('.nav a');
+        const contactForm = document.getElementById('contactForm');
+        const formStatus = document.getElementById('formStatus');
+        const scrollTopBtn = document.getElementById('scrollTopBtn');
+        const skillsCard = document.getElementById('skillsCard');
+
+        if (navToggle && nav) {
+            navToggle.addEventListener('click', () => {
+                const isOpen = nav.classList.toggle('open');
+                navToggle.setAttribute('aria-expanded', String(isOpen));
+            });
+        }
+
+        navLinks.forEach((link) => {
+            link.addEventListener('click', () => {
+                nav.classList.remove('open');
+                navToggle.setAttribute('aria-expanded', 'false');
+            });
+        });
+
+        contactForm.addEventListener('submit', (event) => {
+            event.preventDefault();
+            formStatus.textContent = '메시지가 전송된 것처럼 표시되는 데모 폼입니다. 실제 전송 기능은 서버 연결이 필요합니다.';
+            contactForm.reset();
+        });
+
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) {
+                scrollTopBtn.classList.add('show');
+            } else {
+                scrollTopBtn.classList.remove('show');
+            }
+        });
+
+        scrollTopBtn.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        if (skillsCard) {
+            const skillsObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        skillsCard.classList.add('in-view');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, {
+                threshold: 0.28
+            });
+
+            skillsObserver.observe(skillsCard);
+        }
+    </script>
+</body>
+
+</html>
