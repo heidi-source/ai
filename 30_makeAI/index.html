@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LUMIEL - 당신만의 결을 밝혀주는 뷰티</title>
+    <link rel="stylesheet" href="./css/style.css">
+</head>
+
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <h1>LUMIEL</h1>
+                </div>
+
+                <nav class="nav-desktop">
+                    <a href="#products" class="nav-link">PRODUCTS</a>
+                    <a href="#story" class="nav-link">STORY</a>
+                    <a href="#collection" class="nav-link">COLLECTION</a>
+                    <button class="btn-shop">
+                        <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+                            <line x1="3" y1="6" x2="21" y2="6"></line>
+                            <path d="M16 10a4 4 0 0 1-8 0"></path>
+                        </svg>
+                        <span>SHOP</span>
+                    </button>
+                </nav>
+
+                <button class="menu-toggle" id="menuToggle">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="3" y1="12" x2="21" y2="12"></line>
+                        <line x1="3" y1="6" x2="21" y2="6"></line>
+                        <line x1="3" y1="18" x2="21" y2="18"></line>
+                    </svg>
+                </button>
+            </div>
+
+            <nav class="nav-mobile" id="mobileMenu">
+                <a href="#products" class="nav-link-mobile">PRODUCTS</a>
+                <a href="#story" class="nav-link-mobile">STORY</a>
+                <a href="#collection" class="nav-link-mobile">COLLECTION</a>
+                <button class="btn-shop-mobile">
+                    <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2">
+                        <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+                        <line x1="3" y1="6" x2="21" y2="6"></line>
+                        <path d="M16 10a4 4 0 0 1-8 0"></path>
+                    </svg>
+                    <span>SHOP</span>
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-bg">
+            <img src="https://images.unsplash.com/photo-1744798516778-22e8b144eab9?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxza2luY2FyZSUyMGJlYXV0eSUyMHByb2R1Y3QlMjBzb2Z0JTIwbGlnaHR8ZW58MXx8fHwxNzc0ODM3MTcyfDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral"
+                alt="Beauty products">
+            <div class="hero-overlay"></div>
+        </div>
+
+        <div class="hero-content fade-in">
+            <p class="hero-subtitle">BEAUTY REDEFINED</p>
+            <h2 class="hero-title">Glow in your<br>own tone</h2>
+            <p class="hero-description">
+                당신만의 결을 밝혀주는 뷰티<br class="mobile-break">
+                Soft light for your everyday
+            </p>
+            <button class="hero-btn">DISCOVER LUMIEL</button>
+        </div>
+
+        <div class="scroll-indicator">
+            <div class="scroll-indicator-border">
+                <div class="scroll-indicator-dot"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Story Section -->
+    <section id="story" class="story">
+        <div class="container">
+            <div class="story-grid">
+                <div class="story-image animate-on-scroll">
+                    <img src="./imgs/person.png" alt="Natural beauty">
+                </div>
+
+                <div class="story-content animate-on-scroll">
+                    <p class="section-subtitle">ABOUT LUMIEL</p>
+                    <h2 class="section-title">잠들었던 당신의 빛을<br>깨우는 순간</h2>
+                    <div class="story-text">
+                        <p>
+                            LUMIEL은 빛(Light)과 프랑스어 꿀(Miel)의 조합으로,
+                            당신의 피부에 은은한 광채를 더해주는 뷰티 브랜드입니다.
+                        </p>
+                        <p>
+                            우리는 각자가 가진 고유한 아름다움을 존중하며,
+                            자연스러운 빛과 결을 살려주는 제품을 만듭니다.
+                        </p>
+                        <p>
+                            과하지 않지만 분명한, 부드럽지만 강한,
+                            그런 당신만의 빛을 발견하세요.
+                        </p>
+                    </div>
+                    <a href="#collection" class="read-more">
+                        READ MORE
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                            <path d="M7.5 15L12.5 10L7.5 5" stroke="currentColor" stroke-width="1.5"
+                                stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Products Section -->
+    <section id="products" class="products">
+        <div class="container">
+            <div class="section-header">
+                <p class="section-subtitle">OUR COLLECTION</p>
+                <h2 class="section-title">Signature Products</h2>
+            </div>
+
+            <div class="products-grid">
+                <div class="product-card animate-on-scroll">
+                    <div class="product-image-wrapper">
+                        <img src="./imgs/essence.png" alt="Luminous Essence">
+                        <div class="product-overlay">
+                            <button class="product-btn">VIEW DETAILS</button>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <p class="product-category">SKINCARE</p>
+                        <h3 class="product-name">Luminous Essence</h3>
+                        <p class="product-description">맑은 광채를 위한 에센스</p>
+                        <p class="product-price">₩58,000</p>
+                    </div>
+                </div>
+
+                <div class="product-card animate-on-scroll">
+                    <div class="product-image-wrapper">
+                        <img src="./imgs/cushin.png" alt="Soft Glow Cushion">
+                        <div class="product-overlay">
+                            <button class="product-btn">VIEW DETAILS</button>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <p class="product-category">MAKEUP</p>
+                        <h3 class="product-name">Soft Glow Cushion</h3>
+                        <p class="product-description">부드러운 커버와 자연스러운 윤기</p>
+                        <p class="product-price">₩42,000</p>
+                    </div>
+                </div>
+
+                <div class="product-card animate-on-scroll">
+                    <div class="product-image-wrapper">
+                        <img src="./imgs/oil.png" alt="Miel Body Oil">
+                        <div class="product-overlay">
+                            <button class="product-btn">VIEW DETAILS</button>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <p class="product-category">BODY</p>
+                        <h3 class="product-name">Miel Body Oil</h3>
+                        <p class="product-description">실크처럼 부드러운 오일</p>
+                        <p class="product-price">₩45,000</p>
+                    </div>
+                </div>
+
+                <div class="product-card animate-on-scroll">
+                    <div class="product-image-wrapper">
+                        <img src="./imgs/perfume.png" alt="Light Parfum">
+                        <div class="product-overlay">
+                            <button class="product-btn">VIEW DETAILS</button>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <p class="product-category">FRAGRANCE</p>
+                        <h3 class="product-name">Light Parfum</h3>
+                        <p class="product-description">은은하게 퍼지는 향기</p>
+                        <p class="product-price">₩68,000</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Collection Section -->
+    <section id="collection" class="collection">
+        <div class="container">
+            <div class="section-header">
+                <p class="section-subtitle white">SPRING 2026</p>
+                <h2 class="section-title">New Collection</h2>
+            </div>
+
+            <div class="collection-grid">
+                <div class="collection-card animate-on-scroll">
+                    <div class="collection-image">
+                        <img src="https://images.unsplash.com/photo-1697224689275-d2c2827112d6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxhYnN0cmFjdCUyMHJvc2UlMjBnb2xkJTIwdGV4dHVyZXxlbnwxfHx8fDE3NzQ4MzcxNzR8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral"
+                            alt="Natural Glow">
+                        <div class="collection-overlay"></div>
+                    </div>
+                    <div class="collection-content">
+                        <p class="collection-subtitle">자연스러운 광채</p>
+                        <h3 class="collection-title">Natural Glow</h3>
+                        <button class="collection-btn">EXPLORE</button>
+                    </div>
+                </div>
+
+                <div class="collection-card animate-on-scroll">
+                    <div class="collection-image">
+                        <img src="https://images.unsplash.com/photo-1730367019975-4ad8d9e14ef2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxzcGElMjB3ZWxsbmVzcyUyMHNlcmVuZSUyMGF0bW9zcGhlcmV8ZW58MXx8fHwxNzc0ODM3MTc0fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral"
+                            alt="Soft Touch">
+                        <div class="collection-overlay"></div>
+                    </div>
+                    <div class="collection-content">
+                        <p class="collection-subtitle">부드러운 감촉</p>
+                        <h3 class="collection-title">Soft Touch</h3>
+                        <button class="collection-btn">EXPLORE</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="brand-message animate-on-scroll">
+                <h3 class="brand-quote">"당신이 가진 본연의 빛을 밝혀주는 뷰티"</h3>
+                <p class="brand-description">
+                    LUMIEL은 모든 순간, 모든 사람의 고유한 아름다움을 존중합니다.<br class="desktop-break">
+                    당신의 빛을 발견하고, 자연스럽게 빛나세요.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Newsletter Section -->
+    <section class="newsletter">
+        <div class="container">
+            <div class="newsletter-content animate-on-scroll">
+                <p class="section-subtitle">STAY CONNECTED</p>
+                <h2 class="section-title">뉴스레터 구독</h2>
+                <p class="newsletter-description">
+                    LUMIEL의 새로운 소식과 특별한 혜택을<br class="mobile-break"> 가장 먼저 만나보세요.
+                </p>
+
+                <form class="newsletter-form" id="newsletterForm">
+                    <input type="email" placeholder="이메일을 입력하세요" required class="newsletter-input" id="emailInput">
+                    <button type="submit" class="newsletter-btn">SUBSCRIBE</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <h3 class="footer-logo">LUMIEL</h3>
+                    <p class="footer-tagline">
+                        당신만의 결을 밝혀주는 뷰티<br>
+                        Glow in your own tone
+                    </p>
+                    <div class="social-links">
+                        <a href="#" class="social-link">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                            </svg>
+                        </a>
+                        <a href="#" class="social-link">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
+                            </svg>
+                        </a>
+                        <a href="#" class="social-link">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <path
+                                    d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z">
+                                </path>
+                                <polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"></polygon>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="footer-links">
+                    <h4 class="footer-heading">SHOP</h4>
+                    <ul class="footer-list">
+                        <li><a href="#">Skincare</a></li>
+                        <li><a href="#">Makeup</a></li>
+                        <li><a href="#">Body Care</a></li>
+                        <li><a href="#">Fragrance</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-links">
+                    <h4 class="footer-heading">CUSTOMER CARE</h4>
+                    <ul class="footer-list">
+                        <li><a href="#">Contact</a></li>
+                        <li><a href="#">FAQ</a></li>
+                        <li><a href="#">Shipping</a></li>
+                        <li><a href="#">Returns</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>© 2026 LUMIEL. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="./java/java.js"></script>
+</body>
+
+</html>
