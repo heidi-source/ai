@@ -1,0 +1,50 @@
+@charset "utf-8";
+
+body {
+    font-family: "맑은 고딕", "malgun gothic" sans-serif;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.wrap {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 50px;
+}
+
+table {
+    border-collapse: collapse;
+    background-color: #ffffff;
+}
+
+.table1 {
+    width: 900px;
+    margin-bottom: 100px;
+}
+
+.table2 {
+    width: 300px;
+}
+
+th,
+td {
+    border: 1px solid #333;
+    text-align: center;
+    padding: 15px;
+}
+
+th {
+    background-color: #e0e0e0;
+    font-weight: bold;
+}
+
+.table2 th,
+.table2 td {
+    height: 60px;
+}

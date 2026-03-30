@@ -1,0 +1,39 @@
+@charset "UTF-8";
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 40px 0;
+    font-family: "Malgun Gothic", "맑은 고딕", sans-serif;
+    text-align: center;
+}
+
+table {
+    width: 400px;
+    border-collapse: collapse;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.table1 {
+    margin-bottom: 100px;
+}
+
+th,
+td {
+    border: 1px solid #000;
+    padding: 12px;
+    text-align: center;
+    vertical-align: middle;
+}
+
+a {
+    display: block;
+    width: 100%;
+    color: blue;
+    text-decoration: underline;
+    text-align: center;
+}
