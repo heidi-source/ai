@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>상품 상세 - CHIC</title>
+    <link rel="stylesheet" href="./css/style.css">
+</head>
+
+<body>
+    <header class="header detail-header">
+        <div class="header-content detail-header-content">
+            <a href="index.html" class="detail-back-btn" aria-label="뒤로가기">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                    <path d="m15 18-6-6 6-6"></path>
+                </svg>
+            </a>
+            <h1 class="logo">CHIC</h1>
+            <a href="cart.html" class="icon-btn" aria-label="장바구니">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                    <path d="M16 10a4 4 0 0 1-8 0"></path>
+                </svg>
+            </a>
+        </div>
+    </header>
+
+    <main class="main-content detail-page">
+        <section class="detail-hero">
+            <div class="detail-image-wrap">
+                <img id="detailImage" class="detail-image" src="" alt="상품 이미지">
+            </div>
+        </section>
+
+        <section class="detail-info-section">
+            <div class="detail-badge-row">
+                <span class="detail-badge" id="detailBadge">BEST</span>
+                <span class="detail-category" id="detailCategory">아우터</span>
+            </div>
+            <h2 class="detail-title" id="detailName"></h2>
+            <p class="detail-description" id="detailDescription"></p>
+
+            <div class="detail-price-block">
+                <div class="detail-price-top">
+                    <span class="detail-discount" id="detailDiscount"></span>
+                    <strong class="detail-price" id="detailPrice"></strong>
+                </div>
+                <div class="detail-original-price" id="detailOriginalPrice"></div>
+            </div>
+
+            <div class="detail-option-card">
+                <div class="detail-option-label">선택 옵션</div>
+                <div class="detail-option-value" id="detailOption"></div>
+            </div>
+
+            <section class="detail-section-block">
+                <h3 class="detail-section-title">상품 포인트</h3>
+                <ul class="detail-feature-list" id="detailFeatures"></ul>
+            </section>
+
+            <section class="detail-section-block">
+                <h3 class="detail-section-title">배송 안내</h3>
+                <ul class="detail-meta-list">
+                    <li>무료배송 / 제주·도서산간 추가비용 별도</li>
+                    <li>오후 2시 이전 결제 시 당일 출고</li>
+                    <li>수령 후 7일 이내 교환 및 반품 가능</li>
+                </ul>
+            </section>
+        </section>
+    </main>
+
+    <div class="detail-bottom-bar">
+        <button class="detail-ghost-btn" type="button">찜하기</button>
+        <a href="cart.html" class="detail-primary-btn">장바구니 담기</a>
+    </div>
+
+    <script>
+        const products = [
+            { id: 1, category: '아우터', name: '프리미엄 울 코트', price: 318400, originalPrice: 398000, discount: 20, badge: 'BEST', image: 'https://images.unsplash.com/photo-1592327877233-90b9bfd92e48?w=1000', description: '부드러운 울 텍스처와 정제된 실루엣이 돋보이는 프리미엄 코트입니다.', option: '블랙 / M', detail: ['울 블렌드 고급 원단', '자연스럽게 떨어지는 세미 오버핏', '간절기부터 초겨울까지 활용 가능'] },
+            { id: 2, category: '가방', name: '레더 토트백', price: 378250, originalPrice: 445000, discount: 15, badge: 'NEW', image: 'https://images.unsplash.com/photo-1764179690178-1cfd632e804b?w=1000', description: '차분한 베이지 톤과 미니멀한 구조감이 매력적인 데일리 토트백입니다.', option: '베이지', detail: ['은은한 광택의 레더 텍스처', '노트북 수납 가능한 실용적인 내부 공간', '오피스룩과 캐주얼룩 모두 매치 가능'] },
+            { id: 3, category: '상의', name: '캐시미어 니트', price: 243750, originalPrice: 325000, discount: 25, badge: 'SALE', image: 'https://images.unsplash.com/photo-1603906650843-b58e94d9df4d?w=1000', description: '포근한 착용감과 크림 컬러의 부드러운 무드가 돋보이는 니트입니다.', option: '크림 / L', detail: ['가볍고 따뜻한 캐시미어 혼방', '목선을 여리게 보이게 하는 라운드넥', '단독 또는 이너 레이어드에 적합'] },
+            { id: 4, category: '원피스', name: '실키 슬립 원피스', price: 168000, originalPrice: 210000, discount: 20, badge: 'MD', image: 'https://images.unsplash.com/photo-1768123881596-8451eb40608c?w=1000', description: '움직일 때마다 가볍게 흐르는 실루엣이 우아한 분위기를 완성합니다.', option: '모브 / S', detail: ['은은한 광택의 실키 텍스처', '단독 착용 또는 재킷과 레이어드 추천', '데이트룩과 모임룩에 적합'] },
+            { id: 5, category: '하의', name: '와이드 슬랙스', price: 129000, originalPrice: 158000, discount: 18, badge: 'BEST', image: 'https://images.unsplash.com/photo-1762025396099-c46130d47ab6?w=1000', description: '깔끔하게 떨어지는 핏과 긴 비율감을 만드는 와이드 슬랙스입니다.', option: '차콜 / M', detail: ['롱 레그 라인을 연출하는 하이웨이스트', '구김이 덜한 탄탄한 소재감', '출근룩·포멀룩에 활용도 높음'] },
+            { id: 6, category: '슈즈', name: '미니멀 로퍼', price: 198000, originalPrice: 238000, discount: 17, badge: 'BEST', image: 'https://images.unsplash.com/photo-1771448802232-24721fe6b674?w=1000', description: '차분한 광택감과 군더더기 없는 디자인이 매력적인 로퍼입니다.', option: '블랙 / 240', detail: ['발등을 안정적으로 감싸는 라스트', '데일리 출근룩과 잘 어울리는 클래식 무드', '유행을 타지 않는 베이직 아이템'] },
+            { id: 7, category: '악세서리', name: '골드 드롭 이어링', price: 89000, originalPrice: 112000, discount: 21, badge: 'NEW', image: 'https://images.unsplash.com/photo-1771660724436-a497a119a00c?w=1000', description: '얼굴선을 길어 보이게 하는 미니멀 드롭형 이어링입니다.', option: '골드', detail: ['은은한 포인트가 되는 미디엄 길이', '데일리부터 격식 있는 자리까지 활용', '피부 톤을 화사하게 보이게 하는 골드 컬러'] },
+            { id: 8, category: '아우터', name: '모던 트렌치 자켓', price: 269000, originalPrice: 329000, discount: 18, badge: 'MD', image: 'https://images.unsplash.com/photo-1600285037594-86159871705f?w=1000', description: '봄 시즌에 가볍게 걸치기 좋은 모던 트렌치 무드의 자켓입니다.', option: '베이지 / FREE', detail: ['가벼운 원단감으로 계절감 있는 착용감', '벨트 없이도 정돈된 실루엣', '슬랙스와 데님 모두 잘 어울림'] }
+        ];
+        const id = Number(new URLSearchParams(location.search).get('id')) || 1;
+        const product = products.find(item => item.id === id) || products[0];
+        const formatPrice = (price) => new Intl.NumberFormat('ko-KR').format(price) + '원';
+
+        document.getElementById('detailImage').src = product.image;
+        document.getElementById('detailImage').alt = product.name;
+        document.getElementById('detailBadge').textContent = product.badge;
+        document.getElementById('detailCategory').textContent = product.category;
+        document.getElementById('detailName').textContent = product.name;
+        document.getElementById('detailDescription').textContent = product.description;
+        document.getElementById('detailDiscount').textContent = `${product.discount}%`;
+        document.getElementById('detailPrice').textContent = formatPrice(product.price);
+        document.getElementById('detailOriginalPrice').textContent = formatPrice(product.originalPrice);
+        document.getElementById('detailOption').textContent = product.option;
+        document.getElementById('detailFeatures').innerHTML = product.detail.map(item => `<li>${item}</li>`).join('');
+    </script>
+
+    <nav class="bottom-nav">
+        <a href="index.html" class="nav-btn">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                <polyline points="9 22 9 12 15 12 15 22"></polyline>
+            </svg>
+            <span class="nav-label">홈</span>
+        </a>
+        <a href="category.html" class="nav-btn">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <rect x="3" y="3" width="7" height="7"></rect>
+                <rect x="14" y="3" width="7" height="7"></rect>
+                <rect x="14" y="14" width="7" height="7"></rect>
+                <rect x="3" y="14" width="7" height="7"></rect>
+            </svg>
+            <span class="nav-label">카테고리</span>
+        </a>
+        <a href="cart.html" class="nav-btn active">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+                <line x1="3" y1="6" x2="21" y2="6"></line>
+                <path d="M16 10a4 4 0 0 1-8 0"></path>
+            </svg>
+            <span class="nav-label">장바구니</span>
+        </a>
+        <a href="mypage.html" class="nav-btn">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
+                <circle cx="12" cy="7" r="4"></circle>
+            </svg>
+            <span class="nav-label">마이페이지</span>
+        </a>
+    </nav>
+
+</body>
+
+</html>
