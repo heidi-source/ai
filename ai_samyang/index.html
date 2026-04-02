@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;800&display=swap"
+        rel="stylesheet" />
+    <title>Community Layout</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: "Noto Sans KR", "Apple SD Gothic Neo", sans-serif;
+            background: #f2f2f2;
+            color: #222;
+        }
+
+        .wrap {
+            width: 1140px;
+            margin: 90px auto 100px;
+        }
+
+        .hero {
+            text-align: center;
+            margin-bottom: 48px;
+        }
+
+        .hero h1 {
+            margin: 0;
+            font-size: 42px;
+            line-height: 1;
+            font-weight: 800;
+            letter-spacing: -1px;
+            color: #2c2c2c;
+        }
+
+        .hero p {
+            margin: 26px 0 0;
+            font-size: 18px;
+            line-height: 1.7;
+            color: #333;
+            letter-spacing: -0.3px;
+        }
+
+        .sns {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            margin-bottom: 42px;
+        }
+
+        .sns a {
+            display: block;
+            width: 56px;
+            height: 56px;
+            text-decoration: none;
+        }
+
+        .sns img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .grid {
+            display: grid;
+            width: fit-content;
+            margin: 0 auto;
+            grid-template-columns: 252px 382px 252px;
+            grid-template-rows: 216px 154px 170px;
+            gap: 18px;
+        }
+
+        .card {
+            border: 1px solid #7e7e7e;
+            background: transparent;
+            padding: 22px 24px;
+            position: relative;
+        }
+
+        .card h2 {
+            margin: 0 0 14px;
+            font-size: 24px;
+            line-height: 1.2;
+            font-weight: 800;
+            letter-spacing: -1px;
+            color: #1f1f1f;
+        }
+
+        .card p {
+            margin: 0;
+            font-size: 15px;
+            line-height: 1.55;
+            color: #2c2c2c;
+            letter-spacing: -0.4px;
+        }
+
+        .btn {
+            display: inline-block;
+            margin-top: 18px;
+            min-width: 72px;
+            padding: 6px 12px 7px;
+            border-radius: 18px;
+            background: #ff6b00;
+            color: #fff;
+            text-decoration: none;
+            font-size: 12px;
+            line-height: 1;
+            font-weight: 700;
+            letter-spacing: -0.3px;
+        }
+
+        .empty {
+            grid-row: 1 / 4;
+            grid-column: 1 / 2;
+            padding: 0;
+            transition: background-color 0.25s ease;
+        }
+
+        .empty:hover {
+            background: #ff6b00;
+        }
+
+        .video {
+            grid-column: 2 / 3;
+            grid-row: 1 / 3;
+            padding-top: 24px;
+            transition: background-color 0.25s ease;
+        }
+
+        .video:hover {
+            background: #fff6bf;
+        }
+
+        .sharing {
+            grid-column: 3 / 4;
+            grid-row: 1 / 2;
+            transition: background-color 0.25s ease;
+        }
+
+        .sharing:hover {
+            background: #dff3a3;
+        }
+
+        .notice {
+            grid-column: 3 / 4;
+            grid-row: 2 / 3;
+            transition: background-color 0.25s ease;
+            padding-bottom: 18px;
+        }
+
+        .notice:hover {
+            background: #cfefff;
+        }
+
+        .inquiry {
+            grid-column: 2 / 3;
+            grid-row: 3 / 4;
+            transition: background-color 0.25s ease;
+        }
+
+        .inquiry:hover {
+            background: #ffbfd8;
+        }
+
+        .notice-btn-wrap {
+            margin-top: -6px;
+        }
+
+        .shop {
+            grid-column: 3 / 4;
+            grid-row: 3 / 4;
+            transition: background-color 0.25s ease;
+        }
+
+        .shop:hover {
+            background: #4d8dff;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wrap">
+        <section class="hero">
+            <h1>COMMUNITY</h1>
+            <p>
+                삼양식품은 혁신적인 기술과 포용적인 사고로 여러분과 함께<br />
+                새로운 식문화를 만들어갑니다.
+            </p>
+        </section>
+
+        <div class="sns">
+            <a href="#"><img src="./imgs/ico_facebook.png" alt="페이스북" /></a>
+            <a href="#"><img src="./imgs/ico_insta.png" alt="인스타그램" /></a>
+            <a href="#"><img src="./imgs/ico_blog.png" alt="블로그" /></a>
+            <a href="#"><img src="./imgs/ico_twitter.png" alt="트위터" /></a>
+        </div>
+
+        <section class="grid">
+            <div class="card empty"></div>
+
+            <article class="card video">
+                <h2>홍보영상</h2>
+                <p>
+                    삼양식품의 다채로운 스토리를<br />
+                    영상으로 보여드립니다.
+                </p>
+                <a href="#" class="btn">자세히 보기</a>
+            </article>
+
+            <article class="card sharing">
+                <h2>맛있는 나눔</h2>
+                <p>모두가 행복한 맛있는 세상</p>
+                <a href="#" class="btn">자세히 보기</a>
+            </article>
+
+            <article class="card notice">
+                <h2>공지사항</h2>
+                <p>삼양식품 개인정보취급방침 개정 안내</p>
+                <div class="notice-btn-wrap"><a href="#" class="btn">자세히 보기</a></div>
+            </article>
+
+            <article class="card inquiry">
+                <h2>고객 문의</h2>
+                <p>
+                    삼양식품에게<br />
+                    여러분의 다양한 의견을 남겨주세요.
+                </p>
+                <a href="#" class="btn">자세히 보기</a>
+            </article>
+
+            <article class="card shop">
+                <h2>삼양식품 공식몰</h2>
+                <p>
+                    삼양식품의<br />
+                    다양한 제품을 만나보세요.
+                </p>
+                <a href="#" class="btn">자세히 보기</a>
+            </article>
+        </section>
+    </div>
+</body>
+
+</html>
