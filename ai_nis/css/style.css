@@ -1,0 +1,112 @@
+/* 기본 초기화 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Noto Sans KR', sans-serif;
+}
+
+/* 전체 배경 섹션 */
+.hero-section {
+    position: relative;
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    /* 실제 잔디밭 배경 이미지 경로로 변경해주세요. 임시로 비슷한 색상과 그라데이션을 적용했습니다. */
+    background: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.3)), url('background.jpg') center/cover no-repeat;
+    background-color: #5c8e3e;
+    /* 배경 이미지가 없을 때의 대체 색상 */
+    padding: 80px 0;
+}
+
+/* 1280px 중앙 정렬 컨테이너 */
+.inner-container {
+    width: 100%;
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 20px;
+    /* 화면이 1280px보다 작아질 때 여백 확보 */
+}
+
+/* 메인 텍스트 스타일 */
+.main-title {
+    color: #ffffff;
+    font-size: 42px;
+    font-weight: 700;
+    line-height: 1.4;
+    margin-bottom: 50px;
+    letter-spacing: -1px;
+    /* 배경과 분리되어 잘 보이도록 그림자 효과 추가 */
+    text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.4);
+}
+
+/* 카드 리스트 컨테이너 (Flexbox 사용) */
+.card-list {
+    display: flex;
+    justify-content: space-between;
+    gap: 30px;
+    /* 카드 사이의 간격 */
+}
+
+/* 개별 카드 스타일 */
+.card {
+    flex: 1;
+    /* 세 개의 카드가 동일한 너비를 가지도록 설정 */
+    background-color: #ffffff;
+    border-radius: 8px;
+    /* 모서리 둥글게 */
+    overflow: hidden;
+    /* 이미지가 둥근 모서리를 넘어가지 않도록 */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    /* 시안과 유사한 그림자 효과 */
+    transition: transform 0.3s ease;
+}
+
+/* 카드 호버 효과 (선택사항 - 마우스 올렸을 때 살짝 떠오르는 효과) */
+.card:hover {
+    transform: translateY(-5px);
+}
+
+/* 카드 이미지 래퍼 및 이미지 */
+.card-image {
+    width: 100%;
+    height: 240px;
+    /* 이미지 영역의 높이 고정 */
+}
+
+.card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    /* 비율을 유지하면서 영역을 꽉 채움 */
+    display: block;
+}
+
+/* 하단 텍스트 영역 */
+.card-text {
+    text-align: center;
+    padding: 18px 10px;
+    font-size: 18px;
+    font-weight: 700;
+    color: #222;
+}
+
+/* 반응형 처리 (화면이 작아졌을 때 세로로 배치되도록) */
+@media (max-width: 1024px) {
+    .main-title {
+        font-size: 36px;
+    }
+
+    .card-list {
+        flex-direction: column;
+    }
+
+    .card-image {
+        height: auto;
+        aspect-ratio: 16 / 9;
+    }
+}
