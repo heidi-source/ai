@@ -1,0 +1,19 @@
+@charset "utf-8";
+
+body {
+    font-family: "맑은 고딕";
+}
+
+form ol li {
+    list-style: none;
+
+}
+
+form {
+    width: 427px;
+    margin-bottom: 35px;
+}
+
+form .idbox {
+    margin-left: 69px;
+}
