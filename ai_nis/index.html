@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>국가정보원 메인 비주얼</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Malgun Gothic", "맑은 고딕", Arial, sans-serif;
+            background: #f5f5f5;
+            color: #222;
+        }
+
+        .hero {
+            position: relative;
+            width: 100%;
+            min-width: 1280px;
+            height: 820px;
+            overflow: hidden;
+            background-image: url("./imgs/imgi_29_bg_about.jpg");
+            background-repeat: no-repeat;
+            background-position: center center;
+            background-size: 100% 100%;
+        }
+
+        .hero::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background:
+                linear-gradient(to bottom, rgba(0, 0, 0, 0.18), rgba(0, 0, 0, 0.08)),
+                linear-gradient(to right, rgba(0, 0, 0, 0.10), rgba(0, 0, 0, 0.04));
+        }
+
+        .inner {
+            position: relative;
+            z-index: 2;
+            width: 1280px;
+            margin: 0 auto;
+            height: 100%;
+        }
+
+        .headline {
+            padding-top: 170px;
+            margin-left: 10px;
+            color: #fff;
+            text-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+        }
+
+        .headline p {
+            font-size: 60px;
+            line-height: 1.45;
+            font-weight: 700;
+            letter-spacing: -2px;
+        }
+
+        .card-wrap {
+            margin-top: 120px;
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+        }
+
+        .card {
+            width: 400px;
+            border-radius: 10px;
+            overflow: hidden;
+            background: #fff;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        .card-thumb {
+            width: 100%;
+            height: 258px;
+            overflow: hidden;
+        }
+
+        .card-image {
+            width: 100%;
+            height: 100%;
+            display: block;
+            object-fit: cover;
+            transition: transform 0.45s ease;
+        }
+
+        .card:hover .card-image {
+            transform: scale(1.2);
+        }
+
+        .card-title {
+            height: 46px;
+            background: #f7f7f7;
+            border-top: 1px solid #e6e6e6;
+            text-align: center;
+            line-height: 46px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #222;
+            letter-spacing: -0.5px;
+        }
+    </style>
+</head>
+
+<body>
+    <section class="hero">
+        <div class="inner">
+            <div class="headline">
+                <p>안전하고 평화로운 대한민국을 위해</p>
+                <p>국가정보원이 함께합니다.</p>
+            </div>
+
+            <div class="card-wrap">
+                <div class="card">
+                    <div class="card-thumb">
+                        <img src="./imgs/img_about_1.jpg" alt="직무" class="card-image" />
+                    </div>
+                    <div class="card-title">직무</div>
+                </div>
+
+                <div class="card">
+                    <div class="card-thumb">
+                        <img src="./imgs/img_about_2.png" alt="국정원 역사" class="card-image" />
+                    </div>
+                    <div class="card-title">국정원 역사</div>
+                </div>
+
+                <div class="card">
+                    <div class="card-thumb">
+                        <img src="./imgs/img_about_3.jpg" alt="관련 법령" class="card-image" />
+                    </div>
+                    <div class="card-title">관련 법령</div>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+
+</html>
