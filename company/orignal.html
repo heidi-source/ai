@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>이벤트 랜딩 페이지</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html,
+        body {
+            width: 100%;
+            min-width: 1920px;
+        }
+
+        body {
+            font-family: "Malgun Gothic", "Apple SD Gothic Neo", sans-serif;
+            background: #19435D;
+            color: #ffffff;
+        }
+
+        .wrap {
+            width: 1920px;
+            margin: 0 auto;
+            background: #3780b0;
+        }
+
+        .inner {
+            width: 940px;
+            margin: 0 auto;
+        }
+
+        .hero {
+            background: #32759e;
+            height: 439px;
+            padding-top: 79px;
+            text-align: center;
+        }
+
+        .hero-title {
+            font-size: 58px;
+            font-weight: 700;
+            line-height: 1.15;
+            letter-spacing: -2.6px;
+            color: #f2f2f2;
+        }
+
+        .hero-title strong {
+            color: #000000;
+            font-weight: 800;
+        }
+
+        .countdown {
+            margin-top: 53px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 0;
+        }
+
+        .time-group {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+        }
+
+        .digit {
+            width: 66px;
+            height: 95px;
+            border-radius: 8px;
+            background: linear-gradient(to bottom, #55ace6 0 48%, #2d79ac 48%, #2d79ac 50%, #55ace6 50%, #55ace6 100%);
+            color: #f7f7f7;
+            font-size: 76px;
+            font-weight: 700;
+            line-height: 95px;
+            text-align: center;
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12);
+            position: relative;
+        }
+
+        .colon {
+            width: 33px;
+            text-align: center;
+            font-size: 66px;
+            font-weight: 700;
+            color: #d8d8d8;
+            line-height: 1;
+            margin: 0 8px 8px;
+        }
+
+        .hero-note {
+            margin-top: 31px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 12px;
+            font-size: 17px;
+            line-height: 1;
+            letter-spacing: -0.8px;
+            color: #f5f5f5;
+        }
+
+        .search-highlight {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            height: 47px;
+            padding: 0 14px;
+            background: #f1f1f1;
+            border: 5px solid #6ce142;
+            color: #b6b6b6;
+            font-size: 17px;
+            font-weight: 700;
+            letter-spacing: -0.8px;
+            white-space: nowrap;
+        }
+
+        .content {
+            background: #56B8F5;
+            padding-top: 40px;
+            padding-bottom: 33px;
+        }
+
+        .question {
+            text-align: center;
+            font-size: 20px;
+            font-weight: 700;
+            line-height: 1.35;
+            letter-spacing: -1px;
+            color: #ffffff;
+            margin-bottom: 39px;
+        }
+
+        .cards {
+            width: 680px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(3, 210px);
+            column-gap: 25px;
+            row-gap: 24px;
+            justify-content: center;
+        }
+
+        .card {
+            width: 210px;
+            min-height: 364px;
+            padding: 21px 23px 15px;
+            background: #efefef;
+            border-radius: 8px;
+            text-align: center;
+            cursor: pointer;
+            transition: box-shadow 0.2s ease, transform 0.2s ease;
+        }
+
+        .card.selected {
+            box-shadow: 0 0 0 3px #77d1ff inset;
+        }
+
+        .card-title {
+            font-size: 18px;
+            font-weight: 700;
+            line-height: 1.2;
+            letter-spacing: -1px;
+            color: #333333;
+            white-space: nowrap;
+        }
+
+        .card-image {
+            height: 168px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 30px;
+            margin-bottom: 22px;
+            overflow: hidden;
+        }
+
+        .card-image img {
+            display: block;
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+
+        .stock {
+            margin-top: 0;
+            font-size: 18px;
+            font-weight: 700;
+            color: #202020;
+            line-height: 1;
+            letter-spacing: -0.8px;
+        }
+
+        .stock .count {
+            display: inline-block;
+            margin-right: 6px;
+            font-size: 48px;
+            font-weight: 700;
+            color: #055cff;
+            line-height: 1;
+            vertical-align: middle;
+        }
+
+        .divider {
+            width: 161px;
+            height: 1px;
+            background: #b0b0b0;
+            margin: 13px auto 11px;
+        }
+
+        .radio {
+            width: 19px;
+            height: 19px;
+            margin: 0 auto;
+            border: 2px solid #3b87c0;
+            border-radius: 50%;
+            background: transparent;
+            position: relative;
+        }
+
+        .card.selected .radio::after {
+            content: "";
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            width: 9px;
+            height: 9px;
+            border-radius: 50%;
+            background: #3b87c0;
+            transform: translate(-50%, -50%);
+        }
+
+        .apply-wrap {
+            margin-top: 33px;
+            text-align: center;
+        }
+
+        .apply-btn {
+            display: inline-block;
+            width: 500px;
+            height: 47px;
+            line-height: 43px;
+            border: 1px solid #d9eefc;
+            border-radius: 8px;
+            background: #3ba5ea;
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 19px;
+            font-weight: 700;
+            letter-spacing: -0.8px;
+        }
+
+        .modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.55);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 999;
+        }
+
+        .modal.open {
+            display: flex;
+        }
+
+        .modal-panel {
+            width: 560px;
+            background: #ffffff;
+            border-radius: 18px;
+            padding: 32px 32px 28px;
+            color: #222222;
+            box-shadow: 0 24px 60px rgba(0, 0, 0, 0.28);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 18px;
+        }
+
+        .modal-title {
+            font-size: 28px;
+            font-weight: 700;
+            letter-spacing: -0.6px;
+        }
+
+        .modal-close {
+            border: 0;
+            background: transparent;
+            font-size: 32px;
+            line-height: 1;
+            cursor: pointer;
+            color: #666666;
+        }
+
+        .selected-product-box {
+            background: #f3f8fc;
+            border: 1px solid #d4e7f7;
+            border-radius: 12px;
+            padding: 18px 20px;
+            margin-bottom: 20px;
+        }
+
+        .selected-product-label {
+            font-size: 15px;
+            color: #4d6b82;
+            margin-bottom: 6px;
+        }
+
+        .selected-product-name {
+            font-size: 22px;
+            font-weight: 700;
+            color: #1e2a35;
+            letter-spacing: -0.4px;
+        }
+
+        .form-row {
+            margin-bottom: 14px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 16px;
+            font-weight: 700;
+            color: #1f2b36;
+        }
+
+        .form-input {
+            width: 100%;
+            height: 54px;
+            border: 1px solid #ced9e4;
+            border-radius: 10px;
+            padding: 0 16px;
+            font-size: 17px;
+            color: #222222;
+            outline: none;
+        }
+
+        .form-input:focus {
+            border-color: #44a8ee;
+            box-shadow: 0 0 0 4px rgba(68, 168, 238, 0.12);
+        }
+
+        .modal-message {
+            min-height: 24px;
+            font-size: 15px;
+            margin-top: 10px;
+            color: #1c7b2f;
+        }
+
+        .modal-message.error {
+            color: #d12b2b;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 18px;
+        }
+
+        .modal-btn {
+            flex: 1;
+            height: 56px;
+            border-radius: 10px;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            border: 0;
+        }
+
+        .modal-btn.cancel {
+            background: #edf2f6;
+            color: #445464;
+        }
+
+        .modal-btn.submit {
+            background: #3ba6ec;
+            color: #ffffff;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wrap">
+        <section class="hero">
+            <div class="inner">
+                <h1 class="hero-title">매일 밤 <strong>10시</strong> 이벤트가 시작됩니다!</h1>
+
+                <div class="countdown" aria-label="이벤트 시작까지 남은 시간">
+                    <div class="time-group">
+                        <div class="digit" id="hourTens">0</div>
+                        <div class="digit" id="hourOnes">0</div>
+                    </div>
+                    <div class="colon">:</div>
+                    <div class="time-group">
+                        <div class="digit" id="minuteTens">0</div>
+                        <div class="digit" id="minuteOnes">0</div>
+                    </div>
+                    <div class="colon">:</div>
+                    <div class="time-group">
+                        <div class="digit" id="secondTens">0</div>
+                        <div class="digit" id="secondOnes">0</div>
+                    </div>
+                </div>
+
+                <div class="hero-note">
+                    <p>회원님이 보다 빠르게 정답을 찾을 수 있도록</p>
+                    <span class="search-highlight">초록색 검색창을 띄워두세요!</span>
+                </div>
+            </div>
+        </section>
+
+        <section class="content">
+            <div class="inner">
+                <div class="question">
+                    Q. 3월 13일 문제: 커넥츠에서 등업을 하려면 어떤 신청을 해야 할까요?<br />
+                    (힌트 : 000신청 / 3글자)
+                </div>
+
+                <div class="cards">
+                    <div class="card" data-product="소니 미러리스 A5100">
+                        <div class="card-title">소니 미러리스 A5100</div>
+                        <div class="card-image">
+                            <img src="./imgs/img1.png" alt="카메라 상품 이미지 예시"
+                                style="width:190px; height:120px; object-fit:cover; object-position:left 58%;" />
+                        </div>
+                        <div class="stock"><span class="count">3</span>개 남음</div>
+                        <div class="divider"></div>
+                        <div class="radio"></div>
+                    </div>
+
+                    <div class="card" data-product="더 페이머스 기프트카드">
+                        <div class="card-title">소니 미러리스 A5100</div>
+                        <div class="card-image">
+                            <img src="/mnt/data/카운트다운랜딩페이지.png" alt="상품권 이미지 예시"
+                                style="width:170px; height:120px; object-fit:cover; object-position:center 58.5%;" />
+                        </div>
+                        <div class="stock"><span class="count">2</span>개 남음</div>
+                        <div class="divider"></div>
+                        <div class="radio"></div>
+                    </div>
+
+                    <div class="card" data-product="토시바 외장하드">
+                        <div class="card-title">소니 미러리스 A5100</div>
+                        <div class="card-image">
+                            <img src="/mnt/data/카운트다운랜딩페이지.png" alt="하드디스크 이미지 예시"
+                                style="width:180px; height:120px; object-fit:cover; object-position:right 58%;" />
+                        </div>
+                        <div class="stock"><span class="count">10</span>개 남음</div>
+                        <div class="divider"></div>
+                        <div class="radio"></div>
+                    </div>
+
+                    <div class="card" data-product="화이트 펜">
+                        <div class="card-title">소니 미러리스 A5100</div>
+                        <div class="card-image">
+                            <img src="/mnt/data/카운트다운랜딩페이지.png" alt="펜 이미지 예시"
+                                style="width:95px; height:145px; object-fit:cover; object-position:left 82.2%;" />
+                        </div>
+                        <div class="stock"><span class="count">3</span>개 남음</div>
+                        <div class="divider"></div>
+                        <div class="radio"></div>
+                    </div>
+
+                    <div class="card" data-product="신세계 상품권 1만원">
+                        <div class="card-title">소니 미러리스 A5100</div>
+                        <div class="card-image">
+                            <img src="/mnt/data/카운트다운랜딩페이지.png" alt="상품권 이미지 예시"
+                                style="width:170px; height:112px; object-fit:cover; object-position:center 82.4%;" />
+                        </div>
+                        <div class="stock"><span class="count">2</span>개 남음</div>
+                        <div class="divider"></div>
+                        <div class="radio"></div>
+                    </div>
+
+                    <div class="card" data-product="빙그레 딸기맛 우유">
+                        <div class="card-title">소니 미러리스 A5100</div>
+                        <div class="card-image">
+                            <img src="/mnt/data/카운트다운랜딩페이지.png" alt="요거트 이미지 예시"
+                                style="width:130px; height:160px; object-fit:cover; object-position:right 82.4%;" />
+                        </div>
+                        <div class="stock"><span class="count">100</span>개 남음</div>
+                        <div class="divider"></div>
+                        <div class="radio"></div>
+                    </div>
+                </div>
+
+                <div class="apply-wrap">
+                    <a href="#" class="apply-btn" id="openApplyModal">응모하기</a>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <div class="modal" id="applyModal" aria-hidden="true">
+        <div class="modal-panel">
+            <div class="modal-header">
+                <h2 class="modal-title">이벤트 응모하기</h2>
+                <button type="button" class="modal-close" id="closeApplyModal" aria-label="닫기">×</button>
+            </div>
+
+            <div class="selected-product-box">
+                <div class="selected-product-label">선택한 상품</div>
+                <div class="selected-product-name" id="selectedProductName">상품을 먼저 선택해주세요</div>
+            </div>
+
+            <form id="applyForm" name="submit-to-google-sheet">
+                <input type="hidden" name="product" id="productInput" />
+
+                <div class="form-row">
+                    <label class="form-label" for="nameInput">이름</label>
+                    <input class="form-input" type="text" id="nameInput" name="name" placeholder="이름을 입력해주세요"
+                        required />
+                </div>
+
+                <div class="form-row">
+                    <label class="form-label" for="phoneInput">전화번호</label>
+                    <input class="form-input" type="tel" id="phoneInput" name="phone" placeholder="010-0000-0000"
+                        required />
+                </div>
+
+                <div class="form-row">
+                    <label class="form-label" for="emailInput">이메일</label>
+                    <input class="form-input" type="email" id="emailInput" name="email" placeholder="example@email.com"
+                        required />
+                </div>
+
+                <div class="modal-message" id="formMessage"></div>
+
+                <div class="modal-actions">
+                    <button type="button" class="modal-btn cancel" id="cancelApplyModal">취소</button>
+                    <button type="submit" class="modal-btn submit" id="submitApplyBtn">구글시트로 응모하기</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    </div>
+    </section>
+    </div>
+    <script>
+        const digitElements = {
+            hourTens: document.getElementById("hourTens"),
+            hourOnes: document.getElementById("hourOnes"),
+            minuteTens: document.getElementById("minuteTens"),
+            minuteOnes: document.getElementById("minuteOnes"),
+            secondTens: document.getElementById("secondTens"),
+            secondOnes: document.getElementById("secondOnes")
+        };
+
+        const scriptURL = "https://script.google.com/macros/s/AKfycbyZQpZnlWZ3qiPv4Aj1a1-5x6wrfl-QFHpsEY2b47eDxQiwveQeBJBNnuD2XB8EyzpB/exec";
+        const cards = document.querySelectorAll(".card");
+        const openApplyModal = document.getElementById("openApplyModal");
+        const applyModal = document.getElementById("applyModal");
+        const closeApplyModal = document.getElementById("closeApplyModal");
+        const cancelApplyModal = document.getElementById("cancelApplyModal");
+        const selectedProductName = document.getElementById("selectedProductName");
+        const productInput = document.getElementById("productInput");
+        const applyForm = document.getElementById("applyForm");
+        const formMessage = document.getElementById("formMessage");
+        const submitApplyBtn = document.getElementById("submitApplyBtn");
+
+        let selectedProduct = "";
+
+        function getNextEventTime() {
+            const now = new Date();
+            const target = new Date();
+
+            target.setHours(22, 0, 0, 0);
+
+            if (now >= target) {
+                target.setDate(target.getDate() + 1);
+            }
+
+            return target;
+        }
+
+        function updateCountdown() {
+            const now = new Date();
+            const target = getNextEventTime();
+            const diff = target - now;
+
+            const totalSeconds = Math.floor(diff / 1000);
+            const hours = Math.floor(totalSeconds / 3600);
+            const minutes = Math.floor((totalSeconds % 3600) / 60);
+            const seconds = totalSeconds % 60;
+
+            const timeText = [hours, minutes, seconds]
+                .map((value) => String(value).padStart(2, "0"))
+                .join("");
+
+            digitElements.hourTens.textContent = timeText[0];
+            digitElements.hourOnes.textContent = timeText[1];
+            digitElements.minuteTens.textContent = timeText[2];
+            digitElements.minuteOnes.textContent = timeText[3];
+            digitElements.secondTens.textContent = timeText[4];
+            digitElements.secondOnes.textContent = timeText[5];
+        }
+
+        function setSelectedCard(card) {
+            cards.forEach((item) => item.classList.remove("selected"));
+            card.classList.add("selected");
+            selectedProduct = card.dataset.product;
+            selectedProductName.textContent = selectedProduct;
+            productInput.value = selectedProduct;
+            formMessage.textContent = "";
+            formMessage.classList.remove("error");
+        }
+
+        function openModal() {
+            if (!selectedProduct) {
+                alert("응모할 상품을 먼저 선택해주세요.");
+                return;
+            }
+            applyModal.classList.add("open");
+            applyModal.setAttribute("aria-hidden", "false");
+        }
+
+        function closeModal() {
+            applyModal.classList.remove("open");
+            applyModal.setAttribute("aria-hidden", "true");
+            formMessage.textContent = "";
+            formMessage.classList.remove("error");
+        }
+
+        cards.forEach((card) => {
+            card.addEventListener("click", () => setSelectedCard(card));
+        });
+
+        openApplyModal.addEventListener("click", (event) => {
+            event.preventDefault();
+            openModal();
+        });
+
+        closeApplyModal.addEventListener("click", closeModal);
+        cancelApplyModal.addEventListener("click", closeModal);
+
+        applyModal.addEventListener("click", (event) => {
+            if (event.target === applyModal) {
+                closeModal();
+            }
+        });
+
+        applyForm.addEventListener("submit", (event) => {
+            event.preventDefault();
+
+            if (!selectedProduct) {
+                formMessage.textContent = "상품을 먼저 선택해주세요.";
+                formMessage.classList.add("error");
+                return;
+            }
+
+            submitApplyBtn.disabled = true;
+            submitApplyBtn.textContent = "전송 중...";
+            formMessage.textContent = "";
+            formMessage.classList.remove("error");
+
+            fetch(scriptURL, {
+                method: "POST",
+                body: new FormData(applyForm)
+            })
+                .then((response) => {
+                    if (!response.ok) {
+                        throw new Error("응모 데이터 전송 실패");
+                    }
+
+                    formMessage.textContent = "응모가 완료되었습니다.";
+                    applyForm.reset();
+                    productInput.value = selectedProduct;
+
+                    setTimeout(() => {
+                        closeModal();
+                    }, 1200);
+                })
+                .catch((error) => {
+                    console.error("Error!", error.message);
+                    formMessage.textContent = "전송 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.";
+                    formMessage.classList.add("error");
+                })
+                .finally(() => {
+                    submitApplyBtn.disabled = false;
+                    submitApplyBtn.textContent = "구글시트로 응모하기";
+                });
+        });
+
+        updateCountdown();
+        setInterval(updateCountdown, 1000);
+    </script>
+</body>
+
+</html>
