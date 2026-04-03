@@ -1,0 +1,979 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI 협업 | 더 가치 있는 일에 집중하는 사람</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@300;400;500;600;700;800;900&display=swap"
+    rel="stylesheet" />
+  <style>
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --blue: #3182f6;
+      --blue-light: #ebf3ff;
+      --blue-dark: #1b64da;
+      --gray-50: #f9fafb;
+      --gray-100: #f2f4f6;
+      --gray-200: #e5e8eb;
+      --gray-400: #9ea7b2;
+      --gray-600: #6b7684;
+      --gray-800: #333d4b;
+      --gray-900: #191f28;
+      --white: #ffffff;
+      --radius-lg: 20px;
+      --radius-xl: 28px;
+      --shadow-card: 0 4px 24px rgba(0, 0, 0, 0.07);
+      --shadow-btn: 0 4px 16px rgba(49, 130, 246, 0.35);
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--white);
+      color: var(--gray-900);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--gray-200);
+      height: 64px;
+      display: flex;
+      align-items: center;
+      padding: 0 40px;
+      justify-content: space-between;
+    }
+
+    .nav-logo {
+      font-size: 18px;
+      font-weight: 800;
+      color: var(--gray-900);
+      letter-spacing: -0.5px;
+    }
+
+    .nav-logo span {
+      color: var(--blue);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 32px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      font-size: 15px;
+      font-weight: 500;
+      color: var(--gray-600);
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover {
+      color: var(--blue);
+    }
+
+    .nav-cta {
+      background: var(--blue);
+      color: #fff;
+      border: none;
+      border-radius: 12px;
+      padding: 10px 22px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.15s;
+      font-family: inherit;
+    }
+
+    .nav-cta:hover {
+      background: var(--blue-dark);
+      transform: translateY(-1px);
+    }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      text-align: center;
+      padding: 120px 40px 80px;
+      background:
+        radial-gradient(ellipse 80% 50% at 50% -10%, #dbeafe 0%, transparent 70%),
+        var(--white);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%233182f6' fill-opacity='0.04'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+      pointer-events: none;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--blue-light);
+      color: var(--blue);
+      border-radius: 100px;
+      padding: 8px 18px;
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 28px;
+      opacity: 0;
+      transform: translateY(16px);
+      animation: fadeUp 0.6s ease forwards;
+    }
+
+    .hero-badge .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--blue);
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+
+      0%,
+      100% {
+        opacity: 1;
+        transform: scale(1);
+      }
+
+      50% {
+        opacity: 0.5;
+        transform: scale(1.4);
+      }
+    }
+
+    .hero-title {
+      font-size: clamp(42px, 5vw, 72px);
+      font-weight: 900;
+      line-height: 1.15;
+      letter-spacing: -2.5px;
+      color: var(--gray-900);
+      margin-bottom: 24px;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeUp 0.6s ease 0.1s forwards;
+    }
+
+    .hero-title .highlight {
+      color: var(--blue);
+      position: relative;
+      display: inline-block;
+    }
+
+    .hero-title .highlight::after {
+      content: '';
+      position: absolute;
+      bottom: 4px;
+      left: 0;
+      right: 0;
+      height: 6px;
+      background: linear-gradient(90deg, #93c5fd, #3182f6);
+      border-radius: 3px;
+      opacity: 0.3;
+      z-index: -1;
+    }
+
+    .hero-sub {
+      font-size: 20px;
+      font-weight: 400;
+      color: var(--gray-600);
+      max-width: 540px;
+      margin: 0 auto 40px;
+      line-height: 1.7;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeUp 0.6s ease 0.2s forwards;
+    }
+
+    .hero-buttons {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeUp 0.6s ease 0.3s forwards;
+    }
+
+    .btn-primary {
+      background: var(--blue);
+      color: #fff;
+      border: none;
+      border-radius: 14px;
+      padding: 18px 36px;
+      font-size: 17px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s;
+      box-shadow: var(--shadow-btn);
+      font-family: inherit;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-primary:hover {
+      background: var(--blue-dark);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(49, 130, 246, 0.4);
+    }
+
+    .btn-secondary {
+      background: var(--gray-100);
+      color: var(--gray-800);
+      border: none;
+      border-radius: 14px;
+      padding: 18px 36px;
+      font-size: 17px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-family: inherit;
+      text-decoration: none;
+    }
+
+    .btn-secondary:hover {
+      background: var(--gray-200);
+      transform: translateY(-2px);
+    }
+
+    .hero-scroll {
+      position: absolute;
+      bottom: 36px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      opacity: 0;
+      animation: fadeUp 0.6s ease 0.8s forwards;
+    }
+
+    .hero-scroll span {
+      font-size: 12px;
+      color: var(--gray-400);
+      font-weight: 500;
+    }
+
+    .scroll-arrow {
+      width: 20px;
+      height: 20px;
+      border-right: 2px solid var(--gray-400);
+      border-bottom: 2px solid var(--gray-400);
+      transform: rotate(45deg);
+      animation: arrowBounce 1.5s infinite;
+    }
+
+    @keyframes arrowBounce {
+
+      0%,
+      100% {
+        transform: rotate(45deg) translateY(0);
+      }
+
+      50% {
+        transform: rotate(45deg) translateY(4px);
+      }
+    }
+
+    /* ── STATS ── */
+    .stats-bar {
+      background: var(--gray-50);
+      border-top: 1px solid var(--gray-200);
+      border-bottom: 1px solid var(--gray-200);
+      padding: 36px 40px;
+      display: flex;
+      justify-content: center;
+      gap: 80px;
+    }
+
+    .stat-item {
+      text-align: center;
+    }
+
+    .stat-num {
+      font-size: 32px;
+      font-weight: 900;
+      color: var(--blue);
+      letter-spacing: -1px;
+    }
+
+    .stat-label {
+      font-size: 14px;
+      color: var(--gray-600);
+      font-weight: 500;
+      margin-top: 4px;
+    }
+
+    /* ── SECTION COMMON ── */
+    section {
+      padding: 100px 40px;
+    }
+
+    .section-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .section-eyebrow {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--blue);
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+
+    .section-title {
+      font-size: clamp(32px, 3.5vw, 52px);
+      font-weight: 900;
+      letter-spacing: -2px;
+      color: var(--gray-900);
+      line-height: 1.2;
+      margin-bottom: 16px;
+    }
+
+    .section-desc {
+      font-size: 18px;
+      color: var(--gray-600);
+      max-width: 520px;
+      line-height: 1.7;
+    }
+
+    /* ── TOPICS ── */
+    .topics {
+      background: var(--white);
+    }
+
+    .topics-header {
+      margin-bottom: 60px;
+    }
+
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    .card {
+      background: var(--gray-50);
+      border-radius: var(--radius-xl);
+      padding: 40px 36px;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.25s, box-shadow 0.25s;
+      cursor: default;
+      opacity: 0;
+      transform: translateY(30px);
+    }
+
+    .card.visible {
+      animation: fadeUp 0.6s ease forwards;
+    }
+
+    .card:nth-child(2) {
+      animation-delay: 0.1s;
+    }
+
+    .card:nth-child(3) {
+      animation-delay: 0.2s;
+    }
+
+    .card:hover {
+      transform: translateY(-6px);
+      box-shadow: var(--shadow-card);
+    }
+
+    .card-number {
+      font-size: 64px;
+      font-weight: 900;
+      color: var(--gray-200);
+      line-height: 1;
+      margin-bottom: 24px;
+      letter-spacing: -3px;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .card-icon {
+      width: 52px;
+      height: 52px;
+      border-radius: 16px;
+      background: var(--blue-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 24px;
+      font-size: 24px;
+    }
+
+    .card h3 {
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--gray-900);
+      letter-spacing: -0.5px;
+      margin-bottom: 12px;
+      line-height: 1.35;
+    }
+
+    .card-tag {
+      display: inline-block;
+      background: var(--blue-light);
+      color: var(--blue);
+      border-radius: 100px;
+      padding: 6px 14px;
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 16px;
+    }
+
+    .card p {
+      font-size: 15px;
+      color: var(--gray-600);
+      line-height: 1.7;
+    }
+
+    .card-featured {
+      background: linear-gradient(135deg, #1d4ed8 0%, #3182f6 100%);
+    }
+
+    .card-featured .card-number {
+      color: rgba(255, 255, 255, 0.15);
+    }
+
+    .card-featured .card-tag {
+      background: rgba(255, 255, 255, 0.2);
+      color: #fff;
+    }
+
+    .card-featured h3 {
+      color: #fff;
+    }
+
+    .card-featured p {
+      color: rgba(255, 255, 255, 0.8);
+    }
+
+    /* ── WHY ── */
+    .why {
+      background: var(--gray-50);
+    }
+
+    .why-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: center;
+    }
+
+    .why-list {
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+      margin-top: 40px;
+    }
+
+    .why-item {
+      display: flex;
+      gap: 20px;
+      align-items: flex-start;
+      opacity: 0;
+      transform: translateX(-20px);
+    }
+
+    .why-item.visible {
+      animation: fadeRight 0.5s ease forwards;
+    }
+
+    .why-item:nth-child(2).visible {
+      animation-delay: 0.1s;
+    }
+
+    .why-item:nth-child(3).visible {
+      animation-delay: 0.2s;
+    }
+
+    .why-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 14px;
+      background: var(--blue-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      flex-shrink: 0;
+    }
+
+    .why-text h4 {
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--gray-900);
+      margin-bottom: 6px;
+    }
+
+    .why-text p {
+      font-size: 15px;
+      color: var(--gray-600);
+      line-height: 1.6;
+    }
+
+    .why-visual {
+      background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+      border-radius: var(--radius-xl);
+      padding: 48px;
+      min-height: 420px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .why-visual::before {
+      content: '';
+      position: absolute;
+      top: -40px;
+      right: -40px;
+      width: 200px;
+      height: 200px;
+      border-radius: 50%;
+      background: rgba(49, 130, 246, 0.1);
+    }
+
+    .chat-bubble {
+      background: #fff;
+      border-radius: 18px 18px 18px 4px;
+      padding: 16px 20px;
+      font-size: 14px;
+      color: var(--gray-800);
+      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+      margin-bottom: 12px;
+      max-width: 280px;
+      line-height: 1.55;
+      font-weight: 500;
+    }
+
+    .chat-bubble.right {
+      background: var(--blue);
+      color: #fff;
+      border-radius: 18px 18px 4px 18px;
+      align-self: flex-end;
+      margin-left: auto;
+    }
+
+    .chat-label {
+      font-size: 11px;
+      color: var(--gray-400);
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      margin-bottom: 6px;
+    }
+
+    .chat-label.right {
+      text-align: right;
+    }
+
+    /* ── CTA ── */
+    .cta-section {
+      background: linear-gradient(135deg, #1d4ed8 0%, #3182f6 60%, #60a5fa 100%);
+      text-align: center;
+      padding: 100px 40px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cta-section::before {
+      content: '';
+      position: absolute;
+      width: 600px;
+      height: 600px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.05);
+      top: -200px;
+      left: -100px;
+      pointer-events: none;
+    }
+
+    .cta-section::after {
+      content: '';
+      position: absolute;
+      width: 400px;
+      height: 400px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.05);
+      bottom: -150px;
+      right: -50px;
+      pointer-events: none;
+    }
+
+    .cta-section .section-eyebrow {
+      color: rgba(255, 255, 255, 0.7);
+    }
+
+    .cta-section .section-title {
+      color: #fff;
+      max-width: 700px;
+      margin: 0 auto 16px;
+    }
+
+    .cta-section .section-desc {
+      color: rgba(255, 255, 255, 0.8);
+      margin: 0 auto 44px;
+    }
+
+    .btn-white {
+      background: #fff;
+      color: var(--blue);
+      border: none;
+      border-radius: 14px;
+      padding: 20px 44px;
+      font-size: 18px;
+      font-weight: 800;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-family: inherit;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    }
+
+    .btn-white:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.25);
+    }
+
+    .btn-white svg {
+      transition: transform 0.2s;
+    }
+
+    .btn-white:hover svg {
+      transform: translateX(4px);
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--gray-900);
+      color: var(--gray-400);
+      padding: 40px;
+      text-align: center;
+      font-size: 14px;
+    }
+
+    footer strong {
+      color: var(--gray-200);
+    }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeRight {
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    /* ── SCROLL REVEAL ── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <div class="nav-logo">AI<span>협업</span></div>
+    <ul class="nav-links">
+      <li><a href="#topics">콘텐츠</a></li>
+      <li><a href="#why">왜 필요한가</a></li>
+      <li><a href="#cta">신청하기</a></li>
+    </ul>
+    <button class="nav-cta" onclick="document.getElementById('cta').scrollIntoView({behavior:'smooth'})">무료로
+      시작하기</button>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-badge">
+      <span class="dot"></span>
+      직장인을 위한 실전 AI 협업
+    </div>
+    <h1 class="hero-title">
+      AI로 일하는 방식,<br />
+      <span class="highlight">지금 바꿀 수 있습니다</span>
+    </h1>
+    <p class="hero-sub">
+      AI 활용이 막막한 직장인에게 실무에서 바로 적용 가능한 AI 협업 방법을 알려드립니다. 막막함은 줄이고, 더 가치 있는 일에 집중하세요.
+    </p>
+    <div class="hero-buttons">
+      <a href="#" class="btn-primary" id="hero-cta">
+        지금 신청하기
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+          stroke-linecap="round" stroke-linejoin="round">
+          <path d="M5 12h14M12 5l7 7-7 7" />
+        </svg>
+      </a>
+      <a href="#topics" class="btn-secondary">콘텐츠 살펴보기</a>
+    </div>
+    <div class="hero-scroll">
+      <span>스크롤하여 더 보기</span>
+      <div class="scroll-arrow"></div>
+    </div>
+  </section>
+
+  <!-- STATS BAR -->
+  <div class="stats-bar reveal">
+    <div class="stat-item">
+      <div class="stat-num" data-target="3">0</div>
+      <div class="stat-label">핵심 주제</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num" data-target="100" data-suffix="%">0%</div>
+      <div class="stat-label">실전 적용 가능</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num" data-target="0" data-text="무료">무료</div>
+      <div class="stat-label">시작 비용</div>
+    </div>
+  </div>
+
+  <!-- TOPICS -->
+  <section class="topics" id="topics">
+    <div class="section-inner">
+      <div class="topics-header reveal">
+        <div class="section-eyebrow">Contents</div>
+        <h2 class="section-title">바로 써먹는<br />AI 협업 3가지 주제</h2>
+        <p class="section-desc">이론이 아닌 실무 중심의 콘텐츠로, 내일 당장 업무에 적용할 수 있습니다.</p>
+      </div>
+      <div class="cards-grid">
+
+        <div class="card">
+          <div class="card-number">01</div>
+          <div class="card-tag">일하는 방식의 변화</div>
+          <h3>AI로 일하는 방식이 어떻게 달라지는가</h3>
+          <p>막막함은 줄이고, 일은 더 빠르고 똑똑하게. AI를 도구로 활용할 때 달라지는 일의 질과 속도를 구체적으로 살펴봅니다.</p>
+        </div>
+
+        <div class="card card-featured">
+          <div class="card-number">02</div>
+          <div class="card-tag">실전 활용</div>
+          <h3>직장인을 위한 실무형 AI 협업법</h3>
+          <p>이론이 아니라 바로 써먹는 실전 활용법. 보고서 작성, 데이터 분석, 커뮤니케이션까지 실무 전반에 걸친 AI 활용 방법을 다룹니다.</p>
+        </div>
+
+        <div class="card">
+          <div class="card-number">03</div>
+          <div class="card-tag">퍼스널 브랜딩</div>
+          <h3>AI와 함께 더 창의적으로 일하는 사람의 브랜드</h3>
+          <p>생산성 향상을 넘어, 더 가치 있는 일에 집중하는 사람. AI를 잘 활용하는 것이 개인의 경쟁력이 되는 시대를 준비합니다.</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- WHY -->
+  <section class="why" id="why">
+    <div class="section-inner">
+      <div class="why-grid">
+        <div>
+          <div class="section-eyebrow reveal">Why Now</div>
+          <h2 class="section-title reveal">지금 AI 협업을<br />배워야 하는 이유</h2>
+          <div class="why-list">
+            <div class="why-item">
+              <div class="why-icon">⚡</div>
+              <div class="why-text">
+                <h4>업무 속도가 달라집니다</h4>
+                <p>반복적인 작업을 AI에게 맡기고, 정작 중요한 판단과 창의에 집중할 수 있습니다.</p>
+              </div>
+            </div>
+            <div class="why-item">
+              <div class="why-icon">🎯</div>
+              <div class="why-text">
+                <h4>막막함이 사라집니다</h4>
+                <p>어디서부터 시작해야 할지 모르는 분들을 위한 단계별 실전 가이드를 제공합니다.</p>
+              </div>
+            </div>
+            <div class="why-item">
+              <div class="why-icon">🚀</div>
+              <div class="why-text">
+                <h4>개인 브랜드가 생깁니다</h4>
+                <p>AI를 잘 다루는 사람이 미래의 인재입니다. 지금 시작하면 남들보다 앞서갑니다.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="why-visual reveal">
+          <div class="chat-label">직장인의 고민</div>
+          <div class="chat-bubble">AI 써야 한다는 건 아는데... 어떻게 시작해야 할지 모르겠어요 😟</div>
+          <div class="chat-label right" style="margin-top:20px">AI 협업 후</div>
+          <div class="chat-bubble right">보고서를 30분 만에 완성했어요! 이제 더 중요한 일에 집중할 수 있게 됐습니다 🙌</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-section" id="cta">
+    <div style="position:relative;z-index:1">
+      <div class="section-eyebrow reveal">지금 바로 시작하세요</div>
+      <h2 class="section-title reveal">더 가치 있는 일에<br />집중하는 사람이 되세요</h2>
+      <p class="section-desc reveal">실무에서 바로 쓸 수 있는 AI 협업 방법, 지금 신청하면 가장 먼저 만나볼 수 있습니다.</p>
+      <a href="#" class="btn-white reveal" id="main-cta">
+        무료로 신청하기
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+          stroke-linecap="round" stroke-linejoin="round">
+          <path d="M5 12h14M12 5l7 7-7 7" />
+        </svg>
+      </a>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>© 2026 <strong>AI협업</strong> · 직장인을 위한 실전 AI 협업 브랜딩</p>
+  </footer>
+
+  <script>
+    // Intersection Observer for scroll reveal
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          // Also trigger child .card and .why-item elements
+          entry.target.querySelectorAll('.card, .why-item').forEach((el, i) => {
+            setTimeout(() => el.classList.add('visible'), i * 120);
+          });
+        }
+      });
+    }, { threshold: 0.12 });
+
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    // Also observe cards grid directly
+    const cardsObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.querySelectorAll('.card').forEach((el, i) => {
+            setTimeout(() => {
+              el.style.opacity = '1';
+              el.style.transform = 'translateY(0)';
+              el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            }, i * 130);
+          });
+        }
+      });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.cards-grid').forEach(el => cardsObserver.observe(el));
+
+    const whyObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.querySelectorAll('.why-item').forEach((el, i) => {
+            setTimeout(() => {
+              el.style.opacity = '1';
+              el.style.transform = 'translateX(0)';
+              el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+            }, i * 130);
+          });
+        }
+      });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.why-list').forEach(el => whyObserver.observe(el));
+
+    // Counter animation
+    const counters = document.querySelectorAll('.stat-num[data-target]');
+    const counterObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const el = entry.target;
+          const target = parseInt(el.dataset.target);
+          const suffix = el.dataset.suffix || '';
+          if (isNaN(target)) return;
+          let current = 0;
+          const step = Math.ceil(target / 40);
+          const timer = setInterval(() => {
+            current = Math.min(current + step, target);
+            el.textContent = current + suffix;
+            if (current >= target) clearInterval(timer);
+          }, 30);
+          counterObserver.unobserve(el);
+        }
+      });
+    }, { threshold: 0.5 });
+    counters.forEach(el => counterObserver.observe(el));
+
+    // CTA button — 추후 구글 폼 링크로 교체
+    const GOOGLE_FORM_URL = 'https://script.google.com/macros/s/AKfycbx3TGUFpO7oIeHtUwYt-WSBNxnmzMY_D1ijj9KWWrNRd9iEMt8zXtks2CyTQ9jzQOU/exec'; // TODO: 구글 폼 URL 입력
+    document.querySelectorAll('#hero-cta, #main-cta').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        if (GOOGLE_FORM_URL === '#') {
+          e.preventDefault();
+          alert('곧 오픈됩니다! 기대해 주세요 🎉');
+        } else {
+          btn.href = GOOGLE_FORM_URL;
+        }
+      });
+    });
+    document.querySelector('.nav-cta').addEventListener('click', () => {
+      if (GOOGLE_FORM_URL === '#') {
+        alert('곧 오픈됩니다! 기대해 주세요 🎉');
+      } else {
+        window.open(GOOGLE_FORM_URL, '_blank');
+      }
+    });
+  </script>
+</body>
+
+</html>
