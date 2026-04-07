@@ -1,0 +1,44 @@
+h2 {
+    text-align: center;
+}
+
+/* 전체 레이아웃 */
+.ytb_wrap {
+    display: grid;
+    /* 핵심: 3열(가로로 3개) 배치 */
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    /* 영상 사이 간격 */
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* 개별 영상 박스 */
+.ytb {
+    width: 100%;
+    /* 16:9 비율 유지 */
+    aspect-ratio: 16 / 9;
+}
+
+.ytb iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* 반응형: 화면이 좁아지면(태블릿 이하) 2열로 변경 */
+@media (max-width: 1024px) {
+    .ytb_wrap {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* 반응형: 모바일에서는 1열로 변경 */
+@media (max-width: 600px) {
+    .ytb_wrap {
+        grid-template-columns: 1fr;
+    }
+}
