@@ -1,0 +1,512 @@
+<!doctype html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>집반찬연구소</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-width: 1200px;
+            background: #e9e9e9;
+            color: #222;
+            font-family: Arial, "Noto Sans KR", sans-serif;
+        }
+
+        img {
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+
+        header {
+            width: 1200px;
+            height: 56px;
+            margin: 0 auto;
+            display: flex;
+        }
+
+        header>div {
+            height: 56px;
+        }
+
+        .search {
+            width: 320px;
+            background: #f7c9c9;
+        }
+
+        .logo {
+            width: 280px;
+            background: #11c046;
+        }
+
+        .right {
+            width: 600px;
+            background: #d9b4da;
+        }
+
+        #slider {
+            width: 100%;
+            height: 450px;
+            background: #f8b813;
+        }
+
+        main {
+            width: 1200px;
+            max-width: 1200px;
+            margin: 40px auto 0;
+        }
+
+        .content-box {
+            width: 1200px;
+        }
+
+        .box1 {
+            /* background: #ecd67a; */
+            padding: 20px 6px 6px;
+        }
+
+        .box2 {
+            padding: 16px;
+        }
+
+        .box3 {
+            height: 440px;
+            background: #42d1c1;
+        }
+
+        .box4 {
+            height: 380px;
+            background: #7d37a9;
+        }
+
+        .tit {
+            text-align: center;
+            margin-bottom: 16px;
+        }
+
+        .tit h2 {
+            font-size: 28px;
+            line-height: 1.2;
+            margin-bottom: 8px;
+        }
+
+        .tit p {
+            font-size: 14px;
+            color: #555;
+        }
+
+        .box1 .product {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        .box1 .card {
+            width: calc((1200px - 18px - 12px) / 4);
+            min-height: 420px;
+            background: #f3f3f3;
+        }
+
+        .box2 .product {
+            display: flex;
+            flex-wrap: nowrap;
+            gap: 16px;
+            width: 100%;
+        }
+
+        .box2 .card {
+            position: relative;
+            width: 280px;
+            background: #fff;
+            overflow: hidden;
+        }
+
+        .box2 .imgbox {
+            position: relative;
+        }
+
+        .box2 .imgbox .sale-badge-img {
+            position: absolute;
+            top: 16px;
+            left: 16px;
+            width: 52px;
+            height: 52px;
+            z-index: 2;
+        }
+
+        .box2 .imgbox .thumb-badge-img {
+            position: absolute;
+            right: 16px;
+            bottom: 16px;
+            width: 36px;
+            height: 36px;
+            z-index: 2;
+        }
+
+        .imgbox {
+            background: #ddd;
+        }
+
+        .box1 .imgbox {
+            height: 345px;
+        }
+
+        .box2 .imgbox {
+            height: 322px;
+        }
+
+        .box1 .imgbox img,
+        .box2 .imgbox img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .info {
+            padding: 12px;
+        }
+
+        .info h3 {
+            font-size: 18px;
+            line-height: 1.35;
+            margin: 8px 0;
+        }
+
+        .info p {
+            font-size: 13px;
+            line-height: 1.5;
+            color: #666;
+            margin-bottom: 8px;
+        }
+
+        .info h4 {
+            font-size: 20px;
+            line-height: 1.2;
+        }
+
+        .price {
+            display: inline-block;
+            margin-top: 6px;
+            color: #999;
+            font-size: 14px;
+            text-decoration: line-through;
+        }
+
+        .new,
+        .selling,
+        .hot,
+        .cool {
+            display: inline-block;
+            padding: 4px 8px;
+            margin-right: 6px;
+            border-radius: 999px;
+            font-size: 12px;
+            line-height: 1;
+            color: #fff;
+        }
+
+        .new {
+            background: #ff6b6b;
+        }
+
+        .selling {
+            background: #333;
+        }
+
+        .hot {
+            background: #8d8d8d;
+        }
+
+        .cool {
+            background: #4ea1ff;
+        }
+
+        .sale {
+            color: #d13b3b;
+            font-weight: 700;
+        }
+
+
+        .banner {
+            width: 100%;
+            height: 450px;
+            background: #7ee89e;
+        }
+
+        footer {
+            width: 1200px;
+            margin: 40px auto;
+            display: flex;
+            gap: 16px;
+            background: #35e3e3;
+            padding: 16px;
+        }
+
+        .footer-left {
+            width: 360px;
+            min-height: 120px;
+            background: #e7a3ac;
+            padding: 20px;
+            color: #222;
+        }
+
+        .footer-left h3 {
+            font-size: 20px;
+            line-height: 1.2;
+            margin-bottom: 10px;
+        }
+
+        .footer-left .tel {
+            font-size: 28px;
+            line-height: 1.2;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+
+        .footer-left .mail {
+            font-size: 15px;
+            line-height: 1.5;
+            margin-bottom: 16px;
+        }
+
+        .footer-left .time {
+            font-size: 13px;
+            line-height: 1.7;
+            color: #333;
+        }
+
+        .footer-right {
+            font-size: 15px;
+            flex: 1;
+            min-height: 120px;
+            background: #b6d64a;
+            padding: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="search"></div>
+        <div class="logo"></div>
+        <div class="right"></div>
+    </header>
+
+    <section id="slider"></section>
+
+    <main>
+        <div class="banchan content-box box1">
+            <div class="tit">
+                <h2>부담없는 알뜰 반찬</h2>
+                <p>착한 가격으로 챙기는 든든한 한끼</p>
+            </div>
+            <div class="product">
+                <div class="card">
+                    <div class="imgbox">
+                        <img src="./imgs/imgi_232_ZIP_P_0214_A.png" alt="반찬1">
+                    </div>
+                    <div class="info">
+                        <span class="new">신제품</span>
+                        <h3>쭈꾸미 풋마늘 파스타</h3>
+                        <p>봄기운 가득!쭈꾸미와 풋마늘의 찰떡 궁합</p>
+                        <h4><span class="sale">7%</span> 12,800원</h4>
+                        <span class="price">13,800원</span>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="imgbox">
+                        <img src="./imgs/imgi_233_ZIP_P_0213_A.png" alt="반찬2">
+                    </div>
+                    <div class="info">
+                        <span class="new">신제품</span>
+                        <h3>쭈꾸미 미나리 파스타</h3>
+                        <p>지금이 제철!쭈꾸미와 미나리의 만남</p>
+                        <h4><span class="sale">7%</span> 12,800원</h4>
+                        <span class="price">13,800원</span>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="imgbox">
+                        <img src="./imgs/imgi_234_main_5.jpg" alt="반찬3">
+                    </div>
+                    <div class="info">
+                        <span class="selling">인기</span><span class="hot">맵지않음</span>
+                        <h3>잡채</h3>
+                        <p>탱글한 면발과 맛깔진 고명이 가득</p>
+                        <h4>12,800원</h4>
+                        <span class="price">13,800원</span>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="imgbox">
+                        <img src="./imgs/imgi_235_main_37.jpg" alt="반찬4">
+                    </div>
+                    <div class="info">
+                        <h3>한끼 한돈제육_완조리</h3>
+                        <p>혼자 먹기 딱 좋은 1인분 제육볶음</p>
+                        <h4>6,800원</h4>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="imgbox">
+                        <img src="./imgs/imgi_249_jolim_13.jpg" alt="반찬5">
+                    </div>
+                    <div class="info">
+                        <h3>메추리알 간장조림</h3>
+                        <h4><span class="sale">11%</span> 3,400원</h4>
+                        <span class="price">3,800원</span>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="imgbox">
+                        <img src="./imgs/imgi_239_ZIP_P_8066_A.jpg" alt="반찬6">
+                    </div>
+                    <div class="info">
+                        <span class="hot">맵지않음</span>
+                        <h3>한우야채카레</h3>
+                        <p>담백하고 부드러운 야채들로 풍성하게</p>
+                        <h4><span class="sale">12%</span> 3,800원</h4>
+                        <span class="price">4,300원</span>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="imgbox">
+                        <img src="./imgs/imgi_255_1373_ZIP_P_2048_A.jpg" alt="반찬7">
+                    </div>
+                    <div class="info">
+                        <span class="new">신제품</span><span class="hot">맵지않음</span>
+                        <h3>[윈더스푼] 배추 된장국</h3>
+                        <p>배추의 단맛과 된장의 구수함</p>
+                        <h4>3,500원</h4>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="imgbox">
+                        <img src="./imgs/imgi_254_soup_3.jpg" alt="반찬8">
+                    </div>
+                    <div class="info">
+                        <span class="cool">냉동</span><span class="hot">맵지않음</span>
+                        <h3>한우사골곰탕(냉동)</h3>
+                        <p>국물이 진하고 담백해요</p>
+                        <h4>6,800원</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="day-banchan content-box box2">
+            <div class="tit">
+                <h2>집밥 한 끼</h2>
+                <p>맛있는 한끼를 완성할 요리</p>
+            </div>
+            <div class="product">
+                <div class="card">
+                    <div class="imgbox">
+                        <img class="sale-badge-img"
+                            src="data:image/png;base64,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"
+                            alt="11% 세일 배지">
+                        <img class="thumb-badge-img"
+                            src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACoAAAArCAYAAAAOnxr+AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAOdEVYdFNvZnR3YXJlAEZpZ21hnrGWYwAAA5ZJREFUeAHVWU1PE1EUve8VTSAxaVKXNCkbXFLZERcI6I5oWZAQozI2JJK4wH9AMWFhTFD+AEyJC5dg2JgYwIV22bKUjY1lSbHRpI0C73nvlBna0tY7w7TFs5mPd2dy5tyvmTsCmDAMIyglxITQw1pDFEBH8HQQ3KEAILK4zeB9dk5O5IZpmgXOheJfBkgwIqWeQ2KGB2IcCqZSYgEJZ5taNVogBYVQCSFgDtqDhZWVtUSjxbpEyyqqbdyNQHuRVUqO1FNX1p5AktEOkSRYAhnGg2jtQpWiHVSyFueUrVL0kpAknCprOMnrEI3HHyfggiR7enqgtzcM/f03rP0LgqrNvH1guf7U5d/AI4jY+Pg9a1uJvb2vkEyuQD6fB6/AEOijEAjQweDgwGvcRD3cB0ZH78DMzFMIha6fW6NzY2N3wSbtBVgeIZ3e/SDKHUf9AA8YGroF09NPnGMik8mkrX1SNxq96ayRsqnUF/CAAqnaJeVJjNGg6oLcbWNp6VWValtbHy2is7PPrOPJySnY3c1AsVgElwgGAuo+JpMcBg8gNUOhkLW/ufm+rmtJXVojUHINDHiKLtBa3Eai2tPV4XDY2U+lPje0I2Vt1CYbF1rrKJWnCHhAd/dZ+WmW1R5cfQ6YUBEi2oI3It8RlPCfoItrWE6Gs3JjJxKBEosDqqu2balUhFzuO7sZCGydmmO4uPiyipwfyOcP8L4vWHHMcj1luN8kCaQwvRtwwCJaLJagVeBWBRZRclGrcHjIi1F21l/kDagZfFWUQFnqN3K5HNvWhaL+u9/Nw7OJtiKh3LTXjirKTSSCC0X9j9GDA/7DE1HW7KdU8t/1LipJgYhmOZadTCYcymWRqMhwjFtRR7kPj5O/DBJVnzjGraij3IfHT5EdqVRgHRhxSsnkZ0K5uZfWckOWB6nC5Fywv8/vJP7dS5vE0SpPSv1e5lySTK76EqsUm/Sdz4FSRwu0dT7o4/FHOC0RzzkXe/2aJJDLqdBzXK+USpjm22qipxPmNH3xwSUAlaTV1bU++9jpTBQHWv8ZIQPoMIgDcak8V9VCTfMdGhxPdJJsmeTxBHGpPN9ghj8VEeLqdrvDwFayliSh6XTMMB7OSykT0AYopd8A/MLfOOt1azrjP9MUDnmv4ORXGOAzUMECtkf8z3S0XE/FSrDnjYYRw9HPtRj+vcM/d4IGaxge7sZBRAw3Werd1Ba1/rnRSMFa/AVqTqGkUygrWQAAAABJRU5ErkJggg=="
+                            alt="하단 우측 배지">
+                        <img src="./imgs/imgi_249_jolim_13.jpg" alt="집밥1">
+                    </div>
+                    <div class="info">
+                        <h3>메추리알 간장조림</h3>
+                        <h4><span class="sale">11%</span> 3,400원</h4>
+                        <span class="price">3,800원</span>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="imgbox"><img class="sale-badge-img"
+                            src="data:image/png;base64,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"
+                            alt="11% 세일 배지">
+                        <img class="thumb-badge-img"
+                            src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACoAAAArCAYAAAAOnxr+AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAOdEVYdFNvZnR3YXJlAEZpZ21hnrGWYwAAA5ZJREFUeAHVWU1PE1EUve8VTSAxaVKXNCkbXFLZERcI6I5oWZAQozI2JJK4wH9AMWFhTFD+AEyJC5dg2JgYwIV22bKUjY1lSbHRpI0C73nvlBna0tY7w7TFs5mPd2dy5tyvmTsCmDAMIyglxITQw1pDFEBH8HQQ3KEAILK4zeB9dk5O5IZpmgXOheJfBkgwIqWeQ2KGB2IcCqZSYgEJZ5taNVogBYVQCSFgDtqDhZWVtUSjxbpEyyqqbdyNQHuRVUqO1FNX1p5AktEOkSRYAhnGg2jtQpWiHVSyFueUrVL0kpAknCprOMnrEI3HHyfggiR7enqgtzcM/f03rP0LgqrNvH1guf7U5d/AI4jY+Pg9a1uJvb2vkEyuQD6fB6/AEOijEAjQweDgwGvcRD3cB0ZH78DMzFMIha6fW6NzY2N3wSbtBVgeIZ3e/SDKHUf9AA8YGroF09NPnGMik8mkrX1SNxq96ayRsqnUF/CAAqnaJeVJjNGg6oLcbWNp6VWValtbHy2is7PPrOPJySnY3c1AsVgElwgGAuo+JpMcBg8gNUOhkLW/ufm+rmtJXVojUHINDHiKLtBa3Eai2tPV4XDY2U+lPje0I2Vt1CYbF1rrKJWnCHhAd/dZ+WmW1R5cfQ6YUBEi2oI3It8RlPCfoItrWE6Gs3JjJxKBEosDqqu2balUhFzuO7sZCGydmmO4uPiyipwfyOcP8L4vWHHMcj1luN8kCaQwvRtwwCJaLJagVeBWBRZRclGrcHjIi1F21l/kDagZfFWUQFnqN3K5HNvWhaL+u9/Nw7OJtiKh3LTXjirKTSSCC0X9j9GDA/7DE1HW7KdU8t/1LipJgYhmOZadTCYcymWRqMhwjFtRR7kPj5O/DBJVnzjGraij3IfHT5EdqVRgHRhxSsnkZ0K5uZfWckOWB6nC5Fywv8/vJP7dS5vE0SpPSv1e5lySTK76EqsUm/Sdz4FSRwu0dT7o4/FHOC0RzzkXe/2aJJDLqdBzXK+USpjm22qipxPmNH3xwSUAlaTV1bU++9jpTBQHWv8ZIQPoMIgDcak8V9VCTfMdGhxPdJJsmeTxBHGpPN9ghj8VEeLqdrvDwFayliSh6XTMMB7OSykT0AYopd8A/MLfOOt1azrjP9MUDnmv4ORXGOAzUMECtkf8z3S0XE/FSrDnjYYRw9HPtRj+vcM/d4IGaxge7sZBRAw3Werd1Ba1/rnRSMFa/AVqTqGkUygrWQAAAABJRU5ErkJggg=="
+                            alt="하단 우측 배지">
+                        <img src="./imgs/imgi_239_ZIP_P_8066_A.jpg" alt="집밥2">
+                    </div>
+                    <div class="info">
+                        <h3>한우야채카레</h3>
+                        <h4><span class="sale">12%</span> 3,800원</h4>
+                        <span class="price">4,300원</span>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="imgbox"><img class="sale-badge-img"
+                            src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADgAAAA4CAYAAACohjseAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAOdEVYdFNvZnR3YXJlAEZpZ21hnrGWYwAABWxJREFUeAHdm19oHFUUxr+ZjFrBxBXSh2IqE8yC6YNuBJsiSHc1UYKgRvugKDTxRXxok5eiYKuJLaL0ZVMfxKdaEHwxtggipGmzRdA0gk0RErGtGcgWAxWy2QiN6eyO59zdmc5uZpPJzP6b/UF2Z/fuDPPNOfece8+9kVBmplQ1pCuIKBKeyGYRkSREICFkGFDtv6PvNRjQDCAlS0joBq72XtcSKDMSygCLyjQhSjc6RB8jdNMheIBuJkXnJmQD52I3tDMoA74EsrCsgmG6yJBXUaWQctZNyBmMxjRNg0c8CayksBKMyjq+8iJ02wInH1VfIVc8XSVhFmxRutmR7bqua4HCak0YQa6f1ZI4WZPdNuXmx64ETj2mqoaOs2S1COoAYc0MYm5cdkuBQlwGU8Vhvta4FbmpwHoVZ+JGZEmB9S7OZCuRjgI5oBj34Eq9izMhEbOSLkRuCDyy0wkcLYMijuHgR3n5I6e2DRa8EFYH6IzTCCBklP6eG9o5+3cFAoPS70qR749ddlctcNGsjoGgimMMCSq5asFAxLIgW48ELiD4pGik025a0bJgNuPcSQNIyG5FSyCZMorGYZhTHR8IgRw5g9z3HAgZTdjPBzkLGngZjYaE4dwbcaFDXUaV53dVQAQb5XyHGoVPcTva2sT7WjK5rfaHuvfhgc49uJ1cxD+T5wvalJYW8Vfqmi7IF7+o+sVjHS/wDXR+dhI7e54Xn39783WkZi7DLqDjg2NoJhHMxXC71dZK5zz+xZdCAD+Av7/7FvPvHbHa2w8Po/W5XvwSewZeYW0yZf8oPLDr1QN4OvGTJa6Y8NEP0fX1N7j/4TbH9kcGBslySfxMAhZOjYnrKc0too0fzO6Dg7jy1hvwg0RlSyqveHPPUHc37qykhdWc3IhvcPnyNH5/952S11i7mcy/L4p39gi2JnvFX6fiVrtXaGQTkXl4Aw8sjY/j15deLHBJO3+e+FhY4HaJm+Tv2XX5r7U35wV6Oo32Q0M8aIb2+Rj8Qt4ZUuAx/y3PTG/anjyz+YSE3TK0dx+e+v4HIYwfyE4Syi4/Qw+uLJDxFNQIdj8OIDuoj7JA5cEWPEl9thyuaadmAk1MMeGjx7A8PY2ls+Migob2dou2BXJVH6nCeUZfbXYPvC3clcWEKa1wgPp3bk581/npSfhBBq/y1BCOmu2Hh0hczjU56HD0vfbJcSxRbuSU4RmaAHMedFUhrhR7yEK3JiZIzLj4zLlQX02jHFCG0BR6mSWlNalYc1+7j4LMnG0Ec2tyQiT9tUNJ7HrtAFbJVb3Cy3GKwSU3+GORUoLS3EwudnNDG1tjgSKjI5Tw5t8/UhA1uR+yFTk3rs7P4dqJ4/AKGS8h8WCbIs0UGhCexMuKTi6K2vbDCpF69rp2SebiDFeG0Xgk+MWc0cfRYFD3FgVgIZCKpZfQSG5K+a8nvxIsBOZriI1kxYR5YA3VqH7B85OGsOJ6BqPmsSWwgaw40mdbKywYbAfeitT31nUU7MIoEMhWpOgziIBiFFmP2TBdyq+vBdFV4z0Oe2gc54O8DyVQyZ9cM63fDSx2HAWyq/6noL/Wc0VXcL/LINZfYmPQphOJH2nN8F5a8UW9LszkxfV52UZiUrciXYhjtqzJ9P2haetNiNWTu/Ic1o04xlXRiUXKd9CF+oiu8VXdnThm25P5CVosbQItd1ffZVM65egXiraJbIWnaoXolzoO0uEIKo8YQlIaGOt3uYXSjq9yTD4A8eaFaAUs6kuYid96kwW7rkxL4fnNDF4XVHlT+ixdJ75Cc1Q/wkzKJtDOxQ51f5b/nSC39hiSeAWr2MIUlQ2uyRo0YpKFqNkVHVfLIcrO/wl6ZFxIw7rZAAAAAElFTkSuQmCC"
+                            alt="11% 세일 배지">
+                        <img class="thumb-badge-img"
+                            src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACoAAAArCAYAAAAOnxr+AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAOdEVYdFNvZnR3YXJlAEZpZ21hnrGWYwAAA5ZJREFUeAHVWU1PE1EUve8VTSAxaVKXNCkbXFLZERcI6I5oWZAQozI2JJK4wH9AMWFhTFD+AEyJC5dg2JgYwIV22bKUjY1lSbHRpI0C73nvlBna0tY7w7TFs5mPd2dy5tyvmTsCmDAMIyglxITQw1pDFEBH8HQQ3KEAILK4zeB9dk5O5IZpmgXOheJfBkgwIqWeQ2KGB2IcCqZSYgEJZ5taNVogBYVQCSFgDtqDhZWVtUSjxbpEyyqqbdyNQHuRVUqO1FNX1p5AktEOkSRYAhnGg2jtQpWiHVSyFueUrVL0kpAknCprOMnrEI3HHyfggiR7enqgtzcM/f03rP0LgqrNvH1guf7U5d/AI4jY+Pg9a1uJvb2vkEyuQD6fB6/AEOijEAjQweDgwGvcRD3cB0ZH78DMzFMIha6fW6NzY2N3wSbtBVgeIZ3e/SDKHUf9AA8YGroF09NPnGMik8mkrX1SNxq96ayRsqnUF/CAAqnaJeVJjNGg6oLcbWNp6VWValtbHy2is7PPrOPJySnY3c1AsVgElwgGAuo+JpMcBg8gNUOhkLW/ufm+rmtJXVojUHINDHiKLtBa3Eai2tPV4XDY2U+lPje0I2Vt1CYbF1rrKJWnCHhAd/dZ+WmW1R5cfQ6YUBEi2oI3It8RlPCfoItrWE6Gs3JjJxKBEosDqqu2balUhFzuO7sZCGydmmO4uPiyipwfyOcP8L4vWHHMcj1luN8kCaQwvRtwwCJaLJagVeBWBRZRclGrcHjIi1F21l/kDagZfFWUQFnqN3K5HNvWhaL+u9/Nw7OJtiKh3LTXjirKTSSCC0X9j9GDA/7DE1HW7KdU8t/1LipJgYhmOZadTCYcymWRqMhwjFtRR7kPj5O/DBJVnzjGraij3IfHT5EdqVRgHRhxSsnkZ0K5uZfWckOWB6nC5Fywv8/vJP7dS5vE0SpPSv1e5lySTK76EqsUm/Sdz4FSRwu0dT7o4/FHOC0RzzkXe/2aJJDLqdBzXK+USpjm22qipxPmNH3xwSUAlaTV1bU++9jpTBQHWv8ZIQPoMIgDcak8V9VCTfMdGhxPdJJsmeTxBHGpPN9ghj8VEeLqdrvDwFayliSh6XTMMB7OSykT0AYopd8A/MLfOOt1azrjP9MUDnmv4ORXGOAzUMECtkf8z3S0XE/FSrDnjYYRw9HPtRj+vcM/d4IGaxge7sZBRAw3Werd1Ba1/rnRSMFa/AVqTqGkUygrWQAAAABJRU5ErkJggg=="
+                            alt="하단 우측 배지">
+                        <img src="./imgs/imgi_253_1690_ZIP_P_2062_A.jpg" alt="집밥3">
+                    </div>
+                    <div class="info">
+                        <h3>[집반찬] 한우 쇠고기 미역국</h3>
+                        <h4><span class="sale">11%</span> 4,700원</h4>
+                        <span class="price">5,300원</span>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="imgbox"><img class="sale-badge-img"
+                            src="data:image/png;base64,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"
+                            alt="11% 세일 배지">
+                        <img class="thumb-badge-img"
+                            src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACoAAAArCAYAAAAOnxr+AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAOdEVYdFNvZnR3YXJlAEZpZ21hnrGWYwAAA5ZJREFUeAHVWU1PE1EUve8VTSAxaVKXNCkbXFLZERcI6I5oWZAQozI2JJK4wH9AMWFhTFD+AEyJC5dg2JgYwIV22bKUjY1lSbHRpI0C73nvlBna0tY7w7TFs5mPd2dy5tyvmTsCmDAMIyglxITQw1pDFEBH8HQQ3KEAILK4zeB9dk5O5IZpmgXOheJfBkgwIqWeQ2KGB2IcCqZSYgEJZ5taNVogBYVQCSFgDtqDhZWVtUSjxbpEyyqqbdyNQHuRVUqO1FNX1p5AktEOkSRYAhnGg2jtQpWiHVSyFueUrVL0kpAknCprOMnrEI3HHyfggiR7enqgtzcM/f03rP0LgqrNvH1guf7U5d/AI4jY+Pg9a1uJvb2vkEyuQD6fB6/AEOijEAjQweDgwGvcRD3cB0ZH78DMzFMIha6fW6NzY2N3wSbtBVgeIZ3e/SDKHUf9AA8YGroF09NPnGMik8mkrX1SNxq96ayRsqnUF/CAAqnaJeVJjNGg6oLcbWNp6VWValtbHy2is7PPrOPJySnY3c1AsVgElwgGAuo+JpMcBg8gNUOhkLW/ufm+rmtJXVojUHINDHiKLtBa3Eai2tPV4XDY2U+lPje0I2Vt1CYbF1rrKJWnCHhAd/dZ+WmW1R5cfQ6YUBEi2oI3It8RlPCfoItrWE6Gs3JjJxKBEosDqqu2balUhFzuO7sZCGydmmO4uPiyipwfyOcP8L4vWHHMcj1luN8kCaQwvRtwwCJaLJagVeBWBRZRclGrcHjIi1F21l/kDagZfFWUQFnqN3K5HNvWhaL+u9/Nw7OJtiKh3LTXjirKTSSCC0X9j9GDA/7DE1HW7KdU8t/1LipJgYhmOZadTCYcymWRqMhwjFtRR7kPj5O/DBJVnzjGraij3IfHT5EdqVRgHRhxSsnkZ0K5uZfWckOWB6nC5Fywv8/vJP7dS5vE0SpPSv1e5lySTK76EqsUm/Sdz4FSRwu0dT7o4/FHOC0RzzkXe/2aJJDLqdBzXK+USpjm22qipxPmNH3xwSUAlaTV1bU++9jpTBQHWv8ZIQPoMIgDcak8V9VCTfMdGhxPdJJsmeTxBHGpPN9ghj8VEeLqdrvDwFayliSh6XTMMB7OSykT0AYopd8A/MLfOOt1azrjP9MUDnmv4ORXGOAzUMECtkf8z3S0XE/FSrDnjYYRw9HPtRj+vcM/d4IGaxge7sZBRAw3Werd1Ba1/rnRSMFa/AVqTqGkUygrWQAAAABJRU5ErkJggg=="
+                            alt="하단 우측 배지">
+                        <img src="./imgs/imgi_251_jolim_31.jpg" alt="집밥4">
+                    </div>
+                    <div class="info">
+                        <h3>한끼 한돈 김치두부찜</h3>
+                        <h4><span class="sale">12%</span> 6,400원</h4>
+                        <span class="price">7,300원</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="new-banchan content-box box3"></div>
+    </main>
+
+    <section class="banner"></section>
+
+    <main>
+        <div class="md-banchan content-box box4"></div>
+    </main>
+
+    <footer>
+        <div class="footer-left">
+            <h3>고객센터</h3>
+            <p class="tel">1588-3754</p>
+            <p class="mail">zipbanchan@sannamchon.co.kr</p>
+            <p class="time">
+                평일 08:30~17:30 / 토요일 08:30~12:00<br>
+                점심시간 12:00~13:00<br>
+                일요일, 공휴일은 휴무입니다.
+            </p>
+        </div>
+        <div class="footer-right">
+            <h3>집반찬연구소</h3>
+            <p>
+                인천광역시 서구 가석로 26(가좌동) 집반찬연구소&nbsp;&nbsp;&nbsp;&nbsp;대표자 : 박종철<br>
+                사업자등록번호 : 121-86-17743&nbsp;&nbsp;&nbsp;&nbsp;통신판매업 신고번호 : 제 2023-인천서구-3834
+                호&nbsp;&nbsp;&nbsp;&nbsp;개인정보보호책임자 : 정문채<br>
+                제휴 문의 : zipbanchan@sannamchon.co.kr
+            </p>
+            <p>
+                집반찬연구소 소개&nbsp;&nbsp;이용약관&nbsp;&nbsp;개인정보처리방침
+            </p>
+            <p>
+                Copyright ⓒ SANNAMCHON CORP. All Rights Reserved.
+            </p>
+        </div>
+    </footer>
+</body>
+
+</html>
