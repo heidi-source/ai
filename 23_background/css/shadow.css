@@ -1,0 +1,88 @@
+@charset "utf-8";
+
+body {}
+
+h1 {
+    /* x축,y축,blur,color (기본값:4) */
+    text-shadow: 4px 4px 4px gray;
+}
+
+h2 {
+    font-size: 90px;
+    color: #fff;
+    text-shadow: 0 0 2px red, 0 0 6px blue, 0 0 10px green;
+}
+
+.box {
+    width: 200px;
+    height: 200px;
+    background: gold;
+    box-shadow: 10px 10px 3px gray;
+    border-radius: 24px;
+    /* 개별 radius */
+    border-radius: 16px 24px 32px 48px;
+    /* 원형 radius */
+    border-radius: 200px;
+}
+
+.gra1 {
+    width: 600px;
+    height: 200px;
+    background: red;
+    /* 90도 그라디언트 */
+    background-image: linear-gradient(to top, red, yellow);
+    /*  */
+    background-image: linear-gradient(to left, red, yellow, blue);
+    /* 45도 /반대는 -45deg */
+    background-image: linear-gradient(45deg, red, yellow, blue);
+    /* 원형그라디언트*/
+    background-image: radial-gradient(red, yellow, blue);
+}
+
+.white {
+    width: 710px;
+    height: 130px;
+    background: #fff;
+    border: 1px #000 solid;
+    border-radius: 10px;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.35);
+    margin-top: 50px;
+}
+
+.black {
+    width: 710px;
+    height: 130px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #000;
+    border-color: #000;
+    margin-top: 50px;
+}
+
+.black .t {
+    color: #000;
+    text-shadow: 4px 4px 0 #fff;
+}
+
+.black .s {
+    color: #000;
+    text-shadow: 0 0 10px #fff;
+
+}
+
+
+.rain {
+    width: 710px;
+    height: 130px;
+    border: 1px solid #000;
+    background: linear-gradient(90deg,
+            red,
+            orange,
+            yellow,
+            green,
+            blue,
+            navy,
+            violet);
+    margin-top: 50px;
+}
