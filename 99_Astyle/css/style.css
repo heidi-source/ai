@@ -1,0 +1,171 @@
+@charset "utf-8";
+
+body {
+    font-family: "맑은 고딕", "malgun gothic", sans-serif;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* 리스트 초기화 */
+li {
+    list-style: none;
+}
+
+/* 리스트 밑출 없앰 */
+a {
+    text-decoration: none;
+}
+
+header {
+    width: 1200px;
+    height: 100px;
+    margin: 0 auto;
+    /* background: antiquewhite; */
+    display: flex;
+    /* 양쪽 정렬 */
+    justify-content: space-between;
+    /* 로고 중앙으로(로고는 보통 300px) */
+    align-items: center;
+}
+
+header .gnb {
+    width: 600px;
+    height: 100px;
+    /* background: firebrick; */
+}
+
+header .gnb>ul {
+    height: 100px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* 자손선택자 */
+header .gnb>ul>li {
+    width: 100%;
+    border: 1px solid #333;
+    text-align: center;
+    height: 50px;
+    /* 글자 가운데정렬 */
+    line-height: 50px;
+    /* 2차메뉴 위치잡기 */
+    position: relative;
+}
+
+header .gnb>ul>li>a {
+    color: #333;
+    /* 하이퍼링크 영역 확대 */
+    /* a태그는 inline태그라서 크기조절 불가하므로 block요소로 바꿀것 */
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+header .gnb>ul>li:hover {
+    background: #333;
+}
+
+header .gnb>ul>li:hover>a {
+    color: #fff;
+}
+
+/* 2차 메뉴 디자인 */
+.gnb>ul>li>.depth2 {
+    position: absolute;
+    left: 0;
+    top: 50px;
+    /* 글자  */
+    width: 100%;
+    background: #fff;
+    border: 1px solid #333;
+
+    flex-direction: column;
+    /* 첫화면에 뜨지않기 */
+    display: none;
+
+}
+
+/* 마우스 호버시 2차메뉴보이기 */
+.gnb>ul>li:hover>.depth2 {
+    display: flex;
+}
+
+.gnb>ul>li>.depth2>li>a {
+    color: #333;
+}
+
+.gnb>ul>li>.depth2>li:hover {
+    background: #333;
+}
+
+.gnb>ul>li>.depth2>li:hover>a {
+    color: #fff;
+}
+
+.slide {
+    width: 1200px;
+    height: 300px;
+    margin: 0 auto;
+    background: brown;
+}
+
+.contents {
+    width: 1200px;
+    height: 200px;
+    margin: 0 auto;
+    background: chocolate;
+    display: flex;
+}
+
+/* 바로가기 디자인 */
+.contents .notice {
+    width: 400px;
+    height: 200px;
+    background: forestgreen;
+}
+
+/* 배너 디자인 */
+.contents .banner {
+    width: 400px;
+    height: 200px;
+    background: gold;
+}
+
+/* 바로가기 */
+.contents .go {
+    width: 400px;
+    height: 200px;
+    background: hotpink;
+}
+
+footer {
+    width: 1200px;
+    height: 100px;
+    margin: 0 auto;
+    background: darkorange;
+    display: flex;
+}
+
+/* footer속 로고 디자인(200px가로) */
+footer .logo {
+    width: 200px;
+    height: 100px;
+    background: indigo;
+}
+
+footer .sns {
+    width: 200px;
+    height: 100px;
+    background: khaki;
+}
+
+footer .copy {
+    width: 800px;
+    height: 100px;
+    background: lavenderblush;
+}
