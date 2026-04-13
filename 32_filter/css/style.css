@@ -1,0 +1,40 @@
+@charset "utf-8";
+
+body {}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.test1 {
+    filter: blur(10px);
+}
+
+.test2 {
+    /* 기본값은 100% */
+    filter: brightness(200%);
+}
+
+.test3 {
+    filter: grayscale(100%);
+}
+
+.test4 {
+    /* 그림자효과(x,y,blur,color) */
+    filter: drop-shadow(10px 10px 10px #000);
+    margin-bottom: 20px;
+}
+
+.test5 {
+    /* 흑백 */
+    filter: saturate(0%);
+    /* 채도 올리기(선명도 상승) */
+    filter: saturate(50%);
+    filter: saturate(200%);
+}
+
+.test6 {
+    filter: invert(100%);
+}
