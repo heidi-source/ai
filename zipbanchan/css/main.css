@@ -81,12 +81,22 @@ main {
 .banner-list {
   display: flex;
   gap: 16px;
+
 }
+
+/* .banner-item {
+  width: calc((100% - 32px) / 3);
+  height: 150px;
+  flex: 0 0 calc((100% - 32px) / 3);
+
+} */
 
 .banner-item {
   width: calc((100% - 32px) / 3);
   height: 150px;
   flex: 0 0 calc((100% - 32px) / 3);
+  border-radius: 8px;
+  overflow: hidden;
 }
 
 .box5 {
