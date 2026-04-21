@@ -44,7 +44,7 @@
         }
 
         .logo-wrap img {
-            max-width: 140px;
+            max-width: 160px;
             width: 100%;
             height: auto;
             display: block;
@@ -210,16 +210,7 @@
             font-weight: 800;
         }
 
-        .home-indicator {
-            position: absolute;
-            left: 50%;
-            bottom: 8px;
-            transform: translateX(-50%);
-            width: 133px;
-            height: 5px;
-            border-radius: 999px;
-            background: #000;
-        }
+
 
         @media (min-width: 376px) {
             body {
@@ -298,7 +289,7 @@
                 return;
             }
 
-            alert("로그인 시도");
+            location.href = "index.html";
         });
 
         joinBtn.addEventListener("click", function () {
