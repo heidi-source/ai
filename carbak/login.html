@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>로그인 페이지</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+            background: #f2f2f2;
+            color: #4f6dbb;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+        }
+
+        .app {
+            width: 100%;
+            max-width: 375px;
+            min-height: 100vh;
+            background: #f2f2f2;
+            padding: 95px 20px 24px;
+            position: relative;
+        }
+
+        .login-form {
+            width: 100%;
+        }
+
+        .logo-wrap {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 42px;
+        }
+
+        .logo-wrap img {
+            max-width: 140px;
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .field {
+            margin-bottom: 16px;
+        }
+
+        .field input {
+            width: 100%;
+            height: 52px;
+            border: none;
+            border-bottom: 1px solid #cfcfcf;
+            background: transparent;
+            outline: none;
+            font-size: 16px;
+            color: #4f6dbb;
+            padding: 0 10px;
+        }
+
+        .field input::placeholder {
+            color: #4f6dbb;
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .btn-group {
+            margin-top: 32px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .btn {
+            width: 100%;
+            height: 48px;
+            border-radius: 14px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s ease;
+        }
+
+        .btn-login {
+            background: #5b74bb;
+            color: #fff;
+            border: 1px solid #5b74bb;
+            box-shadow: 0 5px 12px rgba(91, 116, 187, 0.18);
+        }
+
+        .btn-login:hover {
+            background: #5069ae;
+        }
+
+        .btn-signup {
+            background: transparent;
+            color: #5b74bb;
+            border: 1px solid #5b74bb;
+            box-shadow: 0 5px 12px rgba(91, 116, 187, 0.08);
+        }
+
+        .btn-signup:hover {
+            background: rgba(91, 116, 187, 0.04);
+        }
+
+        .sub-links {
+            margin-top: 18px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 14px;
+            font-size: 13px;
+            color: #4f6dbb;
+        }
+
+        .sub-links a {
+            color: #4f6dbb;
+            text-decoration: none;
+        }
+
+        .sub-links span {
+            color: #8a8a8a;
+        }
+
+        .easy-login {
+            margin-top: 28px;
+            text-align: center;
+        }
+
+        .easy-title {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 14px;
+            color: #5b74bb;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .easy-title::before,
+        .easy-title::after {
+            content: "";
+            display: block;
+            width: 120px;
+            height: 1px;
+            background: #8fa1d6;
+        }
+
+        .sns-list {
+            margin-top: 42px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 28px;
+        }
+
+        .sns-btn {
+            width: 34px;
+            height: 34px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-decoration: none;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 18px;
+        }
+
+        .kakao {
+            background: #fee500;
+            color: #111;
+            border-radius: 4px;
+            font-size: 11px;
+            line-height: 1;
+            font-weight: 800;
+        }
+
+        .naver {
+            background: #03c75a;
+            color: white;
+            border-radius: 0;
+            font-size: 22px;
+            font-weight: 900;
+        }
+
+        .google {
+            background: #fff;
+            color: #ea4335;
+            border-radius: 50%;
+            border: 1px solid #ddd;
+            font-size: 19px;
+            font-weight: 800;
+        }
+
+        .facebook {
+            background: #1877f2;
+            color: #fff;
+            border-radius: 50%;
+            font-size: 22px;
+            font-weight: 800;
+        }
+
+        .home-indicator {
+            position: absolute;
+            left: 50%;
+            bottom: 8px;
+            transform: translateX(-50%);
+            width: 133px;
+            height: 5px;
+            border-radius: 999px;
+            background: #000;
+        }
+
+        @media (min-width: 376px) {
+            body {
+                background: #dcdcdc;
+            }
+
+            .app {
+                box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.04), 0 10px 30px rgba(0, 0, 0, 0.08);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="app">
+        <form class="login-form" id="loginForm">
+            <div class="logo-wrap">
+                <img src="./imgs/login logo.png" alt="로고">
+            </div>
+
+            <div class="field">
+                <input type="text" id="userId" placeholder="아이디" />
+            </div>
+
+            <div class="field">
+                <input type="password" id="userPw" placeholder="비밀번호" />
+            </div>
+
+            <div class="btn-group">
+                <button type="submit" class="btn btn-login">로그인</button>
+                <button type="button" class="btn btn-signup" id="joinBtn">회원가입</button>
+            </div>
+
+            <div class="sub-links">
+                <a href="#">아이디찾기</a>
+                <span>|</span>
+                <a href="#">비밀번호찾기</a>
+                <span>|</span>
+                <a href="#">둘러보기</a>
+            </div>
+
+            <div class="easy-login">
+                <div class="easy-title">간편로그인</div>
+
+                <div class="sns-list">
+                    <a href="#" class="sns-btn kakao" aria-label="카카오 로그인">TALK</a>
+                    <a href="#" class="sns-btn naver" aria-label="네이버 로그인">N</a>
+                    <a href="#" class="sns-btn google" aria-label="구글 로그인">G</a>
+                    <a href="#" class="sns-btn facebook" aria-label="페이스북 로그인">f</a>
+                </div>
+            </div>
+        </form>
+
+        <div class="home-indicator"></div>
+    </div>
+
+    <script>
+        const loginForm = document.getElementById("loginForm");
+        const joinBtn = document.getElementById("joinBtn");
+
+        loginForm.addEventListener("submit", function (e) {
+            e.preventDefault();
+
+            const userId = document.getElementById("userId").value.trim();
+            const userPw = document.getElementById("userPw").value.trim();
+
+            if (userId === "") {
+                alert("아이디를 입력해주세요.");
+                document.getElementById("userId").focus();
+                return;
+            }
+
+            if (userPw === "") {
+                alert("비밀번호를 입력해주세요.");
+                document.getElementById("userPw").focus();
+                return;
+            }
+
+            alert("로그인 시도");
+        });
+
+        joinBtn.addEventListener("click", function () {
+            alert("회원가입 페이지로 이동");
+        });
+    </script>
+</body>
+
+</html>

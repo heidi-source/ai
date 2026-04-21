@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>차박 온보딩 슬라이드</title>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+            font-family: "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
+            background: #fff;
+            color: #24355f;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .app {
+            position: relative;
+            width: 100%;
+            max-width: 430px;
+            height: 100dvh;
+            min-height: 740px;
+            background: #fff;
+            overflow: hidden;
+        }
+
+        .swiper {
+            width: 100%;
+            height: 100%;
+            padding-bottom: 130px;
+        }
+
+        .swiper-slide {
+            padding: 72px 24px 0;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .title {
+            font-size: 26px;
+            line-height: 1.35;
+            font-weight: 800;
+            letter-spacing: -0.04em;
+            color: #2c4278;
+            margin-bottom: 16px;
+        }
+
+        .title .light {
+            color: #6f87c5;
+            font-weight: 700;
+        }
+
+        .desc {
+            font-size: 15px;
+            line-height: 1.55;
+            font-weight: 500;
+            letter-spacing: -0.03em;
+            color: #9ba8d2;
+            margin-bottom: 28px;
+        }
+
+        .visual-card {
+            width: 100%;
+            max-width: 320px;
+            height: 400px;
+            background: #f7f7f7;
+            overflow: hidden;
+            align-self: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .visual-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .bottom-fixed {
+            position: absolute;
+            left: 24px;
+            right: 24px;
+            bottom: 34px;
+            z-index: 20;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 26px;
+        }
+
+        .swiper-pagination {
+            position: static;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .swiper-pagination-bullet {
+            width: 10px;
+            height: 10px;
+            margin: 0 !important;
+            background: #d8d8d8;
+            opacity: 1;
+        }
+
+        .swiper-pagination-bullet-active {
+            background: #5d78bf;
+        }
+
+        .start-btn {
+            width: 100%;
+            height: 50px;
+            border-radius: 14px;
+            background: #5d78bf;
+            color: #ffffff;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            transition: transform 0.2s ease, opacity 0.2s ease;
+        }
+
+        .start-btn:active {
+            transform: scale(0.98);
+            opacity: 0.92;
+        }
+
+        @media (max-width: 390px) {
+            .swiper-slide {
+                padding: 64px 24px 0;
+            }
+
+            .title {
+                font-size: 24px;
+            }
+
+            .desc {
+                font-size: 14px;
+            }
+
+            .visual-card {
+                height: 360px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="app">
+        <div class="swiper onboardingSwiper">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide">
+                    <h1 class="title">
+                        차박,<br />
+                        어디로 <span class="light">떠나야 할지 모르겠나요</span>
+                    </h1>
+                    <p class="desc">
+                        지도 기반의 위치 앱 및 키워드 검색으로 내가<br />
+                        원하는 장소를 한번에
+                    </p>
+                    <div class="visual-card">
+                        <img src="./imgs/w1.png" alt="차박 장소 탐색 온보딩 이미지" />
+                    </div>
+                </div>
+
+                <div class="swiper-slide">
+                    <h1 class="title">
+                        차만 있다면<br />
+                        장비는 <span class="light">부담적은 렌탈로</span>
+                    </h1>
+                    <p class="desc">
+                        차박에 필요한 물품들을 용도별로 둘러봐요
+                    </p>
+                    <div class="visual-card">
+                        <img src="./imgs/w2.png" alt="차박 장비 렌탈 온보딩 이미지" />
+                    </div>
+                </div>
+
+                <div class="swiper-slide">
+                    <h1 class="title">
+                        일상이 바쁠땐 실시간<br />
+                        라이브로 대리만족 <span class="light">하세요</span>
+                    </h1>
+                    <p class="desc">
+                        라이브로 나를 뽐내고 시청자들과 소통하는<br />
+                        즐거움!
+                    </p>
+                    <div class="visual-card">
+                        <img src="./imgs/w3.png" alt="차박 라이브 온보딩 이미지" />
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="bottom-fixed">
+            <div class="swiper-pagination"></div>
+            <a href="login.html" class="start-btn">시작하기</a>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script>
+        const swiper = new Swiper('.onboardingSwiper', {
+            loop: false,
+            speed: 700,
+            autoplay: {
+                delay: 1000,
+                disableOnInteraction: false,
+            },
+            pagination: {
+                el: '.swiper-pagination',
+                clickable: true,
+            },
+            on: {
+                reachEnd: function () {
+                    setTimeout(() => {
+                        window.location.href = 'login.html';
+                    }, 1000);
+                },
+            },
+        });
+    </script>
+</body>
+
+</html>
