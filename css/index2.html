@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>클릭이벤트: 최신</title>
+</head>
+
+<body>
+    <h1 id="txt">제일큰제목 태그</h1>
+    <h2 id="txt2">두번째 큰 제목</h2>
+    <p>첫번째 문단</p>
+
+    <script>
+        // h1태그 클릭시- 글자색 변경
+        let tit = document.getElementById("txt");
+        console.log(tit);
+
+        // h2태그 클릭시- 글자색 변경
+        tit.addEventListener("click", function () {
+            // 실행할 코드 삽입
+            tit.style.color = "red";
+            this.style.background = "yellow";
+        })
+
+        let tit2 = document.getElementById("txt2");
+        console.log(tit2);
+
+        // 클릭이벤트
+        tit2.addEventListener("click", function () {
+            tit2.style.border = "10px solid red";
+        })
+
+        // p태그 클릭시
+        let ppp = document.querySelector("p");
+        console.log(ppp);
+
+        // 마우스 hover enter시- 글자색이 빨간색 글자크기 24px 확대 효과: mouse hover Event
+        ppp.addEventListener("mouseenter", function () {
+            this.style.fontSize = "24px";
+            this.style.color = "red";
+
+        })
+
+        // 마우스 leave시- 글자크기 16px 축소,글자색 돌아감 효과
+        ppp.addEventListener("mouseleave", function () {
+            this.style.fontSize = "16px";
+            this.style.color = "#000";
+        })
+    </script>
+
+</body>
+
+</html>
