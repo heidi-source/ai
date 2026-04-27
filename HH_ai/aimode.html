@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>AI 피부 분석 모드</title>
+
+    <style>
+        /* 기본 리셋 및 모바일 최적화 */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: #f8fdfc;
+            display: flex;
+            justify-content: center;
+            min-height: 100dvh;
+        }
+
+        /* 375px 고정 컨테이너 */
+        .app-container {
+            width: 100%;
+            max-width: 375px;
+            min-height: 100dvh;
+            background-color: #ffffff;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            padding-bottom: env(safe-area-inset-bottom);
+        }
+
+        /* Status Bar */
+        .status-bar {
+            width: 100%;
+            height: 48px;
+            background-color: #ffffff;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            padding: 0 18px 0 22px;
+
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+
+            border-bottom: none;
+        }
+
+        .status-time {
+            font-size: 15px;
+            font-weight: 500;
+            color: #000000;
+            line-height: 1;
+            letter-spacing: -0.2px;
+        }
+
+        .status-icons {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+        }
+
+        /* 통신 신호 아이콘 */
+        .signal-icon {
+            width: 15px;
+            height: 12px;
+            display: inline-block;
+            background:
+                linear-gradient(to top, #000 35%, transparent 35%) 0 6px / 3px 6px no-repeat,
+                linear-gradient(to top, #000 55%, transparent 55%) 4px 4px / 3px 8px no-repeat,
+                linear-gradient(to top, #000 75%, transparent 75%) 8px 2px / 3px 10px no-repeat,
+                linear-gradient(to top, #000 100%, transparent 100%) 12px 0 / 3px 12px no-repeat;
+        }
+
+        /* Wi-Fi 아이콘 */
+        .wifi-icon {
+            width: 15px;
+            height: 12px;
+            position: relative;
+            display: inline-block;
+        }
+
+        .wifi-icon::before {
+            content: "";
+            position: absolute;
+            left: 1px;
+            top: 0;
+            width: 13px;
+            height: 10px;
+            border: 2px solid #000;
+            border-color: #000 transparent transparent transparent;
+            border-radius: 50%;
+        }
+
+        .wifi-icon::after {
+            content: "";
+            position: absolute;
+            left: 6px;
+            bottom: 0;
+            width: 4px;
+            height: 4px;
+            background-color: #000;
+            border-radius: 50%;
+        }
+
+        /* 배터리 아이콘 */
+        .battery-icon {
+            width: 18px;
+            height: 9px;
+            border: 1.5px solid #000;
+            border-radius: 2px;
+            position: relative;
+            display: inline-block;
+        }
+
+        .battery-icon::before {
+            content: "";
+            position: absolute;
+            right: -3px;
+            top: 2px;
+            width: 2px;
+            height: 4px;
+            background-color: #000;
+            border-radius: 1px;
+        }
+
+        .battery-icon::after {
+            content: "";
+            position: absolute;
+            left: 2px;
+            top: 2px;
+            width: 11px;
+            height: 3px;
+            background-color: #000;
+            border-radius: 1px;
+        }
+
+        /* 메인 콘텐츠 영역 */
+        .content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .ai-image-container {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            overflow: hidden;
+            margin-bottom: 20px;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .ai-image-container img {
+            width: 75%;
+            height: 75%;
+            object-fit: cover;
+        }
+
+        .ai-image-container:hover img {
+            filter: blur(0);
+        }
+
+        .content h2 {
+            font-size: 22px;
+            font-weight: 700;
+            color: #111111;
+        }
+
+        .content p {
+            margin: 10px 0 30px;
+            color: #666666;
+            font-size: 14px;
+            text-align: center;
+        }
+
+        .btn-analyze {
+            background-color: #A3D9C9;
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 30px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .btn-analyze:active {
+            transform: scale(0.98);
+        }
+
+        /* 하단 홈 인디케이터 */
+        .home-bar {
+            height: 34px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            padding-bottom: 8px;
+        }
+
+        .home-bar::after {
+            content: '';
+            width: 134px;
+            height: 5px;
+            background: #000;
+            border-radius: 3px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="app-container">
+
+        <div class="status-bar">
+            <div class="status-time">17:33</div>
+
+            <div class="status-icons">
+                <span class="signal-icon"></span>
+                <span class="wifi-icon"></span>
+                <span class="battery-icon"></span>
+            </div>
+        </div>
+
+        <div class="content">
+            <div class="ai-image-container">
+                <img src="./images/logo.png.png" alt="AI 분석">
+            </div>
+
+            <h2>피부 분석 시작하기</h2>
+            <p>내 피부 고민을 AI가 진단해 드려요.</p>
+
+            <button class="btn-analyze" onclick="startAnalysis()">분석 시작</button>
+        </div>
+
+        <div class="home-bar"></div>
+
+    </div>
+
+    <script>
+        function startAnalysis() {
+            alert("피부 분석을 시작합니다!");
+        }
+    </script>
+
+</body>
+
+</html>

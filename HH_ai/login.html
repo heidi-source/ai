@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>화해 리뉴얼 - 로그인</title>
+    <style>
+        /* 기본 스타일 초기화 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: #ffffff;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* 상태바(Status Bar) 스타일 */
+        .status-bar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            max-width: 400px;
+            height: 44px;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 2001;
+            background-color: #ffffff;
+            font-size: 14px;
+            font-weight: 600;
+            color: #000;
+        }
+
+        .status-bar .left-icons {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .status-bar .right-icons {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        /* 홈바(Home Bar) 스타일 */
+        .home-bar-container {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            max-width: 400px;
+            height: 34px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2001;
+            background-color: transparent;
+            pointer-events: none;
+        }
+
+        .home-indicator {
+            width: 134px;
+            height: 5px;
+            background-color: #333333;
+            /* 선명한 #333 색상 적용 */
+            border-radius: 100px;
+            /* opacity 속성을 제거하여 회색으로 보이지 않게 수정 */
+        }
+
+        .container {
+            width: 100%;
+            max-width: 400px;
+            padding: 44px 32px 34px 32px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            z-index: 10;
+            transition: transform 0.4s cubic-bezier(0.25, 0.1, 0.25, 1);
+        }
+
+        /* 키보드 활성화 시 컨테이너 위치 조정 */
+        body.keyboard-open .container {
+            transform: translateY(-100px);
+        }
+
+        /* 로고 디자인 */
+        .logo-wrapper {
+            position: relative;
+            margin-bottom: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 152px;
+            height: 152px;
+        }
+
+        .logo-glow {
+            position: absolute;
+            width: 152px;
+            height: 152px;
+            background-color: rgba(0, 206, 184, 0.18);
+            border-radius: 50%;
+            filter: blur(40px);
+            z-index: 1;
+        }
+
+        .logo-img {
+            width: 80px;
+            height: 80px;
+            object-fit: contain;
+            position: relative;
+            z-index: 2;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-8px);
+            }
+        }
+
+        /* 입력 폼 */
+        .login-form {
+            width: 100%;
+        }
+
+        .input-group {
+            margin-bottom: 12px;
+        }
+
+        .input-group input {
+            width: 100%;
+            height: 52px;
+            padding: 0 20px;
+            border: 1.2px solid #e8e8e8;
+            border-radius: 16px;
+            font-size: 15px;
+            outline: none;
+            transition: all 0.3s ease;
+            background-color: #fafafa;
+        }
+
+        .input-group input:focus {
+            border-color: #A3D9C9;
+            background-color: #ffffff;
+            box-shadow: 0 4px 12px rgba(0, 206, 184, 0.08);
+        }
+
+        .options {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 24px;
+            padding-left: 4px;
+        }
+
+        .option-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            font-size: 13px;
+            color: #888;
+        }
+
+        .option-item input {
+            display: none;
+        }
+
+        .custom-checkbox {
+            width: 18px;
+            height: 18px;
+            border: 1.5px solid #ddd;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+            background-color: #fff;
+        }
+
+        .option-item input:checked+.custom-checkbox {
+            background-color: #bfbfbf;
+        }
+
+        .custom-checkbox::after {
+            content: '✓';
+            color: white;
+            font-size: 11px;
+            display: none;
+        }
+
+        .option-item input:checked+.custom-checkbox::after {
+            display: block;
+        }
+
+        .button-group {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .btn {
+            width: 100%;
+            height: 54px;
+            border-radius: 16px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: none;
+        }
+
+        .btn-login {
+            background-color: #595959;
+            color: #ffffff;
+        }
+
+        .btn-login:active {
+            transform: scale(0.98);
+            opacity: 0.9;
+        }
+
+        .btn-signup {
+            background-color: #A3D9C9;
+            color: #595959;
+            border: 1.5px solid #595959;
+        }
+
+        .btn-signup:active {
+            background-color: rgba(0, 206, 184, 0.05);
+        }
+
+        .links {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 12px;
+            font-size: 13px;
+            color: #bbb;
+            margin-bottom: 40px;
+        }
+
+        .links a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .divider {
+            width: 1px;
+            height: 10px;
+            background-color: #eee;
+        }
+
+        /* 간편 로그인 */
+        .social-login-container {
+            width: 100%;
+            text-align: center;
+        }
+
+        .social-title {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            color: #ddd;
+            font-size: 12px;
+            margin-bottom: 20px;
+        }
+
+        .social-title::before,
+        .social-title::after {
+            content: "";
+            flex: 1;
+            height: 1px;
+            background-color: #f0f0f0;
+        }
+
+        .social-icons {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+        }
+
+        .icon-btn {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+
+        .icon-btn:active {
+            transform: scale(0.9);
+        }
+
+        .icon-btn svg {
+            width: 22px;
+            height: 22px;
+        }
+
+        .kakao {
+            background-color: #FEE500;
+        }
+
+        .naver {
+            background-color: #03C75A;
+        }
+
+        .google {
+            background-color: #ffffff;
+            border: 1px solid #f0f0f0;
+        }
+
+        .facebook {
+            background-color: #1877F2;
+        }
+
+        /* 키보드 오버레이 */
+        .keyboard-wrapper {
+            position: fixed;
+            bottom: -100%;
+            left: 0;
+            width: 100%;
+            z-index: 2000;
+            transition: bottom 0.3s cubic-bezier(0.1, 0.7, 0.1, 1);
+            background-color: #f1f2f4;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .keyboard-wrapper.show {
+            bottom: 0;
+        }
+
+        .keyboard-toolbar {
+            width: 100%;
+            height: 44px;
+            background-color: #f8f8f8;
+            border-top: 0.5px solid #d1d1d1;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            padding: 0 16px;
+        }
+
+        .btn-done {
+            color: #007aff;
+            font-weight: 600;
+            font-size: 16px;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        .keyboard-container {
+            width: 100%;
+            background-color: #d1d3d9;
+            height: 280px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .keyboard-img {
+            height: 100%;
+            width: auto;
+            object-fit: contain;
+        }
+
+        .keyboard-close-area {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1500;
+            display: none;
+        }
+
+        body.keyboard-open .keyboard-close-area {
+            display: block;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- 상태바 -->
+    <div class="status-bar">
+        <div class="time" id="currentTime">9:41</div>
+        <div class="right-icons">
+            <svg width="17" height="11" viewBox="0 0 17 11" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path
+                    d="M14.5 10.5V1.5H16.5V10.5H14.5ZM11.5 10.5V3.5H13.5V10.5H11.5ZM8.5 10.5V5.5H10.5V10.5H8.5ZM5.5 10.5V7.5H7.5V10.5H5.5ZM2.5 10.5V8.5H4.5V10.5H2.5Z"
+                    fill="#333333" />
+            </svg>
+            <svg width="15" height="11" viewBox="0 0 15 11" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path
+                    d="M7.5 11L0 3.5C2.08333 1.41667 4.58333 0.375 7.5 0.375C10.4167 0.375 12.9167 1.41667 15 3.5L7.5 11Z"
+                    fill="#333333" />
+            </svg>
+            <svg width="24" height="11" viewBox="0 0 24 11" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="0.5" y="0.5" width="21" height="10" rx="2.5" stroke="#333333" opacity="0.35" />
+                <path d="M22 3.5V7.5" stroke="#333333" stroke-opacity="0.4" stroke-linecap="round" />
+                <rect x="2" y="2" width="18" height="7" rx="1" fill="#333333" />
+            </svg>
+        </div>
+    </div>
+
+    <div class="keyboard-close-area" id="closeArea"></div>
+
+    <div class="container">
+        <div class="logo-wrapper">
+            <div class="logo-glow"></div>
+            <img src="./images/logo.png.png" alt="화해 로고" class="logo-img"
+                onerror="this.src='https://via.placeholder.com/80?text=HWAHAE'">
+        </div>
+
+        <form class="login-form">
+            <div class="input-group">
+                <input type="text" placeholder="아이디" id="userId" autocomplete="off">
+            </div>
+            <div class="input-group">
+                <input type="password" placeholder="비밀번호" id="userPw" autocomplete="off">
+            </div>
+
+            <div class="options">
+                <label class="option-item">
+                    <input type="checkbox" checked>
+                    <div class="custom-checkbox"></div>
+                    자동로그인
+                </label>
+                <label class="option-item">
+                    <input type="checkbox" checked>
+                    <div class="custom-checkbox"></div>
+                    아이디저장
+                </label>
+            </div>
+
+            <div class="button-group">
+                <button type="button" class="btn btn-login">로그인</button>
+                <button type="button" class="btn btn-signup">회원가입</button>
+            </div>
+        </form>
+
+        <div class="links">
+            <a href="#">아이디찾기</a>
+            <div class="divider"></div>
+            <a href="#">비밀번호찾기</a>
+            <div class="divider"></div>
+            <a href="#">둘러보기</a>
+        </div>
+
+        <div class="social-login-container">
+            <div class="social-title">간편 로그인</div>
+            <div class="social-icons">
+                <div class="icon-btn kakao">
+                    <svg viewBox="0 0 24 24" fill="#3c1e1e">
+                        <path
+                            d="M12 3c-4.97 0-9 3.185-9 7.115 0 2.557 1.707 4.8 4.27 6.054-.188.702-.682 2.545-.78 2.926-.123.477.175.47.37.34.15-.1.2.1.2.1l3.52-2.33c.45.065.91.1 1.38.1 4.97 0 9-3.186 9-7.116C21 6.185 16.97 3 12 3z" />
+                    </svg>
+                </div>
+                <div class="icon-btn naver">
+                    <svg viewBox="0 0 24 24" fill="white">
+                        <path d="M16.273 12.845L7.376 0H0v24h7.727V11.155L16.624 24H24V0h-7.727v12.845z" />
+                    </svg>
+                </div>
+                <div class="icon-btn google">
+                    <svg viewBox="0 0 24 24">
+                        <path
+                            d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
+                            fill="#4285F4" />
+                        <path
+                            d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
+                            fill="#34A853" />
+                        <path
+                            d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z"
+                            fill="#FBBC05" />
+                        <path
+                            d="M12 5.38c1.62 0 3.06.56 4.21 1.66l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
+                            fill="#EA4335" />
+                    </svg>
+                </div>
+                <div class="icon-btn facebook">
+                    <svg viewBox="0 0 24 24" fill="white">
+                        <path
+                            d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
+                    </svg>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 하단 홈바 -->
+    <div class="home-bar-container">
+        <div class="home-indicator"></div>
+    </div>
+
+    <!-- 키보드 오버레이 -->
+    <div class="keyboard-wrapper" id="keyboardWrapper">
+        <div class="keyboard-toolbar">
+            <button type="button" class="btn-done" id="btnDone">완료</button>
+        </div>
+        <div class="keyboard-container">
+            <img src="./images/키보드.png" alt="Keyboard" class="keyboard-img"
+                onerror="this.src='https://via.placeholder.com/400x280?text=Keyboard+UI'">
+        </div>
+    </div>
+
+    <script>
+        const inputs = document.querySelectorAll('input');
+        const keyboardWrapper = document.getElementById('keyboardWrapper');
+        const body = document.body;
+        const closeArea = document.getElementById('closeArea');
+        const btnDone = document.getElementById('btnDone');
+        const timeElement = document.getElementById('currentTime');
+
+        function updateTime() {
+            const now = new Date();
+            let hours = now.getHours();
+            let minutes = now.getMinutes();
+            minutes = minutes < 10 ? '0' + minutes : minutes;
+            timeElement.textContent = `${hours}:${minutes}`;
+        }
+
+        setInterval(updateTime, 1000);
+        updateTime();
+
+        function showKeyboard() {
+            keyboardWrapper.classList.add('show');
+            body.classList.add('keyboard-open');
+        }
+
+        function hideKeyboard() {
+            keyboardWrapper.classList.remove('show');
+            body.classList.remove('keyboard-open');
+            document.activeElement.blur();
+        }
+
+        inputs.forEach(input => {
+            input.addEventListener('focus', showKeyboard);
+        });
+
+        closeArea.addEventListener('click', hideKeyboard);
+        btnDone.addEventListener('click', (e) => {
+            e.preventDefault();
+            hideKeyboard();
+        });
+    </script>
+</body>
+
+</html>

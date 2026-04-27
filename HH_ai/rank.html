@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>랭킹 카테고리</title>
+    <style>
+        /* 기본 레이아웃 및 디자인 시스템은 기존 메인 페이지와 통일 */
+        :root {
+            --primary-color: #A3D9C9;
+        }
+
+        body {
+            margin: 0;
+            font-family: sans-serif;
+            background: #fff;
+            display: flex;
+            justify-content: center;
+        }
+
+        .app-container {
+            width: 100%;
+            max-width: 375px;
+            min-height: 100dvh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* 상태 표시줄 및 헤더 */
+        .status-bar {
+            height: 44px;
+            padding: 0 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-weight: 600;
+        }
+
+        .header {
+            height: 48px;
+            padding: 0 24px;
+            display: flex;
+            align-items: center;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        /* 랭킹 탭 영역 (스크롤 고정) */
+        .ranking-tabs {
+            display: flex;
+            overflow-x: auto;
+            padding: 10px 24px;
+            gap: 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .tab-item {
+            cursor: pointer;
+            white-space: nowrap;
+            padding: 8px 0;
+            color: #888;
+        }
+
+        .tab-item.active {
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--primary-color);
+        }
+
+        /* 랭킹 컨텐츠 */
+        .ranking-list {
+            flex: 1;
+            padding: 24px;
+            overflow-y: auto;
+        }
+
+        .rank-card {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+
+        .rank-num {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--primary-color);
+            min-width: 30px;
+        }
+
+        /* 하단 홈바 */
+        .home-bar {
+            height: 34px;
+            background: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .home-bar::after {
+            content: "";
+            width: 134px;
+            height: 5px;
+            background: #000;
+            border-radius: 100px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="app-container">
+        <div class="status-bar"><span>9:41</span><span>...</span></div>
+        <div class="header">랭킹</div>
+
+        <div class="ranking-tabs">
+            <div class="tab-item active">전체</div>
+            <div class="tab-item">스킨케어</div>
+            <div class="tab-item">메이크업</div>
+            <div class="tab-item">바디/헤어</div>
+        </div>
+
+        <div class="ranking-list" id="list">
+            <div class="rank-card">
+                <div class="rank-num">1</div>
+                <div>랭킹 상품 정보 영역</div>
+            </div>
+        </div>
+
+        <div class="home-bar"></div>
+    </div>
+
+    <script>
+        // 탭 클릭 이벤트 상호작용
+        document.querySelectorAll('.tab-item').forEach(tab => {
+            tab.addEventListener('click', () => {
+                document.querySelector('.tab-item.active').classList.remove('active');
+                tab.classList.add('active');
+            });
+        });
+    </script>
+</body>
+
+</html>

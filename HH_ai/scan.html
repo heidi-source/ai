@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>상품 스캔 모드</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --hwahae-mint: #00ceb8;
+            --safe-top: env(safe-area-inset-top);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
+            background-color: #000;
+            overflow: hidden;
+            width: 100vw;
+            height: 100dvh;
+        }
+
+        /* 스캐너 전체 컨테이너 (모바일 375px 최적화) */
+        .scanner-wrapper {
+            position: relative;
+            width: 100%;
+            max-width: 375px;
+            height: 100%;
+            margin: 0 auto;
+            background: #000;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* 비디오 배경 */
+        .video-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        #video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* 상단 헤더 */
+        .scanner-header {
+            position: relative;
+            z-index: 10;
+            padding-top: calc(20px + var(--safe-top));
+            padding-left: 20px;
+            padding-right: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: linear-gradient(to bottom, rgba(0, 0, 0, 0.7), transparent);
+        }
+
+        .btn-close {
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 24px;
+            cursor: pointer;
+            padding: 8px;
+        }
+
+        .header-title {
+            color: #fff;
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .placeholder-box {
+            width: 40px;
+        }
+
+        /* 타이틀 중앙 정렬용 */
+
+        /* 스캔 가이드 UI */
+        .overlay-ui {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 5;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            pointer-events: none;
+        }
+
+        /* 중앙 스캔 영역 */
+        .scan-window {
+            position: relative;
+            width: 280px;
+            height: 180px;
+            border-radius: 16px;
+            box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.6);
+            /* 주변 더 어둡게 처리 */
+            pointer-events: none;
+        }
+
+        /* 모서리 가이드선 */
+        .corner-tl,
+        .corner-tr,
+        .corner-bl,
+        .corner-br {
+            content: '';
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            border: 3px solid var(--hwahae-mint);
+            pointer-events: none;
+        }
+
+        .corner-tl {
+            top: -2px;
+            left: -2px;
+            border-right: 0;
+            border-bottom: 0;
+            border-radius: 16px 0 0 0;
+        }
+
+        .corner-tr {
+            top: -2px;
+            right: -2px;
+            border-left: 0;
+            border-bottom: 0;
+            border-radius: 0 16px 0 0;
+        }
+
+        .corner-bl {
+            bottom: -2px;
+            left: -2px;
+            border-right: 0;
+            border-top: 0;
+            border-radius: 0 0 0 16px;
+        }
+
+        .corner-br {
+            bottom: -2px;
+            right: -2px;
+            border-left: 0;
+            border-top: 0;
+            border-radius: 0 0 16px 0;
+        }
+
+        /* 스캔 애니메이션 라인 */
+        .scan-line {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            width: calc(100% - 20px);
+            height: 2px;
+            background: var(--hwahae-mint);
+            box-shadow: 0 0 15px var(--hwahae-mint);
+            animation: scanning 2.0s infinite ease-in-out;
+        }
+
+        @keyframes scanning {
+            0% {
+                top: 20px;
+                opacity: 0;
+            }
+
+            50% {
+                top: 160px;
+                opacity: 1;
+            }
+
+            100% {
+                top: 20px;
+                opacity: 0;
+            }
+        }
+
+        /* 하단 안내 텍스트 */
+        .scanner-info {
+            position: absolute;
+            bottom: 15%;
+            width: 100%;
+            text-align: center;
+            z-index: 10;
+            padding: 0 40px;
+        }
+
+        .scanner-info p {
+            color: #fff;
+            font-size: 15px;
+            line-height: 1.6;
+            font-weight: 400;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .scanner-info .highlight {
+            color: var(--hwahae-mint);
+            font-weight: 600;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="scanner-wrapper">
+        <!-- 카메라 뷰 -->
+        <div class="video-container">
+            <video id="video" autoplay playsinline></video>
+        </div>
+
+        <!-- 헤더 영역 -->
+        <header class="scanner-header">
+            <button class="btn-close" onclick="history.back()">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <h1 class="header-title">상품 스캔</h1>
+            <div class="placeholder-box"></div>
+        </header>
+
+        <!-- 스캔 오버레이 가이드 -->
+        <div class="overlay-ui">
+            <div class="scan-window">
+                <div class="corner-tl"></div>
+                <div class="corner-tr"></div>
+                <div class="corner-bl"></div>
+                <div class="corner-br"></div>
+                <div class="scan-line"></div>
+            </div>
+        </div>
+
+        <!-- 안내 문구 -->
+        <div class="scanner-info">
+            <p>바코드를 <span class="highlight">프레임 안</span>에 맞추면<br>정보를 자동으로 불러옵니다</p>
+        </div>
+    </div>
+
+    <script>
+        // 카메라 제어 로직
+        const video = document.getElementById('video');
+
+        async function initCamera() {
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({
+                    video: {
+                        facingMode: "environment",
+                        width: { ideal: 1280 },
+                        height: { ideal: 720 }
+                    },
+                    audio: false
+                });
+                video.srcObject = stream;
+            } catch (err) {
+                console.error("Camera error: ", err);
+                // 모의 환경(PC)이나 권한 거부 시 안내 이미지 표시
+                video.poster = "https://images.unsplash.com/photo-1556228578-8c7c2f1f5f24?auto=format&fit=crop&q=80&w=1000";
+            }
+        }
+
+        // 페이지 로드 시 카메라 시작
+        window.onload = initCamera;
+
+        // 뒤로가기 방지 및 앱 환경 대응을 위한 간단한 핸들러
+        window.addEventListener('popstate', function () {
+            const stream = video.srcObject;
+            if (stream) {
+                stream.getTracks().forEach(track => track.stop());
+            }
+        });
+    </script>
+</body>
+
+</html>
