@@ -6,8 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>화해 스타일 메인 페이지</title>
     <script src="https://cdn.tailwindcss.com"></script>
+
     <!-- Font Awesome 최신 버전을 사용하여 아이콘 호환성 확보 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
 
@@ -35,12 +37,13 @@
         .mobile-container {
             width: 100%;
             max-width: 450px;
-            min-height: 100vh;
+            height: 100vh;
             position: relative;
             background-color: white;
             display: flex;
             flex-direction: column;
             box-shadow: 0 0 40px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
         }
 
         .status-bar {
@@ -55,14 +58,16 @@
             position: sticky;
             top: 0;
             z-index: 60;
-            /* 여백 제거 */
             margin-bottom: 0;
+            flex-shrink: 0;
         }
 
         .main-content {
             flex: 1;
             padding-bottom: 120px;
             overflow-x: hidden;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
         }
 
         /* 공통 인터랙션 */
@@ -72,10 +77,8 @@
             -webkit-tap-highlight-color: transparent;
         }
 
-        /* 기본 호버 효과 (TranslateY) - 배너/메뉴 제외 */
         .clickable:hover:not(.no-hover) {
             opacity: 1;
-            /* 0.9에서 1로 변경 */
             transform: translateY(-1px);
         }
 
@@ -84,7 +87,6 @@
             opacity: 0.8;
         }
 
-        /* 호버 제외 클래스 */
         .no-hover:hover {
             transform: none !important;
             opacity: 1 !important;
@@ -134,7 +136,7 @@
             position: relative;
         }
 
-        /* 신제품 이미지 - 호버 시 확대 없이 채도만 감소 */
+        /* 신제품 이미지 */
         .new-product-img {
             aspect-ratio: 1 / 1;
             width: 100%;
@@ -200,29 +202,76 @@
             color: var(--hwahae-primary);
         }
 
-        .search-bar {
-            height: 48px;
-            background: #F1F3F5;
-            border-radius: 24px;
+        .search-box {
+            flex: 1;
+            height: 47px;
+            border: 2px solid #9bd8ca;
+            border-radius: 16px;
             display: flex;
             align-items: center;
-            padding: 0 16px;
-            transition: all 0.2s ease;
+            justify-content: space-between;
+            padding: 0 16px 0 28px;
+            color: #666;
+            font-size: 12px;
         }
 
-
-        .search-bar:focus-within {
-            background: white;
-            box-shadow: 0 0 0 2px var(--hwahae-primary);
+        .search-input {
+            flex: 1;
+            min-width: 0;
+            border: 0;
+            outline: none;
+            background: transparent;
+            color: #666;
+            font-size: 12px;
+            font-family: inherit;
         }
 
+        .search-input::placeholder {
+            color: #999;
+            opacity: 1;
+        }
+
+        .search-icon {
+            width: 20px;
+            height: 20px;
+            border: 3px solid #555;
+            border-radius: 50%;
+            position: relative;
+            flex-shrink: 0;
+        }
+
+        .search-icon::after {
+            content: "";
+            position: absolute;
+            width: 9px;
+            height: 3px;
+            background: #555;
+            right: -7px;
+            bottom: -4px;
+            transform: rotate(45deg);
+            border-radius: 3px;
+        }
+
+        .ai-btn {
+            width: 27px;
+            height: 27px;
+            border: none;
+            border-radius: 50%;
+            background: #9bd8ca;
+            color: #1b4f4d;
+            font-size: 11px;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            text-decoration: none;
+        }
 
         .tab-active {
             color: #1E4F98;
-            /* 텍스트 색상 변경 */
             font-weight: 700;
             border-bottom: 2px solid #1E4F98;
-            /* 하단 구분선 색상 변경 */
         }
 
         .icon-box {
@@ -255,6 +304,29 @@
             overflow: hidden;
         }
 
+        .banner-slide {
+            position: absolute;
+            inset: 0;
+            opacity: 0;
+            transition: opacity 0.6s ease;
+        }
+
+        .banner-slide.active {
+            opacity: 1;
+            z-index: 1;
+        }
+
+        .banner-slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .banner-text,
+        .banner-count {
+            z-index: 2;
+        }
+
         .banner-overlay {
             position: absolute;
             top: 0;
@@ -272,32 +344,72 @@
         .keyboard-overlay {
             position: fixed;
             bottom: -100%;
-            /* 초기 상태: 화면 아래로 숨김 */
             left: 0;
             right: 0;
-            /* left, right를 0으로 주면 가로 확장 준비 완료 */
             width: 100%;
-            /* 부모 기준 100% */
             max-width: 450px;
-            /* 최대 폭 제한 */
             margin: 0 auto;
-            /* 화면이 375px보다 클 때 자동으로 중앙 정렬 */
             transition: bottom 0.3s ease-in-out;
             z-index: 9999;
         }
 
         .keyboard-overlay.is-visible {
             bottom: 0;
-            /* 검색창 클릭 시 화면 끝에 안착 */
         }
 
-        /* 이미지 반응형 대응 */
         .keyboard-overlay img {
             width: 100%;
-            /* 컨테이너 너비에 꽉 차게 */
             height: auto;
-            /* 비율 유지 */
             display: block;
+        }
+
+        /* TOP 버튼 */
+        .top-button {
+            position: fixed;
+            right: calc(50% - 225px + 18px);
+            bottom: 96px;
+            width: 44px;
+            height: 44px;
+            border: none;
+            border-radius: 50%;
+            background: #A3D9C9;
+            color: #fff;
+            font-size: 11px;
+            font-weight: 700;
+            box-shadow: 0 8px 20px rgba(30, 79, 152, 0.25);
+            cursor: pointer;
+            z-index: 200;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px);
+            transition: all 0.25s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            line-height: 1;
+        }
+
+        .top-button i {
+            display: block;
+            font-size: 13px;
+            margin-bottom: 3px;
+        }
+
+        .top-button.is-show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .top-button:active {
+            transform: scale(0.92);
+        }
+
+        @media (max-width: 450px) {
+            .top-button {
+                right: 18px;
+            }
         }
     </style>
 </head>
@@ -305,7 +417,7 @@
 <body>
 
     <div class="mobile-container">
-        <!-- 상태 표시줄 (하단 마진 0) -->
+        <!-- 상태 표시줄 -->
         <div class="status-bar">
             <div id="status-time">09:41</div>
             <div class="flex gap-2 text-sm">
@@ -316,214 +428,250 @@
         </div>
 
         <div class="main-content">
-            <!-- 헤더 및 검색 (Status Bar와 여백 0으로 밀착) -->
-            <!-- sticky top-11은 status-bar 높이(44px)에 해당함 -->
-            <header class="bg-white sticky top-[44px] z-50 shadow-sm shadow-gray-50">
+            <!-- 헤더 및 검색 -->
+            <header class="bg-white sticky top-0 z-50 shadow-sm shadow-gray-50">
                 <div class="px-5 flex items-center gap-3 pt-2 pb-2">
-
 
                     <a href="scan.html" class="clickable p-1 no-hover">
                         <i class="fa-solid fa-expand text-xl text-gray-400"></i>
                     </a>
-                    <div class="search-bar flex-1">
-                        <input type="text" class="search-input bg-transparent outline-none w-full text-sm"
-                            placeholder="나한테 맞는 화장품 찾아보기">
-                        <i class="fa-solid fa-magnifying-glass text-gray-400 clickable p-1"></i>
+
+                    <div class="search-box">
+                        <input type="text" class="search-input" placeholder="나한테 맞는 화장품 찾아보기">
+                        <div class="search-icon clickable"></div>
                     </div>
-                    <div
-                        class="w-9 h-9 bg-teal-50 rounded-full flex items-center justify-center border border-teal-100 clickable">
-                        <span class="text-[10px] font-bold text-teal-500">AI</span>
-                    </div>
+
+                    <a href="aimode.html" class="ai-btn clickable">AI</a>
                 </div>
 
                 <div class="flex border-b border-gray-50">
                     <div class="flex-1 text-center py-3 text-sm tab-active cursor-pointer clickable no-hover">홈</div>
-                    <div class="flex-1 text-center py-3 text-sm text-gray-400 cursor-pointer clickable no-hover">랭킹
-                    </div>
-                    <div class="flex-1 text-center py-3 text-sm text-gray-400 cursor-pointer clickable no-hover">커뮤니티
+
+                    <a href="rank.html"
+                        class="flex-1 text-center py-3 text-sm text-gray-400 cursor-pointer clickable no-hover">
+                        랭킹
+                    </a>
+
+                    <a href="commu.html"
+                        class="flex-1 text-center py-3 text-sm text-gray-400 cursor-pointer clickable no-hover">
+                        커뮤니티
+                    </a>
+                </div>
+        </div>
+        </header>
+        <!-- 배너 -->
+        <section class="banner-container px-5 mt-4">
+            <div class="banner-wrapper clickable no-hover">
+
+                <!-- slide 1 -->
+                <div class="banner-slide active">
+                    <img src="https://images.unsplash.com/photo-1612817288484-6f916006741a?auto=format&fit=crop&q=80&w=300"
+                        alt="Banner 1">
+                    <div class="banner-overlay"></div>
+                    <div class="banner-text absolute bottom-6 left-5">
+                        <p class="text-xs font-bold mb-1 text-gray-600">오직 화해에서만 드려요</p>
+                        <h2 class="text-2xl font-bold text-gray-900">화해 단독상품 기획전</h2>
                     </div>
                 </div>
-            </header>
 
-            <!-- 배너 -->
-            <section class="banner-container px-5 mt-4">
-                <div class="banner-wrapper clickable no-hover">
-                    <div class="banner-item h-full">
-                        <img src="https://images.unsplash.com/photo-1596462502278-27bfdc4033c8?auto=format&fit=crop&q=80&w=600"
-                            alt="Banner 1" class="w-full h-full object-cover">
-                        <div class="banner-overlay"></div>
-                        <div class="banner-text absolute bottom-6 left-5">
-                            <p class="text-xs font-bold mb-1 text-gray-600">오직 화해에서만 드려요</p>
-                            <h2 class="text-2xl font-bold text-gray-900">화해 단독상품 기획전</h2>
-                        </div>
-                        <div
-                            class="absolute bottom-6 right-5 bg-black/20 px-3 py-1 rounded-full text-white text-[10px] backdrop-blur-sm">
-                            1 / 5 +
-                        </div>
+                <!-- slide 2 -->
+                <div class="banner-slide">
+                    <img src="https://images.unsplash.com/photo-1620916566398-39f1143ab7be?auto=format&fit=crop&q=80&w=600"
+                        alt="Banner 2">
+                    <div class="banner-overlay"></div>
+                    <div class="banner-text absolute bottom-6 left-5">
+                        <p class="text-xs font-bold mb-1 text-gray-600">피부 타입별 추천</p>
+                        <h2 class="text-2xl font-bold text-gray-900">건성 피부 맞춤 케어</h2>
                     </div>
                 </div>
-            </section>
 
-            <!-- 실시간 랭킹 바 -->
-            <div class="px-5 py-5">
+                <!-- slide 3 -->
+                <div class="banner-slide">
+                    <img src="https://images.unsplash.com/photo-1556228578-8c7c2f971c91?auto=format&fit=crop&q=80&w=600"
+                        alt="Banner 3">
+                    <div class="banner-overlay"></div>
+                    <div class="banner-text absolute bottom-6 left-5">
+                        <p class="text-xs font-bold mb-1 text-gray-600">지금 가장 인기있는 제품</p>
+                        <h2 class="text-2xl font-bold text-gray-900">실시간 랭킹 TOP</h2>
+                    </div>
+                </div>
+
                 <div
-                    class="bg-white border border-gray-100 rounded-full py-2.5 px-4 flex items-center gap-2 shadow-sm clickable">
-                    <i class="fa-solid fa-chart-line text-red-500 text-xs"></i>
-                    <span class="text-[11px] font-bold text-red-500 whitespace-nowrap">실시간 인기랭킹</span>
-                    <span class="text-xs text-gray-700 truncate flex-1"><span class="font-bold mr-1">1</span>재생크림 <span
-                            class="text-gray-400 font-normal ml-1">카테고리</span></span>
-                    <i class="fa-solid fa-chevron-down text-[10px] text-gray-300"></i>
+                    class="banner-count absolute bottom-6 right-5 bg-black/20 px-3 py-1 rounded-full text-white text-[10px] backdrop-blur-sm">
+                    <span id="bannerCurrent">1</span> / <span id="bannerTotal">3</span> +
                 </div>
             </div>
+        </section>
 
-            <!-- 퀵 메뉴 영역 -->
-            <section class="px-5 grid grid-cols-5 gap-2 py-2 mb-4">
-                <div class="flex flex-col items-center gap-2 clickable group">
-                    <div class="icon-box"><i class="fa-solid fa-trophy"></i></div>
-                    <span class="text-[11px] font-medium text-[#595959] group-hover:text-teal-500">어워드</span>
-                </div>
-                <div class="flex flex-col items-center gap-2 clickable group">
-                    <div class="icon-box"><i class="fa-solid fa-chart-simple"></i></div>
-                    <span class="text-[11px] font-medium text-[#595959] group-hover:text-teal-500">랭킹</span>
-                </div>
-                <div class="flex flex-col items-center gap-2 clickable group">
-                    <div class="icon-box"><i class="fa-solid fa-gift"></i></div>
-                    <span class="text-[11px] font-medium text-[#595959] group-hover:text-teal-500">이벤트</span>
-                </div>
-                <div class="flex flex-col items-center gap-2 clickable group">
-                    <div class="icon-box"><i class="fa-solid fa-hand-holding-heart"></i></div>
-                    <span class="text-[11px] font-medium text-[#595959] group-hover:text-teal-500">Only화해</span>
-                </div>
-                <div class="flex flex-col items-center gap-2 clickable group">
-                    <div class="icon-box"><i class="fa-solid fa-flask"></i></div>
-                    <span class="text-[11px] font-medium text-[#595959] group-hover:text-teal-500">샘플체험</span>
-                </div>
-            </section>
-
-            <!-- Heidie 님 개인맞춤화 섹션 -->
-            <section class="personal-section bg-[#E8F5F3] clickable" onclick="handleCardClick('Heidie 추천')">
-                <div class="personal-title-area mb-4">
-                    <i class="fa-solid fa-bookmark text-gray-800 text-xs"></i>
-                    <h3 class="text-[14px] font-bold text-gray-800">
-                        <span class="name-tag">Heidie</span> 님의 건성 피부를 위한 추천
-                    </h3>
-                </div>
-                <div class="product-info-flat">
-                    <img src="https://images.unsplash.com/photo-1620916566398-39f1143ab7be?auto=format&fit=crop&q=80&w=120"
-                        class="w-14 h-14 rounded-xl object-cover shadow-sm" alt="product">
-                    <div class="flex-1 pr-4">
-                        <p class="text-[12px] font-bold text-[#1A4B8F] leading-snug">시드물 스킨소스 D-판테놀 앰플</p>
-                        <p class="text-[10px] text-gray-500 mt-1 line-clamp-2 leading-relaxed">판테놀 성분이 30% 고농축 함유되어 피부 속
-                            수분을 유지하고 장벽을 탄탄하게 강화해 줍니다.</p>
-                    </div>
-                    <i class="fa-solid fa-chevron-right text-gray-300 text-[10px]"></i>
-                </div>
-            </section>
-
-            <!-- 건성피부 만족도 섹션 -->
-            <section class="personal-section bg-[#F2F2F2] clickable" onclick="handleCardClick('건성 만족도')">
-                <div class="personal-title-area mb-4">
-                    <i class="fa-solid fa-bookmark text-gray-800 text-xs"></i>
-                    <h3 class="text-[14px] font-bold text-gray-800">건성피부 만족도가 높은 제품</h3>
-                </div>
-                <div class="product-info-flat">
-                    <img src="https://images.unsplash.com/photo-1556228578-8c7c2f971c91?auto=format&fit=crop&q=80&w=120"
-                        class="w-14 h-14 rounded-xl object-cover shadow-sm" alt="product">
-                    <div class="flex-1 pr-4">
-                        <p class="text-[12px] font-bold text-[#1A4B8F] leading-snug">토리든 다이브인 저분자 히알루론산 크림</p>
-                        <p class="text-[10px] text-gray-500 mt-1 leading-relaxed">#저분자 #히알루론산 #판테놀 #알란토인 #수분충전 #진정보습</p>
-                    </div>
-                    <i class="fa-solid fa-chevron-right text-gray-300 text-[10px]"></i>
-                </div>
-            </section>
-
-            <!-- 신제품 섹션 -->
-            <section class="px-5 mb-10 mt-6">
-                <div class="flex justify-between items-center mb-4 clickable">
-                    <div class="flex items-center gap-2">
-                        <span
-                            class="text-[10px] font-bold text-red-500 border border-red-500 rounded-full px-2 py-0.5">신제품</span>
-                        <h3 class="text-sm font-bold text-gray-800">런칭기념 특가! only화해에서</h3>
-                    </div>
-                    <i class="fa-solid fa-chevron-right text-gray-400 text-xs"></i>
-                </div>
-
-                <div class="grid grid-cols-2 gap-4">
-                    <!-- 신제품 카드 1 -->
-                    <div class="clickable new-product-card">
-                        <div class="overflow-hidden rounded-2xl mb-2 bg-gray-100">
-                            <img src="https://images.unsplash.com/photo-1556227702-d1e4e7b5c232?auto=format&fit=crop&q=80&w=300"
-                                class="new-product-img" alt="New product 1">
-                        </div>
-                        <div class="px-1">
-                            <p class="text-[10px] text-gray-400 mb-0.5">에스네이처</p>
-                            <p class="text-xs font-bold text-gray-800 leading-tight mb-1">아쿠아 라이스 클렌징 밀크</p>
-                            <div class="flex items-center gap-1 mb-1">
-                                <i class="fa-solid fa-star text-yellow-400 text-[10px]"></i>
-                                <span class="text-[10px] font-bold text-gray-800">4.61</span>
-                                <span class="text-[10px] text-gray-300">(1,672)</span>
-                            </div>
-                            <div class="flex items-center gap-1">
-                                <span class="text-xs font-bold text-red-500">45%</span>
-                                <span class="text-xs font-bold text-gray-800">24,900</span>
-                                <span class="text-[10px] text-gray-800">원</span>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- 신제품 카드 2 -->
-                    <div class="clickable new-product-card">
-                        <div class="overflow-hidden rounded-2xl mb-2 bg-gray-100">
-                            <img src="https://images.unsplash.com/photo-1617897903246-719242758050?auto=format&fit=crop&q=80&w=300"
-                                class="new-product-img" alt="New product 2">
-                        </div>
-                        <div class="px-1">
-                            <p class="text-[10px] text-gray-400 mb-0.5">브이티코스메틱</p>
-                            <p class="text-xs font-bold text-gray-800 leading-tight mb-1">피디알엔 에센스 100</p>
-                            <div class="flex items-center gap-1 mb-1">
-                                <i class="fa-solid fa-star text-yellow-400 text-[10px]"></i>
-                                <span class="text-[10px] font-bold text-gray-800">4.54</span>
-                                <span class="text-[10px] text-gray-300">(204)</span>
-                            </div>
-                            <div class="flex items-center gap-1">
-                                <span class="text-xs font-bold text-red-500">53%</span>
-                                <span class="text-xs font-bold text-gray-800">20,900</span>
-                                <span class="text-[10px] text-gray-800">원</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
+        <!-- 실시간 랭킹 바 -->
+        <div class="px-5 py-5">
+            <div
+                class="bg-white border border-gray-100 rounded-full py-2.5 px-4 flex items-center gap-2 shadow-sm clickable">
+                <i class="fa-solid fa-chart-line text-red-500 text-xs"></i>
+                <span class="text-[11px] font-bold text-red-500 whitespace-nowrap">실시간 인기랭킹</span>
+                <span class="text-xs text-gray-700 truncate flex-1">
+                    <span class="font-bold mr-1">1</span>재생크림
+                    <span class="text-gray-400 font-normal ml-1">카테고리</span>
+                </span>
+                <i class="fa-solid fa-chevron-down text-[10px] text-gray-300"></i>
+            </div>
         </div>
 
-        <!-- 하단 바 -->
-        <div class="fixed-bottom">
-            <nav class="bottom-tab">
-                <div class="tab-item" onclick="setActiveTab(this)">
-                    <i class="fa-solid fa-bars"></i>
-                    <span class="text-[10px]">카테고리</span>
-                </div>
-                <div class="tab-item" onclick="setActiveTab(this)">
-                    <i class="fa-solid fa-diamond"></i>
-                    <span class="text-[10px]">혜택</span>
-                </div>
-                <div class="tab-item active" onclick="setActiveTab(this)">
-                    <i class="fa-solid fa-house"></i>
-                    <span class="text-[10px]">홈</span>
-                </div>
-                <div class="tab-item" onclick="setActiveTab(this)">
-                    <i class="fa-solid fa-cart-shopping"></i>
-                    <span class="text-[10px]">쇼핑</span>
-                </div>
-                <div class="tab-item" onclick="setActiveTab(this)">
-                    <i class="fa-regular fa-user"></i>
-                    <span class="text-[10px]">마이</span>
-                </div>
-            </nav>
-            <div class="h-6 flex justify-center items-center">
-                <div class="w-32 h-1 bg-[#000] rounded-full"></div>
+        <!-- 퀵 메뉴 영역 -->
+        <section class="px-5 grid grid-cols-5 gap-2 py-2 mb-4">
+            <div class="flex flex-col items-center gap-2 clickable group">
+                <div class="icon-box"><i class="fa-solid fa-trophy"></i></div>
+                <span class="text-[11px] font-medium text-[#595959] group-hover:text-teal-500">어워드</span>
             </div>
+            <div class="flex flex-col items-center gap-2 clickable group">
+                <div class="icon-box"><i class="fa-solid fa-chart-simple"></i></div>
+                <span class="text-[11px] font-medium text-[#595959] group-hover:text-teal-500">랭킹</span>
+            </div>
+            <div class="flex flex-col items-center gap-2 clickable group">
+                <div class="icon-box"><i class="fa-solid fa-gift"></i></div>
+                <span class="text-[11px] font-medium text-[#595959] group-hover:text-teal-500">이벤트</span>
+            </div>
+            <div class="flex flex-col items-center gap-2 clickable group">
+                <div class="icon-box"><i class="fa-solid fa-hand-holding-heart"></i></div>
+                <span class="text-[11px] font-medium text-[#595959] group-hover:text-teal-500">Only화해</span>
+            </div>
+            <div class="flex flex-col items-center gap-2 clickable group">
+                <div class="icon-box"><i class="fa-solid fa-flask"></i></div>
+                <span class="text-[11px] font-medium text-[#595959] group-hover:text-teal-500">샘플체험</span>
+            </div>
+        </section>
+
+        <!-- Heidie 님 개인맞춤화 섹션 -->
+        <section class="personal-section bg-[#E8F5F3] clickable" onclick="handleCardClick('Heidie 추천')">
+            <div class="personal-title-area mb-4">
+                <i class="fa-solid fa-bookmark text-gray-800 text-xs"></i>
+                <h3 class="text-[14px] font-bold text-gray-800">
+                    <span class="name-tag">Heidie</span> 님의 건성 피부를 위한 추천
+                </h3>
+            </div>
+            <div class="product-info-flat">
+                <img src="https://images.unsplash.com/photo-1620916566398-39f1143ab7be?auto=format&fit=crop&q=80&w=120"
+                    class="w-14 h-14 rounded-xl object-cover shadow-sm" alt="product">
+                <div class="flex-1 pr-4">
+                    <p class="text-[12px] font-bold text-[#1A4B8F] leading-snug">시드물 스킨소스 D-판테놀 앰플</p>
+                    <p class="text-[10px] text-gray-500 mt-1 line-clamp-2 leading-relaxed">
+                        판테놀 성분이 30% 고농축 함유되어 피부 속 수분을 유지하고 장벽을 탄탄하게 강화해 줍니다.
+                    </p>
+                </div>
+                <i class="fa-solid fa-chevron-right text-gray-300 text-[10px]"></i>
+            </div>
+        </section>
+
+        <!-- 건성피부 만족도 섹션 -->
+        <section class="personal-section bg-[#F2F2F2] clickable" onclick="handleCardClick('건성 만족도')">
+            <div class="personal-title-area mb-4">
+                <i class="fa-solid fa-bookmark text-gray-800 text-xs"></i>
+                <h3 class="text-[14px] font-bold text-gray-800">건성피부 만족도가 높은 제품</h3>
+            </div>
+            <div class="product-info-flat">
+                <img src="./images/톨든.jpg" class="w-14 h-14 rounded-xl object-cover shadow-sm" alt="product">
+                <div class="flex-1 pr-4">
+                    <p class="text-[12px] font-bold text-[#1A4B8F] leading-snug">토리든 다이브인 저분자 히알루론산 크림</p>
+                    <p class="text-[10px] text-gray-500 mt-1 leading-relaxed">
+                        #저분자 #히알루론산 #판테놀 #알란토인 #수분충전 #진정보습
+                    </p>
+                </div>
+                <i class="fa-solid fa-chevron-right text-gray-300 text-[10px]"></i>
+            </div>
+        </section>
+
+        <!-- 신제품 섹션 -->
+        <section class="px-5 mb-10 mt-6">
+            <div class="flex justify-between items-center mb-4 clickable">
+                <div class="flex items-center gap-2">
+                    <span
+                        class="text-[10px] font-bold text-red-500 border border-red-500 rounded-full px-2 py-0.5">신제품</span>
+                    <h3 class="text-sm font-bold text-gray-800">런칭기념 특가! only화해에서</h3>
+                </div>
+                <i class="fa-solid fa-chevron-right text-gray-400 text-xs"></i>
+            </div>
+
+            <div class="grid grid-cols-2 gap-4">
+                <!-- 신제품 카드 1 -->
+                <div class="clickable new-product-card" onclick="window.location.href='product.html';">
+                    <div class="overflow-hidden rounded-2xl mb-2 bg-gray-100">
+                        <img src="./images/에스트라.webp" class="new-product-img" alt="New product 1">
+                    </div>
+                    <div class="px-1">
+                        <p class="text-[10px] text-gray-400 mb-0.5">에스네이처</p>
+                        <p class="text-xs font-bold text-gray-800 leading-tight mb-1">아쿠아 라이스 클렌징 밀크</p>
+                        <div class="flex items-center gap-1 mb-1">
+                            <i class="fa-solid fa-star text-yellow-400 text-[10px]"></i>
+                            <span class="text-[10px] font-bold text-gray-800">4.61</span>
+                            <span class="text-[10px] text-gray-300">(1,672)</span>
+                        </div>
+                        <div class="flex items-center gap-1">
+                            <span class="text-xs font-bold text-red-500">45%</span>
+                            <span class="text-xs font-bold text-gray-800">24,900</span>
+                            <span class="text-[10px] text-gray-800">원</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 신제품 카드 2 -->
+                <div class="clickable new-product-card" onclick="window.location.href='product.html';">
+                    <div class="overflow-hidden rounded-2xl mb-2 bg-gray-100">
+                        <img src="./images/펩타톡스.png" class="new-product-img" alt="New product 2">
+                    </div>
+                    <div class="px-1">
+                        <p class="text-[10px] text-gray-400 mb-0.5">브이티코스메틱</p>
+                        <p class="text-xs font-bold text-gray-800 leading-tight mb-1">피디알엔 에센스 100</p>
+                        <div class="flex items-center gap-1 mb-1">
+                            <i class="fa-solid fa-star text-yellow-400 text-[10px]"></i>
+                            <span class="text-[10px] font-bold text-gray-800">4.54</span>
+                            <span class="text-[10px] text-gray-300">(204)</span>
+                        </div>
+                        <div class="flex items-center gap-1">
+                            <span class="text-xs font-bold text-red-500">53%</span>
+                            <span class="text-xs font-bold text-gray-800">20,900</span>
+                            <span class="text-[10px] text-gray-800">원</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- 하단 바 -->
+    <div class="fixed-bottom">
+        <nav class="bottom-tab">
+            <div class="tab-item" onclick="setActiveTab(this)">
+                <i class="fa-solid fa-bars"></i>
+                <span class="text-[10px]">카테고리</span>
+            </div>
+            <div class="tab-item" onclick="setActiveTab(this)">
+                <i class="fa-solid fa-diamond"></i>
+                <span class="text-[10px]">혜택</span>
+            </div>
+            <div class="tab-item active" onclick="setActiveTab(this)">
+                <i class="fa-solid fa-house"></i>
+                <span class="text-[10px]">홈</span>
+            </div>
+            <div class="tab-item" onclick="setActiveTab(this)">
+                <i class="fa-solid fa-cart-shopping"></i>
+                <span class="text-[10px]">쇼핑</span>
+            </div>
+            <div class="tab-item" onclick="setActiveTab(this)">
+                <i class="fa-regular fa-user"></i>
+                <span class="text-[10px]">마이</span>
+            </div>
+        </nav>
+        <div class="h-6 flex justify-center items-center">
+            <div class="w-32 h-1 bg-[#000] rounded-full"></div>
         </div>
     </div>
+
+    <!-- TOP 버튼 -->
+    <button type="button" class="top-button" id="topButton" aria-label="맨 위로 이동">
+        <i class="fa-solid fa-chevron-up"></i>
+    </button>
+    </div>
+
     <!-- 검색창 키보드 오버레이 -->
     <div id="virtual-keyboard" class="keyboard-overlay">
         <img src="./images/키보드.png" alt="키보드" style="width: 100%; height: auto;">
@@ -535,8 +683,12 @@
             const h = String(now.getHours()).padStart(2, '0');
             const m = String(now.getMinutes()).padStart(2, '0');
             const timeEl = document.getElementById('status-time');
-            if (timeEl) timeEl.textContent = `${h}:${m}`;
+
+            if (timeEl) {
+                timeEl.textContent = `${h}:${m}`;
+            }
         }
+
         setInterval(updateTime, 1000);
         updateTime();
 
@@ -547,13 +699,11 @@
 
         document.querySelectorAll('.main-content header .flex div').forEach(tab => {
             tab.addEventListener('click', function () {
-                // 모든 탭에서 활성화 클래스 제거 및 기본 색상(gray) 적용
                 document.querySelectorAll('.main-content header .flex div').forEach(t => {
                     t.classList.remove('tab-active');
                     t.classList.add('text-gray-400');
                 });
 
-                // 클릭된 탭에 활성화 클래스 추가 및 기본 색상 클래스 제거
                 this.classList.add('tab-active');
                 this.classList.remove('text-gray-400');
             });
@@ -566,20 +716,34 @@
         const searchInput = document.querySelector('.search-input');
         const keyboard = document.querySelector('.keyboard-overlay');
 
-        // 검색창 클릭 시 (포커스)
         searchInput.addEventListener('focus', () => {
             keyboard.classList.add('is-visible');
         });
 
-        // 검색창 포커스 해제 시 (선택 사항: 원할 경우 닫기)
         document.addEventListener('click', (e) => {
             if (!searchInput.contains(e.target) && !keyboard.contains(e.target)) {
                 keyboard.classList.remove('is-visible');
             }
         });
 
+        // TOP 버튼 기능
+        const topButton = document.getElementById('topButton');
+        const mainContent = document.querySelector('.main-content');
 
+        mainContent.addEventListener('scroll', () => {
+            if (mainContent.scrollTop > 200) {
+                topButton.classList.add('is-show');
+            } else {
+                topButton.classList.remove('is-show');
+            }
+        });
 
+        topButton.addEventListener('click', () => {
+            mainContent.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
     </script>
 </body>
 

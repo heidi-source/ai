@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>피부타입 페이지</title>
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            width: 100%;
+            min-height: 100vh;
+            background: #f2f2f2;
+            font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo",
+                "Noto Sans KR", sans-serif;
+            display: flex;
+            justify-content: center;
+        }
+
+        .app {
+            position: relative;
+            width: 100%;
+            max-width: 375px;
+            min-height: 100vh;
+            background: #fff;
+            overflow: hidden;
+        }
+
+        /* =========================
+       Status Bar - h44px
+    ========================= */
+        .statusbar {
+            width: 100%;
+            height: 44px;
+            background: #fff;
+            flex-shrink: 0;
+        }
+
+        /* =========================
+       Header
+    ========================= */
+        .header {
+            width: 100%;
+            height: 55px;
+            padding: 0 18px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: #fff;
+        }
+
+        .scan-btn {
+            width: 38px;
+            height: 38px;
+            border: none;
+            background: transparent;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: #9a9a9a;
+            font-size: 24px;
+            flex-shrink: 0;
+        }
+
+        .clickable:active {
+            opacity: 0.7;
+            transform: scale(0.95);
+            transition: all 0.1s ease;
+        }
+
+        .no-hover:hover {
+            opacity: 1;
+            transform: none;
+        }
+
+        .search-box {
+            flex: 1;
+            height: 48px;
+            border: 2px solid #9edbc9;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 17px 0 30px;
+            background: #fff;
+            cursor: pointer;
+        }
+
+        .search-box span {
+            font-size: 12px;
+            font-weight: 500;
+            color: #555;
+            white-space: nowrap;
+        }
+
+        .search-box i {
+            font-size: 22px;
+            color: #444;
+        }
+
+        .ai-btn {
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            border: none;
+            background: #9edbc9;
+            color: #222;
+            font-size: 11px;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+
+        /* =========================
+       Top Navigation
+    ========================= */
+        .top-nav {
+            width: 100%;
+            height: 43px;
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            border-bottom: 1px solid #ddd;
+            background: #fff;
+        }
+
+        .top-nav a {
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 700;
+            color: #b7b7b7;
+        }
+
+        .top-nav a.active {
+            color: #0c56b7;
+        }
+
+        /* =========================
+       Rank Category Tabs
+    ========================= */
+        .category-tabs {
+            width: 100%;
+            height: 78px;
+            padding: 0 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #fff;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .rank-category-btn {
+            height: 42px;
+            border: none;
+            background: transparent;
+            color: #111;
+            font-size: 16px;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+
+        .rank-category-btn i {
+            font-size: 21px;
+            color: #111;
+        }
+
+        .rank-category-btn.active {
+            min-width: 104px;
+            padding: 0 12px;
+            border: 2px solid #9edbc9;
+            border-radius: 999px;
+            background: #fff;
+        }
+
+        .skin-type-icon {
+            position: relative;
+            width: 25px;
+            height: 25px;
+            display: inline-block;
+            flex-shrink: 0;
+        }
+
+        .skin-type-icon::before {
+            content: "";
+            position: absolute;
+            left: 8px;
+            top: 1px;
+            width: 10px;
+            height: 16px;
+            border: 2px solid #74cdbb;
+            border-radius: 10px 10px 8px 8px;
+            transform: rotate(23deg);
+            background: #fff;
+        }
+
+        .skin-type-icon::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            bottom: 1px;
+            width: 25px;
+            height: 9px;
+            background-image: radial-gradient(#111 1.4px, transparent 1.4px);
+            background-size: 7px 7px;
+        }
+
+        /* =========================
+       Main Content
+    ========================= */
+        .content {
+            position: relative;
+            width: 100%;
+            min-height: calc(100vh - 44px - 55px - 43px - 78px - 70px - 34px);
+            padding: 22px 26px 95px;
+            background:
+                radial-gradient(circle at right 35%,
+                    rgba(157, 221, 204, 0.55) 0%,
+                    rgba(157, 221, 204, 0.32) 22%,
+                    rgba(255, 255, 255, 0.95) 58%);
+        }
+
+        .tag-wrap {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px 12px;
+            align-items: flex-start;
+        }
+
+        .tag {
+            min-width: 57px;
+            height: 39px;
+            padding: 0 12px;
+            border: 1.5px solid #0c56b7;
+            border-radius: 999px;
+            background: #fff;
+            color: #0c56b7;
+            font-size: 15px;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: background 0.2s ease, color 0.2s ease, transform 0.1s ease;
+        }
+
+        .tag.active {
+            background: #0c56b7;
+            color: #fff;
+            font-weight: 700;
+        }
+
+        .tag:active {
+            transform: scale(0.95);
+        }
+
+        .ai-diagnosis-btn {
+            position: absolute;
+            left: 26px;
+            right: 21px;
+            bottom: 9px;
+            height: 47px;
+            border: none;
+            border-radius: 14px;
+            background: #9fdcc9;
+            color: #fff;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .ai-diagnosis-btn:active {
+            transform: scale(0.98);
+        }
+
+        /* =========================
+       Bottom Tabbar - h70px
+    ========================= */
+        .bottom-fixed {
+            width: 100%;
+            background: #fff;
+        }
+
+        .tabbar {
+            width: 100%;
+            height: 70px;
+            border-top: 1px solid #ddd;
+            background: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+        }
+
+        .tab-item {
+            width: 20%;
+            height: 70px;
+            border: none;
+            background: transparent;
+            color: #bdbdbd;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: color 0.2s ease, transform 0.2s ease;
+        }
+
+        .tab-item i {
+            font-size: 21px;
+            transition: color 0.2s ease, transform 0.2s ease;
+        }
+
+        .tab-item:hover {
+            color: #9fdcc9;
+            transform: translateY(-2px);
+        }
+
+        .tab-item:hover i {
+            color: #9fdcc9;
+        }
+
+        .tab-item.active {
+            color: #9fdcc9;
+            font-weight: 700;
+        }
+
+        .tab-item:active {
+            transform: scale(0.94);
+        }
+
+        /* =========================
+       Homebar - no gap
+    ========================= */
+        .homebar {
+            width: 100%;
+            height: 34px;
+            background: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding-top: 8px;
+        }
+
+        .homebar-line {
+            width: 135px;
+            height: 5px;
+            border-radius: 999px;
+            background: #000;
+        }
+
+        /* =========================
+       Keyboard Overlay
+    ========================= */
+        .keyboard-overlay {
+            position: fixed;
+            left: 50%;
+            bottom: 0;
+            width: 100%;
+            max-width: 375px;
+            height: 100vh;
+            transform: translateX(-50%);
+            z-index: 999;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.25s ease;
+        }
+
+        .keyboard-overlay.show {
+            pointer-events: auto;
+            opacity: 1;
+        }
+
+        .keyboard-dim {
+            position: absolute;
+            inset: 0;
+            background: transparent;
+        }
+
+        .keyboard-panel {
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            transform: translateY(100%);
+            transition: transform 0.35s ease;
+            background: transparent;
+        }
+
+        .keyboard-overlay.show .keyboard-panel {
+            transform: translateY(0);
+        }
+
+        .keyboard-img {
+            display: block;
+            width: 100%;
+            max-width: 375px;
+            height: auto;
+            object-fit: contain;
+            user-select: none;
+            -webkit-user-drag: none;
+        }
+
+        /* =========================
+       Responsive Mobile
+    ========================= */
+        @media (max-width: 374px) {
+            .header {
+                padding: 0 14px;
+                gap: 8px;
+            }
+
+            .search-box {
+                padding: 0 14px 0 22px;
+            }
+
+            .search-box span {
+                font-size: 11px;
+            }
+
+            .category-tabs {
+                padding: 0 20px;
+            }
+
+            .rank-category-btn {
+                font-size: 14px;
+            }
+
+            .rank-category-btn i {
+                font-size: 19px;
+            }
+
+            .rank-category-btn.active {
+                min-width: 96px;
+                padding: 0 10px;
+            }
+
+            .content {
+                padding-left: 22px;
+                padding-right: 22px;
+            }
+
+            .ai-diagnosis-btn {
+                left: 22px;
+                right: 22px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="app">
+        <!-- Status Bar -->
+        <div class="statusbar"></div>
+
+        <!-- Header -->
+        <header class="header">
+            <div class="scan-btn clickable no-hover" onclick="window.location.href='scan.html';" aria-label="스캔">
+                <i class="fa-solid fa-expand"></i>
+            </div>
+
+            <div class="search-box" id="searchBox">
+                <span>나한테 맞는 화장품 찾아보기</span>
+                <i class="fa-solid fa-magnifying-glass"></i>
+            </div>
+
+            <button class="ai-btn" type="button">AI</button>
+        </header>
+
+        <!-- Top Navigation -->
+        <nav class="top-nav">
+            <a href="main.html">홈</a>
+            <a href="rank.html" class="active">랭킹</a>
+            <a href="commu.html">커뮤니티</a>
+        </nav>
+
+        <!-- Category Tabs -->
+        <section class="category-tabs">
+            <button class="rank-category-btn" type="button">
+                <i class="fa-solid fa-shield-halved"></i>
+                <span>인기템</span>
+            </button>
+
+            <button class="rank-category-btn" type="button">
+                <i class="fa-solid fa-border-all"></i>
+                <span>카테고리</span>
+            </button>
+
+            <button class="rank-category-btn active" type="button">
+                <span class="skin-type-icon"></span>
+                <span>피부타입</span>
+            </button>
+        </section>
+
+        <!-- Content -->
+        <main class="content">
+            <div class="tag-wrap">
+                <button class="tag active" type="button" data-skin="수부지">#수부지</button>
+                <button class="tag" type="button" data-skin="복합성">#복합성</button>
+                <button class="tag" type="button" data-skin="건성">#건성</button>
+                <button class="tag" type="button" data-skin="지성">#지성</button>
+                <button class="tag" type="button" data-skin="홍조">#홍조</button>
+                <button class="tag" type="button" data-skin="성인여드름">#성인여드름</button>
+            </div>
+
+            <button class="ai-diagnosis-btn" type="button">
+                AI로 내 피부 진단하러 가기
+            </button>
+        </main>
+
+        <!-- Bottom -->
+        <div class="bottom-fixed">
+            <nav class="tabbar">
+                <button class="tab-item" type="button" data-page="category.html">
+                    <i class="fa-solid fa-bars"></i>
+                    <span>카테고리</span>
+                </button>
+
+                <button class="tab-item" type="button" data-page="benefit.html">
+                    <i class="fa-solid fa-gem"></i>
+                    <span>혜택</span>
+                </button>
+
+                <button class="tab-item active" type="button" data-page="main.html">
+                    <i class="fa-solid fa-house"></i>
+                    <span>홈</span>
+                </button>
+
+                <button class="tab-item" type="button" data-page="shop.html">
+                    <i class="fa-solid fa-cart-shopping"></i>
+                    <span>쇼핑</span>
+                </button>
+
+                <button class="tab-item" type="button" data-page="my.html">
+                    <i class="fa-regular fa-user"></i>
+                    <span>마이</span>
+                </button>
+            </nav>
+
+            <div class="homebar">
+                <div class="homebar-line"></div>
+            </div>
+        </div>
+
+        <!-- Keyboard Overlay -->
+        <div class="keyboard-overlay" id="keyboardOverlay">
+            <div class="keyboard-dim"></div>
+
+            <div class="keyboard-panel">
+                <img src="./images/키보드.png" alt="키보드 이미지" class="keyboard-img" />
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const tags = document.querySelectorAll(".tag");
+
+        tags.forEach((tag) => {
+            tag.addEventListener("click", () => {
+                tags.forEach((item) => item.classList.remove("active"));
+                tag.classList.add("active");
+
+                const selectedSkinType = tag.dataset.skin;
+                console.log("선택한 피부타입:", selectedSkinType);
+            });
+        });
+
+        const diagnosisBtn = document.querySelector(".ai-diagnosis-btn");
+
+        diagnosisBtn.addEventListener("click", () => {
+            // 필요한 페이지로 연결할 경우 아래 주소만 수정하면 됨
+            // window.location.href = "ai-skin.html";
+            alert("AI 피부 진단 페이지로 이동합니다.");
+        });
+
+        const searchBox = document.getElementById("searchBox");
+        const keyboardOverlay = document.getElementById("keyboardOverlay");
+        const keyboardDim = document.querySelector(".keyboard-dim");
+
+        searchBox.addEventListener("click", () => {
+            keyboardOverlay.classList.add("show");
+        });
+
+        keyboardDim.addEventListener("click", () => {
+            keyboardOverlay.classList.remove("show");
+        });
+
+        const tabItems = document.querySelectorAll(".tab-item");
+
+        tabItems.forEach((tab) => {
+            tab.addEventListener("click", () => {
+                tabItems.forEach((item) => item.classList.remove("active"));
+                tab.classList.add("active");
+
+                const page = tab.dataset.page;
+
+                if (page) {
+                    window.location.href = page;
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,1292 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>화해 커뮤니티</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            width: 100%;
+            min-height: 100vh;
+            background: #f2f2f2;
+            font-family: -apple-system, BlinkMacSystemFont, "Pretendard", "Noto Sans KR", sans-serif;
+            color: #111;
+        }
+
+        .app {
+            width: 375px;
+            min-height: 100vh;
+            margin: 0 auto;
+            background: #fff;
+            position: relative;
+            overflow-x: hidden;
+            padding-bottom: 92px;
+        }
+
+        @media (max-width: 375px) {
+            .app {
+                width: 100%;
+            }
+        }
+
+        /* STATUS BAR */
+        .status-bar {
+            width: 100%;
+            height: 44px;
+            background: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 22px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .status-time {
+            font-size: 14px;
+            font-weight: 700;
+            color: #111;
+            letter-spacing: -0.2px;
+        }
+
+        .status-icons {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            color: #111;
+            font-size: 13px;
+        }
+
+        .battery {
+            width: 24px;
+            height: 12px;
+            border: 1.8px solid #111;
+            border-radius: 3px;
+            position: relative;
+        }
+
+        .battery::after {
+            content: "";
+            position: absolute;
+            right: -4px;
+            top: 3px;
+            width: 2px;
+            height: 5px;
+            background: #111;
+            border-radius: 0 2px 2px 0;
+        }
+
+        .battery-level {
+            width: 16px;
+            height: 6px;
+            background: #111;
+            border-radius: 1px;
+            position: absolute;
+            left: 2px;
+            top: 2px;
+        }
+
+        /* =========================
+           BACKGROUND BLUR ORBS
+        ========================= */
+
+        .bg-orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(45px);
+            opacity: 0.6;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .orb-1 {
+            width: 152px;
+            height: 152px;
+            background: #A3D9C9;
+            top: 210px;
+            right: -45px;
+        }
+
+        .orb-2 {
+            width: 152px;
+            height: 152px;
+            background: #D8F3EC;
+            top: 515px;
+            left: -54px;
+        }
+
+        .orb-3 {
+            width: 104px;
+            height: 104px;
+            background: #A3D9C9;
+            top: 900px;
+            right: 16px;
+        }
+
+        .top-header,
+        .top-menu,
+        .community-tabs,
+        .content,
+        .bottom-tab,
+        .home-indicator {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* =========================
+           TOP SEARCH HEADER
+        ========================= */
+        .top-header {
+            width: 100%;
+            height: 76px;
+            background: #fff;
+            padding: 8px 18px 0;
+        }
+
+        .search-row {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            height: 48px;
+        }
+
+        .p-1 {
+            padding: 4px;
+        }
+
+        .text-xl {
+            font-size: 20px;
+            line-height: 1;
+        }
+
+        .text-gray-400 {
+            color: #9ca3af;
+        }
+
+        .search-box {
+            flex: 1;
+            height: 48px;
+            border: 2px solid #9edfcc;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            padding: 0 16px;
+            background: #fff;
+            cursor: text;
+        }
+
+        .search-box input {
+            width: 100%;
+            border: none;
+            outline: none;
+            font-size: 12px;
+            color: #333;
+            text-align: left;
+            background: transparent;
+            padding: 0;
+            caret-color: #111;
+        }
+
+        .search-box input::placeholder {
+            color: #555;
+            text-align: left;
+        }
+
+        .search-icon {
+            width: 19px;
+            height: 19px;
+            border: 2px solid #4b4b4b;
+            border-radius: 50%;
+            position: relative;
+            margin-left: 8px;
+            flex-shrink: 0;
+        }
+
+        .search-icon::after {
+            content: "";
+            position: absolute;
+            width: 8px;
+            height: 2px;
+            background: #4b4b4b;
+            transform: rotate(45deg);
+            right: -6px;
+            bottom: -3px;
+            border-radius: 2px;
+        }
+
+        .ai-btn {
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            border: none;
+            background: #9edfcc;
+            color: #111;
+            font-size: 10px;
+            font-weight: 800;
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+
+        .top-menu {
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            background: #fff;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .top-menu a {
+            text-decoration: none;
+            color: #b8b8b8;
+            font-size: 14px;
+            font-weight: 700;
+        }
+
+        .top-menu a.active {
+            color: #195aa8;
+        }
+
+        /* =========================
+           COMMUNITY SUB TAB
+        ========================= */
+
+        .community-tabs {
+            height: 78px;
+            background: #fff;
+            border-bottom: 1px solid #ddd;
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            padding: 0 18px;
+        }
+
+        .community-tab {
+            border: none;
+            background: transparent;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 15px;
+            font-weight: 800;
+            color: #111;
+            cursor: pointer;
+            padding: 9px 12px;
+            border-radius: 22px;
+        }
+
+        .community-tab.active {
+            border: 2px solid #9edfcc;
+            color: #111;
+            background: #fff;
+        }
+
+        .tab-icon-grid {
+            width: 21px;
+            height: 21px;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 3px;
+        }
+
+        .tab-icon-grid span {
+            border: 2px solid #222;
+            border-radius: 2px;
+        }
+
+        .tab-icon-talk {
+            font-size: 22px;
+        }
+
+        .tab-icon-hot {
+            font-size: 20px;
+        }
+
+        /* =========================
+           CONTENT
+        ========================= */
+
+        .content {
+            padding: 22px 20px 0;
+            transition: padding-bottom 0.3s ease;
+        }
+
+        .content.keyboard-open {
+            padding-bottom: 315px;
+        }
+
+        .section-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: #195aa8;
+            margin-bottom: 16px;
+        }
+
+        .keyword-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 9px;
+            margin-bottom: 26px;
+        }
+
+        .keyword-btn {
+            border: 1.5px solid #195aa8;
+            border-radius: 18px;
+            background: #fff;
+            color: #195aa8;
+            padding: 8px 12px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: filter 0.2s ease, transform 0.2s ease, background 0.2s ease, color 0.2s ease;
+        }
+
+        .keyword-btn:hover {
+            filter: saturate(80%);
+            transform: translateY(-1px);
+        }
+
+        .keyword-btn:active {
+            filter: saturate(80%);
+            transform: scale(0.96);
+        }
+
+        .keyword-btn.active {
+            background: #195aa8;
+            color: #fff;
+        }
+
+        .write-guide {
+            width: 100%;
+            height: 48px;
+            border-radius: 15px;
+            background: #9edfcc;
+            color: #fff;
+            font-size: 14px;
+            font-weight: 700;
+            border: none;
+            margin-bottom: 22px;
+            cursor: pointer;
+            transition: filter 0.2s ease, transform 0.2s ease;
+        }
+
+        .write-guide:hover {
+            filter: saturate(80%);
+        }
+
+        .write-guide:active {
+            filter: saturate(80%);
+            transform: scale(0.98);
+        }
+
+        .list-title {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 15px;
+            color: #555;
+            margin-bottom: 16px;
+        }
+
+        .list-title .arrow {
+            width: 0;
+            height: 0;
+            border-left: 7px solid transparent;
+            border-right: 7px solid transparent;
+            border-bottom: 8px solid #555;
+        }
+
+        .post-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .post-card {
+            width: 100%;
+            min-height: 138px;
+            background: #fff;
+            border-radius: 20px;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.25);
+            padding: 17px 18px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: filter 0.2s ease;
+        }
+
+        .post-card:hover {
+            filter: saturate(80%) brightness(95%);
+        }
+
+        .post-card:active {
+            filter: saturate(80%) brightness(95%);
+        }
+
+        .post-top {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .post-category {
+            color: #df4545;
+            font-size: 13px;
+            font-weight: 800;
+            flex-shrink: 0;
+        }
+
+        .post-main {
+            flex: 1;
+        }
+
+        .post-title {
+            font-size: 15px;
+            line-height: 1.45;
+            font-weight: 700;
+            color: #111;
+            margin-bottom: 6px;
+        }
+
+        .post-desc {
+            font-size: 12px;
+            line-height: 1.55;
+            color: #777;
+        }
+
+        .post-profile {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            margin-bottom: 10px;
+        }
+
+        .profile-dot {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: #e9faf6;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #195aa8;
+            font-size: 13px;
+            font-weight: 800;
+        }
+
+        .profile-name {
+            font-size: 12px;
+            color: #777;
+            font-weight: 600;
+        }
+
+        .post-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-bottom: 10px;
+        }
+
+        .post-tags span {
+            background: #195aa8;
+            color: #fff;
+            border-radius: 12px;
+            padding: 4px 8px;
+            font-size: 11px;
+        }
+
+        .post-bottom {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 12px;
+            color: #777;
+        }
+
+        .reaction {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+        }
+
+        .reaction button {
+            border: none;
+            background: transparent;
+            color: #777;
+            font-size: 12px;
+            cursor: pointer;
+        }
+
+        .reaction button.liked {
+            color: #df4545;
+            font-weight: 800;
+        }
+
+        .time {
+            color: #aaa;
+        }
+
+        /* =========================
+           KEYBOARD OVERLAY
+        ========================= */
+
+        .keyboard-overlay {
+            width: 375px;
+            max-width: 100%;
+            position: fixed;
+            left: 50%;
+            bottom: 0;
+            transform: translate(-50%, 100%);
+            z-index: 120;
+            opacity: 0;
+            pointer-events: none;
+            transition: transform 0.35s ease, opacity 0.35s ease;
+        }
+
+        .keyboard-overlay.show {
+            transform: translate(-50%, 0);
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .keyboard-overlay img {
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+
+        @media (max-width: 375px) {
+            .keyboard-overlay {
+                width: 100%;
+            }
+        }
+
+        /* =========================
+           WRITE MODAL
+        ========================= */
+
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.18);
+            display: none;
+            align-items: flex-end;
+            justify-content: center;
+            z-index: 100;
+        }
+
+        .modal-overlay.show {
+            display: flex;
+        }
+
+        .write-modal {
+            width: 375px;
+            background: #fff;
+            border-radius: 24px 24px 0 0;
+            padding: 22px 20px 28px;
+            animation: slideUp 0.25s ease;
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(100%);
+            }
+
+            to {
+                transform: translateY(0);
+            }
+        }
+
+        .modal-head {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 16px;
+        }
+
+        .modal-head h3 {
+            font-size: 18px;
+            color: #111;
+        }
+
+        .close-btn {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            border: none;
+            background: #f2f2f2;
+            font-size: 20px;
+            color: #555;
+            cursor: pointer;
+        }
+
+        .write-form {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .write-form select,
+        .write-form input,
+        .write-form textarea {
+            width: 100%;
+            border: 1px solid #d7ece6;
+            border-radius: 14px;
+            padding: 13px;
+            font-family: inherit;
+            font-size: 14px;
+            outline: none;
+            background: #fbfffe;
+        }
+
+        .write-form textarea {
+            height: 112px;
+            resize: none;
+            line-height: 1.5;
+        }
+
+        .submit-btn {
+            height: 48px;
+            border-radius: 15px;
+            border: none;
+            background: #9edfcc;
+            color: #fff;
+            font-size: 15px;
+            font-weight: 800;
+            cursor: pointer;
+        }
+
+        /* =========================
+           BOTTOM TAB
+        ========================= */
+
+        .bottom-fixed {
+            width: 375px;
+            background: #fff;
+            position: fixed;
+            left: 50%;
+            bottom: 0;
+            transform: translateX(-50%);
+            z-index: 50;
+            transition: transform 0.35s ease, opacity 0.35s ease;
+        }
+
+        .bottom-fixed.keyboard-open {
+            transform: translate(-50%, 100%);
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        @media (max-width: 375px) {
+            .bottom-fixed {
+                width: 100%;
+            }
+        }
+
+        .tabbar {
+            width: 100%;
+            height: 70px;
+            border-top: 1px solid #ddd;
+            background: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+        }
+
+        .tab-item {
+            width: 20%;
+            height: 70px;
+            border: none;
+            background: transparent;
+            color: #bdbdbd;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: color 0.2s ease, transform 0.2s ease;
+        }
+
+        .tab-item i {
+            font-size: 21px;
+            transition: color 0.2s ease, transform 0.2s ease;
+        }
+
+        .tab-item:hover {
+            color: #9fdcc9;
+            /* transform: translateY(-2px); */
+        }
+
+        .tab-item:hover i {
+            color: #9fdcc9;
+        }
+
+        .tab-item.active {
+            color: #9fdcc9;
+            font-weight: 700;
+        }
+
+        .tab-item:active {
+            transform: scale(0.94);
+        }
+
+        /* top btn */
+        .top-btn {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            border: none;
+            background: #9edfcc;
+            color: #fff;
+            font-size: 16px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.18);
+            position: fixed;
+            right: calc(50% - 187.5px + 18px);
+            bottom: 110px;
+            z-index: 80;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.2s ease, transform 0.2s ease, filter 0.2s ease;
+        }
+
+        .top-btn:hover {
+            filter: brightness(95%);
+        }
+
+        .top-btn:active {
+            transform: scale(0.94);
+        }
+
+        .top-btn.hide {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        @media (max-width: 375px) {
+            .top-btn {
+                right: 18px;
+            }
+        }
+
+        .homebar {
+            width: 100%;
+            height: 34px;
+            background: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding-top: 8px;
+        }
+
+        .homebar-line {
+            width: 135px;
+            height: 5px;
+            border-radius: 999px;
+            background: #000;
+        }
+
+        @media (hover: none) {
+            .tab-item:hover {
+                color: #bdbdbd;
+                transform: none;
+            }
+
+            .tab-item.active:hover {
+                color: #9fdcc9;
+            }
+
+            .keyword-btn:hover,
+            .write-guide:hover,
+            .post-card:hover {
+                filter: none;
+                transform: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="app">
+        <div class="bg-orb orb-1"></div>
+        <div class="bg-orb orb-2"></div>
+        <div class="bg-orb orb-3"></div>
+
+        <!-- Status Bar -->
+        <div class="status-bar">
+            <div class="status-time">9:41</div>
+
+            <div class="status-icons">
+                <i class="fa-solid fa-signal"></i>
+                <i class="fa-solid fa-wifi"></i>
+                <div class="battery">
+                    <div class="battery-level"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 상단 검색 영역 -->
+        <header class="top-header">
+            <div class="search-row">
+                <div class="clickable p-1 no-hover" onclick="window.location.href='scan.html';">
+                    <i class="fa-solid fa-expand text-xl text-gray-400"></i>
+                </div>
+
+                <div class="search-box" id="searchBox">
+                    <input type="text" id="searchInput" placeholder="나한테 맞는 화장품 찾아보기" inputmode="none" />
+                    <span class="search-icon"></span>
+                </div>
+
+                <button class="ai-btn clickable no-hover" type="button"
+                    onclick="location.href='aimode.html'">AI</button>
+            </div>
+        </header>
+
+        <!-- 상단 메뉴 -->
+        <nav class="top-menu">
+            <a href="main.html" class="clickable no-hover">홈</a>
+            <a href="rank.html" class="clickable no-hover">랭킹</a>
+            <a href="commu.html" class="active clickable no-hover">커뮤니티</a>
+        </nav>
+
+        <!-- 커뮤니티 분류 탭 -->
+        <section class="community-tabs">
+            <button class="community-tab active clickable no-hover" type="button">
+                <span class="tab-icon-hot">💬</span>
+                인기글
+            </button>
+
+            <button class="community-tab clickable no-hover" type="button">
+                <span class="tab-icon-grid">
+                    <span></span><span></span><span></span><span></span>
+                </span>
+                고민톡
+            </button>
+
+            <button class="community-tab clickable no-hover" type="button">
+                <span class="tab-icon-talk">🧴</span>
+                제품후기
+            </button>
+        </section>
+
+        <main class="content" id="content">
+
+            <h2 class="section-title">인기 커뮤니티 키워드</h2>
+
+            <div class="keyword-group">
+                <button class="keyword-btn active clickable no-hover">#민감성</button>
+                <button class="keyword-btn active clickable no-hover">#속건조</button>
+                <button class="keyword-btn active clickable no-hover">#여드름</button>
+                <button class="keyword-btn active clickable no-hover">#수부지</button>
+                <button class="keyword-btn active clickable no-hover">#장벽관리</button>
+                <button class="keyword-btn active clickable no-hover">#쿠션추천</button>
+                <button class="keyword-btn active clickable no-hover">#성분질문</button>
+            </div>
+
+            <h2 class="section-title">최근 나의 관심 고민</h2>
+
+            <div class="keyword-group">
+                <button class="keyword-btn clickable no-hover">#나이아신아마이드</button>
+                <button class="keyword-btn clickable no-hover">#비타민C</button>
+                <button class="keyword-btn clickable no-hover">#PDRN</button>
+                <button class="keyword-btn clickable no-hover">#레티놀</button>
+                <button class="keyword-btn clickable no-hover">#클렌징</button>
+            </div>
+
+            <button class="write-guide clickable no-hover" type="button" id="openModal">
+                피부 고민 나누러 가기
+            </button>
+
+            <div class="list-title">
+                <span class="arrow"></span>
+                <span>전체커뮤니티</span>
+            </div>
+
+            <section class="post-list" id="postList">
+
+                <article class="post-card">
+                    <div class="post-profile">
+                        <div class="profile-dot">수</div>
+                        <span class="profile-name">수부지_초보 · 5분 전</span>
+                    </div>
+
+                    <div class="post-top">
+                        <span class="post-category">1</span>
+
+                        <div class="post-main">
+                            <h3 class="post-title">
+                                수분크림 발라도 오후만 되면 속당김이 심해요
+                            </h3>
+                            <p class="post-desc">
+                                겉은 번들거리는데 안쪽은 건조한 느낌이에요. 이런 경우에는 크림보다 세럼을 바꾸는 게 나을까요?
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="post-tags">
+                        <span>#속건조</span>
+                        <span>#수부지</span>
+                        <span>#수분크림</span>
+                    </div>
+
+                    <div class="post-bottom">
+                        <div class="reaction">
+                            <button class="like-btn clickable no-hover" type="button">♡ 24</button>
+                            <button class="clickable no-hover" type="button">💬 8</button>
+                            <button class="clickable no-hover" type="button">저장</button>
+                        </div>
+                        <span class="time">방금 업데이트</span>
+                    </div>
+                </article>
+
+                <article class="post-card">
+                    <div class="post-profile">
+                        <div class="profile-dot">성</div>
+                        <span class="profile-name">성분체크러 · 12분 전</span>
+                    </div>
+
+                    <div class="post-top">
+                        <span class="post-category">2</span>
+
+                        <div class="post-main">
+                            <h3 class="post-title">
+                                나이아신아마이드랑 비타민C 같이 써도 괜찮나요?
+                            </h3>
+                            <p class="post-desc">
+                                톤 개선 목적으로 같이 쓰고 싶은데 피부가 예민한 편이라 걱정돼요. 같이 써본 분들 사용 순서도 궁금해요.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="post-tags">
+                        <span>#비타민C</span>
+                        <span>#성분질문</span>
+                        <span>#민감성</span>
+                    </div>
+
+                    <div class="post-bottom">
+                        <div class="reaction">
+                            <button class="like-btn clickable no-hover" type="button">♡ 41</button>
+                            <button class="clickable no-hover" type="button">💬 15</button>
+                            <button class="clickable no-hover" type="button">저장</button>
+                        </div>
+                        <span class="time">인기 상승중</span>
+                    </div>
+                </article>
+
+                <article class="post-card">
+                    <div class="post-profile">
+                        <div class="profile-dot">쿨</div>
+                        <span class="profile-name">쿨톤찾는중 · 28분 전</span>
+                    </div>
+
+                    <div class="post-top">
+                        <span class="post-category">3</span>
+
+                        <div class="post-main">
+                            <h3 class="post-title">
+                                피부 표현 예쁜 쿠션 추천해주세요
+                            </h3>
+                            <p class="post-desc">
+                                너무 매트하지 않고 얇게 올라가는 쿠션 찾고 있어요. 무너질 때 예쁜 제품이면 더 좋아요.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="post-tags">
+                        <span>#쿠션추천</span>
+                        <span>#베이스</span>
+                        <span>#복합성</span>
+                    </div>
+
+                    <div class="post-bottom">
+                        <div class="reaction">
+                            <button class="like-btn clickable no-hover" type="button">♡ 63</button>
+                            <button class="clickable no-hover" type="button">💬 22</button>
+                            <button class="clickable no-hover" type="button">저장</button>
+                        </div>
+                        <span class="time">댓글 활발</span>
+                    </div>
+                </article>
+
+            </section>
+        </main>
+
+        <!-- 하단 탭바 -->
+        <div class="bottom-fixed" id="bottomFixed">
+            <nav class="tabbar">
+                <button class="tab-item" type="button" data-page="category.html">
+                    <i class="fa-solid fa-bars"></i>
+                    <span>카테고리</span>
+                </button>
+
+                <button class="tab-item" type="button" data-page="benefit.html">
+                    <i class="fa-solid fa-gem"></i>
+                    <span>혜택</span>
+                </button>
+
+                <button class="tab-item active" type="button" data-page="main.html">
+                    <i class="fa-solid fa-house"></i>
+                    <span>홈</span>
+                </button>
+
+                <button class="tab-item" type="button" data-page="shop.html">
+                    <i class="fa-solid fa-cart-shopping"></i>
+                    <span>쇼핑</span>
+                </button>
+
+                <button class="tab-item" type="button" data-page="my.html">
+                    <i class="fa-regular fa-user"></i>
+                    <span>마이</span>
+                </button>
+            </nav>
+
+            <div class="homebar">
+                <div class="homebar-line"></div>
+            </div>
+        </div>
+
+        <!-- TOP 버튼 -->
+        <button class="top-btn hide" type="button" id="topBtn" aria-label="맨 위로 이동">
+            <i class="fa-solid fa-chevron-up"></i>
+        </button>
+
+        <!-- 검색창 클릭 시 나타나는 키보드 -->
+        <div class="keyboard-overlay" id="keyboardOverlay">
+            <img src="./images/키보드.png" alt="모바일 키보드" />
+        </div>
+
+        <!-- 글쓰기 모달 -->
+        <div class="modal-overlay" id="modalOverlay">
+            <div class="write-modal">
+                <div class="modal-head">
+                    <h3>피부 고민 나누기</h3>
+                    <button class="close-btn clickable no-hover" type="button" id="closeModal">×</button>
+                </div>
+
+                <form class="write-form" id="writeForm">
+                    <select id="postCategory">
+                        <option value="고민톡">고민톡</option>
+                        <option value="제품후기">제품후기</option>
+                        <option value="성분질문">성분질문</option>
+                        <option value="메이크업">메이크업</option>
+                    </select>
+
+                    <input type="text" id="postTitle" placeholder="제목을 입력해주세요" />
+
+                    <textarea id="postContent" placeholder="피부 고민이나 제품 후기를 자유롭게 적어주세요"></textarea>
+
+                    <button class="submit-btn clickable no-hover" type="submit">등록하기</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const communityTabs = document.querySelectorAll(".community-tab");
+
+        communityTabs.forEach((tab) => {
+            tab.addEventListener("click", () => {
+                communityTabs.forEach((item) => item.classList.remove("active"));
+                tab.classList.add("active");
+            });
+        });
+
+        const keywordButtons = document.querySelectorAll(".keyword-btn");
+
+        keywordButtons.forEach((button) => {
+            button.addEventListener("click", () => {
+                button.classList.toggle("active");
+            });
+        });
+
+        function bindLikeButtons() {
+            const likeButtons = document.querySelectorAll(".like-btn");
+
+            likeButtons.forEach((button) => {
+                button.onclick = () => {
+                    const currentText = button.textContent.trim();
+                    const currentCount = parseInt(currentText.replace(/[^0-9]/g, ""), 10);
+
+                    if (button.classList.contains("liked")) {
+                        button.classList.remove("liked");
+                        button.textContent = `♡ ${currentCount - 1}`;
+                    } else {
+                        button.classList.add("liked");
+                        button.textContent = `♥ ${currentCount + 1}`;
+                    }
+                };
+            });
+        }
+
+        bindLikeButtons();
+
+        const openModal = document.getElementById("openModal");
+        const closeModal = document.getElementById("closeModal");
+        const modalOverlay = document.getElementById("modalOverlay");
+        const writeForm = document.getElementById("writeForm");
+        const postList = document.getElementById("postList");
+
+        openModal.addEventListener("click", () => {
+            hideKeyboard();
+            modalOverlay.classList.add("show");
+        });
+
+        closeModal.addEventListener("click", () => {
+            modalOverlay.classList.remove("show");
+        });
+
+        modalOverlay.addEventListener("click", (event) => {
+            if (event.target === modalOverlay) {
+                modalOverlay.classList.remove("show");
+            }
+        });
+
+        writeForm.addEventListener("submit", (event) => {
+            event.preventDefault();
+
+            const category = document.getElementById("postCategory").value;
+            const title = document.getElementById("postTitle").value.trim();
+            const content = document.getElementById("postContent").value.trim();
+
+            if (!title || !content) {
+                alert("제목과 내용을 모두 입력해주세요.");
+                return;
+            }
+
+            const newPost = document.createElement("article");
+            newPost.className = "post-card";
+
+            newPost.innerHTML = `
+                <div class="post-profile">
+                    <div class="profile-dot">나</div>
+                    <span class="profile-name">나 · 방금 전</span>
+                </div>
+
+                <div class="post-top">
+                    <span class="post-category">N</span>
+
+                    <div class="post-main">
+                        <h3 class="post-title">${title}</h3>
+                        <p class="post-desc">${content}</p>
+                    </div>
+                </div>
+
+                <div class="post-tags">
+                    <span>#${category}</span>
+                    <span>#새글</span>
+                    <span>#피부고민</span>
+                </div>
+
+                <div class="post-bottom">
+                    <div class="reaction">
+                        <button class="like-btn clickable no-hover" type="button">♡ 0</button>
+                        <button class="clickable no-hover" type="button">💬 0</button>
+                        <button class="clickable no-hover" type="button">저장</button>
+                    </div>
+                    <span class="time">방금 작성</span>
+                </div>
+            `;
+
+            postList.prepend(newPost);
+            bindLikeButtons();
+
+            writeForm.reset();
+            modalOverlay.classList.remove("show");
+        });
+
+        const tabItems = document.querySelectorAll(".tab-item");
+
+        tabItems.forEach((tab) => {
+            tab.addEventListener("click", () => {
+                tabItems.forEach((item) => item.classList.remove("active"));
+                tab.classList.add("active");
+
+                const page = tab.dataset.page;
+
+                if (page) {
+                    window.location.href = page;
+                }
+            });
+        });
+
+        const searchBox = document.getElementById("searchBox");
+        const searchInput = document.getElementById("searchInput");
+        const keyboardOverlay = document.getElementById("keyboardOverlay");
+        const bottomFixed = document.getElementById("bottomFixed");
+        const content = document.getElementById("content");
+
+        function showKeyboard() {
+            keyboardOverlay.classList.add("show");
+            bottomFixed.classList.add("keyboard-open");
+            content.classList.add("keyboard-open");
+            topBtn.classList.add("hide");
+            searchInput.focus();
+        }
+
+        function hideKeyboard() {
+            keyboardOverlay.classList.remove("show");
+            bottomFixed.classList.remove("keyboard-open");
+            content.classList.remove("keyboard-open");
+
+            // 키보드클릭시 top btn숨기기
+
+            if (window.scrollY > 250) {
+                topBtn.classList.remove("hide");
+            }
+
+            searchInput.blur();
+        }
+
+        searchBox.addEventListener("click", showKeyboard);
+        searchInput.addEventListener("focus", showKeyboard);
+
+        document.addEventListener("click", (event) => {
+            const isSearchArea = searchBox.contains(event.target);
+            const isKeyboardArea = keyboardOverlay.contains(event.target);
+
+            if (!isSearchArea && !isKeyboardArea) {
+                hideKeyboard();
+            }
+        });
+
+        window.addEventListener("keydown", (event) => {
+            if (event.key === "Escape") {
+                hideKeyboard();
+            }
+        });
+
+        const topBtn = document.getElementById("topBtn");
+
+        window.addEventListener("scroll", () => {
+            if (window.scrollY > 250) {
+                topBtn.classList.remove("hide");
+            } else {
+                topBtn.classList.add("hide");
+            }
+        });
+
+        topBtn.addEventListener("click", () => {
+            window.scrollTo({
+                top: 0,
+                behavior: "smooth"
+            });
+        });
+    </script>
+</body>
+
+</html>

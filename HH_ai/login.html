@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>화해 리뉴얼 - 로그인</title>
+
     <style>
         /* 기본 스타일 초기화 */
         * {
@@ -17,11 +18,12 @@
 
         body {
             background-color: #ffffff;
-            height: 100vh;
+            min-height: 100vh;
             display: flex;
             justify-content: center;
-            align-items: center;
-            overflow: hidden;
+            align-items: flex-start;
+            overflow-x: hidden;
+            overflow-y: auto;
             position: relative;
         }
 
@@ -41,12 +43,6 @@
             font-size: 14px;
             font-weight: 600;
             color: #000;
-        }
-
-        .status-bar .left-icons {
-            display: flex;
-            align-items: center;
-            gap: 4px;
         }
 
         .status-bar .right-icons {
@@ -74,15 +70,14 @@
             width: 134px;
             height: 5px;
             background-color: #333333;
-            /* 선명한 #333 색상 적용 */
             border-radius: 100px;
-            /* opacity 속성을 제거하여 회색으로 보이지 않게 수정 */
         }
 
         .container {
             width: 100%;
             max-width: 400px;
-            padding: 44px 32px 34px 32px;
+            min-height: 100vh;
+            padding: 88px 32px 80px 32px;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -341,6 +336,35 @@
             background-color: #1877F2;
         }
 
+        /* TOP 버튼 */
+        .top-btn {
+            position: fixed;
+            right: calc(50% - 200px + 20px);
+            bottom: 54px;
+            width: 52px;
+            height: 52px;
+            border: none;
+            border-radius: 50%;
+            background-color: #595959;
+            color: #ffffff;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            z-index: 3000;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.18);
+            transition: all 0.25s ease;
+        }
+
+        .top-btn:active {
+            transform: scale(0.94);
+        }
+
+        @media (max-width: 400px) {
+            .top-btn {
+                right: 20px;
+            }
+        }
+
         /* 키보드 오버레이 */
         .keyboard-wrapper {
             position: fixed;
@@ -414,17 +438,20 @@
     <!-- 상태바 -->
     <div class="status-bar">
         <div class="time" id="currentTime">9:41</div>
+
         <div class="right-icons">
             <svg width="17" height="11" viewBox="0 0 17 11" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path
                     d="M14.5 10.5V1.5H16.5V10.5H14.5ZM11.5 10.5V3.5H13.5V10.5H11.5ZM8.5 10.5V5.5H10.5V10.5H8.5ZM5.5 10.5V7.5H7.5V10.5H5.5ZM2.5 10.5V8.5H4.5V10.5H2.5Z"
                     fill="#333333" />
             </svg>
+
             <svg width="15" height="11" viewBox="0 0 15 11" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path
                     d="M7.5 11L0 3.5C2.08333 1.41667 4.58333 0.375 7.5 0.375C10.4167 0.375 12.9167 1.41667 15 3.5L7.5 11Z"
                     fill="#333333" />
             </svg>
+
             <svg width="24" height="11" viewBox="0 0 24 11" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <rect x="0.5" y="0.5" width="21" height="10" rx="2.5" stroke="#333333" opacity="0.35" />
                 <path d="M22 3.5V7.5" stroke="#333333" stroke-opacity="0.4" stroke-linecap="round" />
@@ -446,6 +473,7 @@
             <div class="input-group">
                 <input type="text" placeholder="아이디" id="userId" autocomplete="off">
             </div>
+
             <div class="input-group">
                 <input type="password" placeholder="비밀번호" id="userPw" autocomplete="off">
             </div>
@@ -456,6 +484,7 @@
                     <div class="custom-checkbox"></div>
                     자동로그인
                 </label>
+
                 <label class="option-item">
                     <input type="checkbox" checked>
                     <div class="custom-checkbox"></div>
@@ -464,8 +493,8 @@
             </div>
 
             <div class="button-group">
-                <button type="button" class="btn btn-login">로그인</button>
-                <button type="button" class="btn btn-signup">회원가입</button>
+                <button type="button" class="btn btn-login" onclick="location.href='main.html'">로그인</button>
+                <button type="button" class="btn btn-signup" onclick="location.href='main.html'">회원가입</button>
             </div>
         </form>
 
@@ -479,6 +508,7 @@
 
         <div class="social-login-container">
             <div class="social-title">간편 로그인</div>
+
             <div class="social-icons">
                 <div class="icon-btn kakao">
                     <svg viewBox="0 0 24 24" fill="#3c1e1e">
@@ -486,11 +516,13 @@
                             d="M12 3c-4.97 0-9 3.185-9 7.115 0 2.557 1.707 4.8 4.27 6.054-.188.702-.682 2.545-.78 2.926-.123.477.175.47.37.34.15-.1.2.1.2.1l3.52-2.33c.45.065.91.1 1.38.1 4.97 0 9-3.186 9-7.116C21 6.185 16.97 3 12 3z" />
                     </svg>
                 </div>
+
                 <div class="icon-btn naver">
                     <svg viewBox="0 0 24 24" fill="white">
                         <path d="M16.273 12.845L7.376 0H0v24h7.727V11.155L16.624 24H24V0h-7.727v12.845z" />
                     </svg>
                 </div>
+
                 <div class="icon-btn google">
                     <svg viewBox="0 0 24 24">
                         <path
@@ -507,6 +539,7 @@
                             fill="#EA4335" />
                     </svg>
                 </div>
+
                 <div class="icon-btn facebook">
                     <svg viewBox="0 0 24 24" fill="white">
                         <path
@@ -516,6 +549,7 @@
             </div>
         </div>
     </div>
+
 
     <!-- 하단 홈바 -->
     <div class="home-bar-container">
@@ -527,6 +561,7 @@
         <div class="keyboard-toolbar">
             <button type="button" class="btn-done" id="btnDone">완료</button>
         </div>
+
         <div class="keyboard-container">
             <img src="./images/키보드.png" alt="Keyboard" class="keyboard-img"
                 onerror="this.src='https://via.placeholder.com/400x280?text=Keyboard+UI'">
@@ -545,6 +580,7 @@
             const now = new Date();
             let hours = now.getHours();
             let minutes = now.getMinutes();
+
             minutes = minutes < 10 ? '0' + minutes : minutes;
             timeElement.textContent = `${hours}:${minutes}`;
         }
@@ -568,10 +604,12 @@
         });
 
         closeArea.addEventListener('click', hideKeyboard);
+
         btnDone.addEventListener('click', (e) => {
             e.preventDefault();
             hideKeyboard();
         });
+
     </script>
 </body>
 

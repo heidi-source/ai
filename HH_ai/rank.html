@@ -2,141 +2,1137 @@
 <html lang="ko">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>랭킹 카테고리</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>화해 랭킹 카테고리</title>
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
     <style>
-        /* 기본 레이아웃 및 디자인 시스템은 기존 메인 페이지와 통일 */
-        :root {
-            --primary-color: #A3D9C9;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            height: 100%;
         }
 
         body {
-            margin: 0;
-            font-family: sans-serif;
-            background: #fff;
+            min-height: 100vh;
+            background: #f5f5f5;
+            font-family: -apple-system, BlinkMacSystemFont, "Pretendard", "Noto Sans KR", sans-serif;
             display: flex;
             justify-content: center;
+            color: #222;
+            overflow: hidden;
         }
 
-        .app-container {
+        .app {
+            position: relative;
             width: 100%;
             max-width: 375px;
-            min-height: 100dvh;
-            display: flex;
-            flex-direction: column;
+            height: 100vh;
+            height: 100dvh;
+            background: #fff;
+            overflow: hidden;
         }
 
-        /* 상태 표시줄 및 헤더 */
+        /* =========================
+           Status Bar
+        ========================= */
         .status-bar {
+            width: 100%;
             height: 44px;
-            padding: 0 24px;
+            background: #fff;
             display: flex;
             align-items: center;
             justify-content: space-between;
+            padding: 0 22px;
+            font-size: 14px;
             font-weight: 600;
+            color: #111;
         }
 
+        .status-icons {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .signal {
+            display: flex;
+            align-items: end;
+            gap: 2px;
+        }
+
+        .signal span {
+            display: block;
+            width: 3px;
+            background: #111;
+            border-radius: 2px;
+        }
+
+        .signal span:nth-child(1) {
+            height: 4px;
+        }
+
+        .signal span:nth-child(2) {
+            height: 6px;
+        }
+
+        .signal span:nth-child(3) {
+            height: 8px;
+        }
+
+        .signal span:nth-child(4) {
+            height: 10px;
+        }
+
+        .wifi {
+            width: 15px;
+            height: 11px;
+            border: 2px solid #111;
+            border-left-color: transparent;
+            border-right-color: transparent;
+            border-bottom-color: transparent;
+            border-radius: 50%;
+            transform: translateY(4px);
+        }
+
+        .battery {
+            width: 22px;
+            height: 11px;
+            border: 1.8px solid #111;
+            border-radius: 3px;
+            position: relative;
+        }
+
+        .battery::after {
+            content: "";
+            position: absolute;
+            right: -4px;
+            top: 3px;
+            width: 2px;
+            height: 5px;
+            background: #111;
+            border-radius: 2px;
+        }
+
+        /* =========================
+           Header
+        ========================= */
         .header {
-            height: 48px;
-            padding: 0 24px;
+            width: 100%;
+            height: 56px;
+            background: #fff;
             display: flex;
             align-items: center;
-            font-size: 20px;
-            font-weight: bold;
+            gap: 9px;
+            padding: 0 18px;
         }
 
-        /* 랭킹 탭 영역 (스크롤 고정) */
-        .ranking-tabs {
+        .menu-icon {
+            width: 30px;
+            height: 30px;
+            flex-shrink: 0;
             display: flex;
-            overflow-x: auto;
-            padding: 10px 24px;
-            gap: 15px;
-            border-bottom: 1px solid #eee;
-        }
-
-        .tab-item {
+            align-items: center;
+            justify-content: center;
             cursor: pointer;
-            white-space: nowrap;
-            padding: 8px 0;
-            color: #888;
+            transition: background 0.18s ease, transform 0.18s ease;
+            border-radius: 50%;
         }
 
-        .tab-item.active {
-            color: var(--primary-color);
-            border-bottom: 2px solid var(--primary-color);
+        .menu-icon i {
+            font-size: 20px;
+            color: #9ca3af;
         }
 
-        /* 랭킹 컨텐츠 */
-        .ranking-list {
+        .menu-icon:hover {
+            background: #f1f5f4;
+        }
+
+        .menu-icon:hover i {
+            color: #1e56a0;
+        }
+
+        .clickable {
+            cursor: pointer;
+            transition: transform 0.18s ease, opacity 0.18s ease, box-shadow 0.18s ease, background 0.18s ease, color 0.18s ease;
+        }
+
+        .clickable:hover {
+            opacity: 0.85;
+            transform: translateY(-1px);
+        }
+
+        .clickable:active {
+            opacity: 0.7;
+            transform: scale(0.95);
+            transition: all 0.1s ease;
+        }
+
+        .no-hover {
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .search-box {
             flex: 1;
-            padding: 24px;
-            overflow-y: auto;
-        }
-
-        .rank-card {
+            height: 47px;
+            border: 2px solid #9bd8ca;
+            border-radius: 16px;
             display: flex;
             align-items: center;
-            gap: 16px;
-            margin-bottom: 20px;
+            justify-content: space-between;
+            padding: 0 16px 0 28px;
+            color: #666;
+            font-size: 12px;
+            cursor: pointer;
+            transition: none;
         }
 
-        .rank-num {
-            font-size: 24px;
-            font-weight: bold;
-            color: var(--primary-color);
-            min-width: 30px;
+        .search-box:hover {
+            border-color: #9bd8ca;
+            box-shadow: none;
+            transform: none;
         }
 
-        /* 하단 홈바 */
+        .search-icon {
+            width: 20px;
+            height: 20px;
+            border: 3px solid #555;
+            border-radius: 50%;
+            position: relative;
+        }
+
+        .search-icon::after {
+            content: "";
+            position: absolute;
+            width: 9px;
+            height: 3px;
+            background: #555;
+            right: -7px;
+            bottom: -4px;
+            transform: rotate(45deg);
+            border-radius: 3px;
+        }
+
+        .search-box:hover .search-icon {
+            border-color: #555;
+        }
+
+        .search-box:hover .search-icon::after {
+            background: #555;
+        }
+
+        .ai-btn {
+            width: 27px;
+            height: 27px;
+            border-radius: 50%;
+            background: #9bd8ca;
+            color: #1b4f4d;
+            font-size: 11px;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            border: none;
+            cursor: pointer;
+            transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+        }
+
+        .ai-btn:hover {
+            background: #83cfc0;
+            box-shadow: 0 4px 12px rgba(155, 216, 202, 0.5);
+            transform: translateY(-1px);
+        }
+
+        /* =========================
+           Top Navigation
+        ========================= */
+        .top-nav {
+            height: 42px;
+            background: #fff;
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .top-nav a {
+            flex: 1;
+            text-align: center;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 700;
+            color: #b5b5b5;
+            transition: color 0.18s ease;
+        }
+
+        .top-nav a:hover {
+            color: #1e56a0;
+        }
+
+        .top-nav a.active {
+            color: #1e56a0;
+        }
+
+        /* =========================
+           Category Tab
+        ========================= */
+        .category-tabs {
+            position: relative;
+            height: 78px;
+            display: flex;
+            align-items: center;
+            gap: 26px;
+            padding: 0 24px;
+            background: #fff;
+            border-bottom: 1px solid #e2e2e2;
+            overflow-x: auto;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+
+        .category-tabs::-webkit-scrollbar {
+            display: none;
+        }
+
+        .tab {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 15px;
+            font-weight: 800;
+            color: #111;
+            white-space: nowrap;
+            flex-shrink: 0;
+            cursor: pointer;
+            transition: transform 0.18s ease, color 0.18s ease;
+        }
+
+        .tab:hover {
+            color: #1e56a0;
+            transform: translateY(-1px);
+        }
+
+        .tab.active {
+            min-width: 104px;
+            height: 42px;
+            justify-content: center;
+            border: 2px solid #9bd8ca;
+            border-radius: 24px;
+            background: #fff;
+        }
+
+        .tab.active:hover {
+            box-shadow: 0 4px 12px rgba(155, 216, 202, 0.35);
+        }
+
+        .tab-icon.grid {
+            width: 20px;
+            height: 20px;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 4px;
+        }
+
+        .tab-icon.grid span {
+            border: 2px solid #333;
+            border-radius: 2px;
+        }
+
+        .tab-icon.shield {
+            width: 18px;
+            height: 21px;
+            border: 2px solid #111;
+            border-radius: 8px 8px 10px 10px;
+            position: relative;
+        }
+
+        .tab-icon.shield::after {
+            content: "★";
+            position: absolute;
+            font-size: 8px;
+            left: 3px;
+            top: 2px;
+        }
+
+        .tab-icon.drop {
+            width: 15px;
+            height: 22px;
+            background: #9bd8ca;
+            border-radius: 50% 50% 50% 0;
+            transform: rotate(-45deg);
+            position: relative;
+        }
+
+        /* =========================
+           Main Content
+        ========================= */
+        .content {
+            position: relative;
+            height: calc(100dvh - 44px - 56px - 42px - 78px - 74px - 34px);
+            overflow-y: auto;
+            padding-bottom: 24px;
+            background: linear-gradient(110deg,
+                    #fff 0%,
+                    #fff 35%,
+                    #e4f8f2 67%,
+                    #fff 100%);
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+            scroll-behavior: smooth;
+        }
+
+        .content::-webkit-scrollbar {
+            display: none;
+        }
+
+        .content::before {
+            content: "";
+            position: absolute;
+            right: -62px;
+            top: -65px;
+            width: 190px;
+            height: 360px;
+            background: radial-gradient(circle, rgba(132, 237, 214, 0.8) 0%, rgba(132, 237, 214, 0.35) 42%, rgba(255, 255, 255, 0) 70%);
+            filter: blur(14px);
+            pointer-events: none;
+        }
+
+        .keyword-section {
+            position: relative;
+            padding: 28px 20px 10px;
+            z-index: 2;
+        }
+
+        .section-title {
+            font-size: 15px;
+            color: #1e56a0;
+            font-weight: 500;
+            margin-bottom: 16px;
+        }
+
+        .chip-wrap {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px 8px;
+            margin-bottom: 24px;
+        }
+
+        .chip {
+            height: 39px;
+            padding: 0 13px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 22px;
+            font-size: 15px;
+            font-weight: 600;
+            white-space: nowrap;
+            flex-shrink: 0;
+            cursor: pointer;
+            transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease, color 0.18s ease;
+        }
+
+        .chip:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 12px rgba(30, 86, 160, 0.18);
+        }
+
+        .chip.filled {
+            background: #1e56a0;
+            color: #fff;
+            border: none;
+        }
+
+        .chip.filled:hover {
+            background: #174a8c;
+        }
+
+        .chip.outline {
+            background: #fff;
+            color: #1e56a0;
+            border: 1.5px solid #1e56a0;
+        }
+
+        .chip.outline:hover {
+            background: #1e56a0;
+            color: #fff;
+        }
+
+        .category-title {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 8px 18px 18px;
+            font-size: 14px;
+            color: #555;
+        }
+
+        .triangle {
+            width: 0;
+            height: 0;
+            border-left: 7px solid transparent;
+            border-right: 7px solid transparent;
+            border-bottom: 8px solid #555;
+        }
+
+        /* =========================
+           Product Cards
+        ========================= */
+        .product-list {
+            position: relative;
+            z-index: 2;
+            padding: 0 12px 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .product-card {
+            width: 100%;
+            min-height: 136px;
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            box-shadow: 0 3px 7px rgba(0, 0, 0, 0.22);
+            display: flex;
+            align-items: center;
+            padding: 13px 12px;
+            gap: 12px;
+            cursor: pointer;
+            transition: filter 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .product-card:hover {
+            filter: brightness(95%);
+        }
+
+        .product-img-box {
+            position: relative;
+            width: 82px;
+            height: 104px;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .rank-area {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 26px;
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2px;
+            pointer-events: none;
+        }
+
+        .rank-star {
+            color: #e33e44;
+            font-size: 13px;
+            line-height: 1;
+        }
+
+        .rank-bars {
+            display: flex;
+            align-items: end;
+            gap: 2px;
+            height: 15px;
+        }
+
+        .rank-bars span {
+            width: 5px;
+            background: #e33e44;
+            border-radius: 2px 2px 0 0;
+        }
+
+        .rank-bars span:nth-child(1) {
+            height: 6px;
+        }
+
+        .rank-bars span:nth-child(2) {
+            height: 11px;
+        }
+
+        .rank-bars span:nth-child(3) {
+            height: 8px;
+        }
+
+        .product-img {
+            width: 70px;
+            height: 98px;
+            object-fit: contain;
+            flex-shrink: 0;
+            transition: none;
+        }
+
+        .product-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .product-name {
+            font-size: 15px;
+            color: #222;
+            line-height: 1.35;
+            margin-bottom: 6px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .product-name .rank-num {
+            color: #ef4b4f;
+            font-weight: 700;
+            margin-right: 2px;
+        }
+
+        .product-name .brand {
+            color: #c7c7c7;
+        }
+
+        .rating {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 13px;
+            color: #222;
+            margin-bottom: 3px;
+        }
+
+        .rating .star {
+            color: #f7c64b;
+            font-size: 15px;
+        }
+
+        .review-count {
+            color: #bfbfbf;
+        }
+
+        .price-row {
+            font-size: 14px;
+            margin-bottom: 3px;
+        }
+
+        .discount {
+            color: #ef4b4f;
+            font-weight: 600;
+            margin-right: 6px;
+        }
+
+        .price {
+            font-weight: 700;
+        }
+
+        .point-row {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 13px;
+            color: #222;
+            margin-bottom: 7px;
+        }
+
+        .point {
+            width: 17px;
+            height: 17px;
+            border-radius: 50%;
+            background: #9bd8ca;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            font-weight: 800;
+        }
+
+        .tag-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+        }
+
+        .tag {
+            height: 20px;
+            padding: 0 9px;
+            background: #1e56a0;
+            color: #fff;
+            border-radius: 10px;
+            font-size: 12px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            transition: background 0.18s ease, transform 0.18s ease;
+        }
+
+        .tag:hover {
+            background: #174a8c;
+            transform: translateY(-1px);
+        }
+
+        /* =========================
+           TOP BUTTON
+        ========================= */
+        .top-btn {
+            position: absolute;
+            right: 16px;
+            bottom: 124px;
+            width: 48px;
+            height: 48px;
+            border: none;
+            border-radius: 50%;
+            background: #A3D9C9;
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 1px;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.18);
+            z-index: 30;
+            cursor: pointer;
+            transition: none;
+        }
+
+        .top-btn:hover {
+            background: #A3D9C9;
+            transform: none;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.18);
+        }
+
+        .top-btn i {
+            font-size: 14px;
+            line-height: 1;
+        }
+
+        .top-btn:hover i {
+            color: #fff;
+            transform: none;
+        }
+
+        /* =========================
+           Bottom Tab Bar
+        ========================= */
+        .bottom-tabbar {
+            position: absolute;
+            left: 0;
+            bottom: 34px;
+            width: 100%;
+            height: 74px;
+            background: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            padding: 8px 8px 10px;
+            z-index: 25;
+            border-top: 1px solid #eee;
+        }
+
+        .tabbar-item {
+            flex: 1;
+            height: 100%;
+            text-decoration: none;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            color: #e5e7eb;
+            font-size: 11px;
+            font-weight: 700;
+            line-height: 1.1;
+            border-radius: 14px;
+            transition: background 0.18s ease, color 0.18s ease, transform 0.18s ease;
+        }
+
+        .tabbar-item i {
+            font-size: 20px;
+            line-height: 1;
+        }
+
+        .tabbar-item.active {
+            color: #9bd8ca;
+        }
+
+        .tabbar-item:hover {
+            background: #f3faf8;
+            transform: translateY(-2px);
+        }
+
+        .tabbar-item.active:hover {
+            background: #ecfaf6;
+            color: #75cbbb;
+        }
+
+        .tabbar-item:active {
+            opacity: 0.75;
+            transform: scale(0.96);
+            transition: all 0.1s ease;
+        }
+
+        /* =========================
+           Home Bar
+        ========================= */
         .home-bar {
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 100%;
             height: 34px;
             background: #fff;
             display: flex;
             justify-content: center;
             align-items: center;
+            z-index: 26;
         }
 
-        .home-bar::after {
-            content: "";
-            width: 134px;
+        .home-indicator {
+            width: 135px;
             height: 5px;
             background: #000;
-            border-radius: 100px;
+            border-radius: 10px;
+        }
+
+
+        /* =========================
+           Search Keyboard Overlay
+        ========================= */
+        .keyboard-overlay {
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            width: 100%;
+            max-width: 375px;
+            z-index: 80;
+            display: flex;
+            justify-content: center;
+            pointer-events: none;
+        }
+
+        .keyboard-panel {
+            width: 375px;
+            height: auto;
+            transform: translateY(100%);
+            opacity: 0;
+            transition: transform 0.38s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.25s ease;
+            will-change: transform;
+        }
+
+        .keyboard-overlay.active {
+            pointer-events: auto;
+        }
+
+        .keyboard-overlay.active .keyboard-panel {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .keyboard-img {
+            display: block;
+            width: 375px;
+            max-width: 100%;
+            height: auto;
+            user-select: none;
+            -webkit-user-drag: none;
+        }
+
+        @media (max-width: 375px) {
+            .app {
+                max-width: 100%;
+            }
         }
     </style>
 </head>
 
 <body>
-    <div class="app-container">
-        <div class="status-bar"><span>9:41</span><span>...</span></div>
-        <div class="header">랭킹</div>
+    <div class="app">
 
-        <div class="ranking-tabs">
-            <div class="tab-item active">전체</div>
-            <div class="tab-item">스킨케어</div>
-            <div class="tab-item">메이크업</div>
-            <div class="tab-item">바디/헤어</div>
-        </div>
-
-        <div class="ranking-list" id="list">
-            <div class="rank-card">
-                <div class="rank-num">1</div>
-                <div>랭킹 상품 정보 영역</div>
+        <!-- Status Bar -->
+        <div class="status-bar">
+            <div class="time">9:41</div>
+            <div class="status-icons">
+                <div class="signal">
+                    <span></span><span></span><span></span><span></span>
+                </div>
+                <div class="wifi"></div>
+                <div class="battery"></div>
             </div>
         </div>
 
-        <div class="home-bar"></div>
+        <!-- Header -->
+        <header class="header">
+            <div class="menu-icon clickable no-hover" onclick="window.location.href='scan.html';" aria-label="scan">
+                <i class="fa-solid fa-expand"></i>
+            </div>
+
+            <div class="search-box" id="searchBox" role="button" tabindex="0" aria-label="나한테 맞는 화장품 검색창 열기">
+                <span>나한테 맞는 화장품 찾아보기</span>
+                <div class="search-icon"></div>
+            </div>
+
+            <button class="ai-btn" type="button" onclick="window.location.href='aimode.html';">AI</button>
+        </header>
+
+        <!-- Top Nav -->
+        <nav class="top-nav">
+            <a href="main.html">홈</a>
+            <a href="#" class="active" aria-current="page">랭킹</a>
+            <a href="commu.html">커뮤니티</a>
+        </nav>
+
+        <!-- Category Tabs -->
+        <section class="category-tabs">
+            <div class="tab">
+                <div class="tab-icon shield"></div>
+                <span>인기템</span>
+            </div>
+
+            <div class="tab active">
+                <div class="tab-icon grid">
+                    <span></span><span></span><span></span><span></span>
+                </div>
+                <span>카테고리</span>
+            </div>
+
+            <div class="tab">
+                <div class="tab-icon drop"></div>
+                <span>피부타입</span>
+            </div>
+
+            <div class="tab">
+                <span>이벤트</span>
+            </div>
+        </section>
+
+        <!-- Main Content -->
+        <main class="content" id="content">
+            <section class="keyword-section">
+                <h2 class="section-title">인기검색어</h2>
+
+                <div class="chip-wrap">
+                    <button type="button" class="chip filled">#민감성</button>
+                    <button type="button" class="chip filled">#재생크림</button>
+                    <button type="button" class="chip filled">#요철</button>
+                    <button type="button" class="chip filled">#비타민C</button>
+                    <button type="button" class="chip filled">#피부장벽</button>
+                    <button type="button" class="chip filled">#건성피부</button>
+                    <button type="button" class="chip filled">#보습진정</button>
+                    <button type="button" class="chip filled">#모공</button>
+                    <button type="button" class="chip filled">#각질</button>
+                    <button type="button" class="chip filled">#비건</button>
+                    <button type="button" class="chip filled">#병풀추출물</button>
+                </div>
+
+                <h2 class="section-title">최근 나의 검색</h2>
+
+                <div class="chip-wrap">
+                    <button type="button" class="chip outline">#다크써클</button>
+                    <button type="button" class="chip outline">#비타민C</button>
+                    <button type="button" class="chip outline">#레티놀</button>
+                    <button type="button" class="chip outline">#티트리</button>
+                    <button type="button" class="chip outline">#AHA</button>
+                    <button type="button" class="chip outline">#PMS전후</button>
+                    <button type="button" class="chip outline">#히알루론산</button>
+                </div>
+            </section>
+
+            <div class="category-title">
+                <span class="triangle"></span>
+                <span>전체카테고리</span>
+            </div>
+
+            <section class="product-list" id="productList"></section>
+        </main>
+
+        <!-- TOP Button -->
+        <button class="top-btn clickable no-hover" id="topBtn" type="button" aria-label="맨 위로 이동">
+            <i class="fa-solid fa-chevron-up"></i>
+        </button>
+
+
+        <!-- Keyboard Overlay -->
+        <div class="keyboard-overlay" id="keyboardOverlay" aria-hidden="true">
+            <div class="keyboard-panel">
+                <img src="./images/키보드.png" alt="키보드" class="keyboard-img">
+            </div>
+        </div>
+
+        <!-- Bottom Tab Bar -->
+        <nav class="bottom-tabbar">
+            <a href="rank.html" class="tabbar-item clickable no-hover">
+                <i class="fa-solid fa-bars"></i>
+                <span>카테고리</span>
+            </a>
+
+            <a href="#" class="tabbar-item clickable no-hover">
+                <i class="fa-solid fa-gem"></i>
+                <span>혜택</span>
+            </a>
+
+            <a href="main.html" class="tabbar-item clickable no-hover">
+                <i class="fa-solid fa-house"></i>
+                <span>홈</span>
+            </a>
+
+            <a href="#" class="tabbar-item active clickable no-hover">
+                <i class="fa-solid fa-cart-shopping"></i>
+                <span>쇼핑</span>
+            </a>
+
+            <a href="#" class="tabbar-item clickable no-hover">
+                <i class="fa-regular fa-user"></i>
+                <span>마이</span>
+            </a>
+        </nav>
+
+        <!-- Home Bar -->
+        <div class="home-bar">
+            <div class="home-indicator"></div>
+        </div>
     </div>
 
     <script>
-        // 탭 클릭 이벤트 상호작용
-        document.querySelectorAll('.tab-item').forEach(tab => {
-            tab.addEventListener('click', () => {
-                document.querySelector('.tab-item.active').classList.remove('active');
-                tab.classList.add('active');
+        const products = [
+            {
+                image: "./images/비플레인.webp",
+                brand: "비플레인",
+                name: "녹두 약산성 클렌징",
+                tags: ["#바르는 보톡스", "#펩타이드"]
+            },
+            {
+                image: "./images/톨든.jpg",
+                brand: "토리든",
+                name: "다이브인 저분자 앰플",
+                tags: ["#수분진정", "#물광피부"]
+            },
+            {
+                image: "./images/에스트라.webp",
+                brand: "에스트라",
+                name: "아토 베리어 크림",
+                tags: ["#엑스트라보습", "#피부유사성분"]
+            },
+            {
+                image: "./images/비플레인.webp",
+                brand: "비플레인",
+                name: "녹두 약산성 클렌징",
+                tags: ["#미백", "#비건"]
+            },
+            {
+                image: "./images/아누아.webp",
+                brand: "아누아",
+                name: "PDRN 히알루론산 앰플",
+                tags: ["#PDRN", "#연어수출성분"]
+            }
+        ];
+
+        const productList = document.getElementById("productList");
+        const content = document.getElementById("content");
+        const topBtn = document.getElementById("topBtn");
+
+        products.forEach((item, index) => {
+            const card = document.createElement("article");
+            card.className = "product-card";
+
+            card.innerHTML = `
+                <div class="product-img-box">
+                    <div class="rank-area">
+                        <div class="rank-star">★</div>
+                        <div class="rank-bars">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </div>
+                    </div>
+
+                    <img src="${item.image}" alt="${item.name}" class="product-img">
+                </div>
+
+                <div class="product-info">
+                    <h3 class="product-name">
+                        <span class="rank-num">${index + 1}</span>
+                        <span class="brand">${item.brand}</span> ${item.name}
+                    </h3>
+
+                    <div class="rating">
+                        <span class="star">★</span>
+                        <span>4.61</span>
+                        <span class="review-count">(1,672)</span>
+                    </div>
+
+                    <div class="price-row">
+                        <span class="discount">45%</span>
+                        <span class="price">24,900 원</span>
+                    </div>
+
+                    <div class="point-row">
+                        <span class="point">P</span>
+                        <span>최대 3,590P</span>
+                    </div>
+
+                    <div class="tag-row">
+                        ${item.tags.map(tag => `<span class="tag">${tag}</span>`).join("")}
+                    </div>
+                </div>
+            `;
+
+            productList.appendChild(card);
+        });
+
+
+        const searchBox = document.getElementById("searchBox");
+        const keyboardOverlay = document.getElementById("keyboardOverlay");
+
+        function openKeyboard() {
+            keyboardOverlay.classList.add("active");
+            keyboardOverlay.setAttribute("aria-hidden", "false");
+        }
+
+        function closeKeyboard() {
+            keyboardOverlay.classList.remove("active");
+            keyboardOverlay.setAttribute("aria-hidden", "true");
+        }
+
+        searchBox.addEventListener("click", openKeyboard);
+
+        searchBox.addEventListener("keydown", (event) => {
+            if (event.key === "Enter" || event.key === " ") {
+                event.preventDefault();
+                openKeyboard();
+            }
+        });
+
+        keyboardOverlay.addEventListener("click", (event) => {
+            if (event.target === keyboardOverlay) {
+                closeKeyboard();
+            }
+        });
+
+        document.addEventListener("keydown", (event) => {
+            if (event.key === "Escape") {
+                closeKeyboard();
+            }
+        });
+
+        topBtn.addEventListener("click", () => {
+            content.scrollTo({
+                top: 0,
+                behavior: "smooth"
             });
         });
+
     </script>
 </body>
 
