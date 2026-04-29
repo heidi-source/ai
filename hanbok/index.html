@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>한국한복문화예술협회</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700;800&family=Noto+Serif+KR:wght@400;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="./css/style.css">
+</head>
+
+<body>
+    <header class="header">
+        <div class="inner">
+            <div class="header-top">
+                <ul>
+                    <li>
+                        <a href="#">
+                            <svg class="login-icon" viewBox="0 0 16 16" aria-hidden="true">
+                                <path d="M6.2 3H3.5v10h2.7" />
+                                <path d="M7.2 8h5.3" />
+                                <path d="M10.2 5.7L12.5 8l-2.3 2.3" />
+                            </svg>
+                            로그인
+                        </a>
+                    </li>
+                    <li><a href="#">회원가입</a></li>
+                    <li><a href="#">마이페이지</a></li>
+                </ul>
+            </div>
+
+            <div class="header-main">
+                <h1 class="logo">
+                    <a href="#">
+                        <img src="./images/logo.png" alt="한국한복문화예술협회 로고" />
+                    </a>
+                </h1>
+
+                <nav class="gnb">
+                    <a href="#">협회소개</a>
+                    <a href="#">홍보광장</a>
+                    <a href="#">아젤리아패션그룹</a>
+                    <a href="#">국제교류채널관</a>
+                    <a href="#">나눔과기쁨 & 복지관</a>
+                    <a href="#">협력기관</a>
+                </nav>
+
+                <button class="mobile-menu-btn" type="button" aria-label="모바일 메뉴">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="hero-slider">
+                <div class="hero-slide active">
+                    <img src="./images/hero-hanbok..png" alt="한복 메인 배너 이미지 1" />
+                </div>
+
+                <div class="hero-slide">
+                    <img src="./images/banner02.png" alt="한복 메인 배너 이미지 2" />
+                </div>
+
+                <div class="hero-slide">
+                    <img src="./images/banner03.png" alt="한복 메인 배너 이미지 3" />
+                </div>
+            </div>
+
+            <div class="inner">
+                <div class="hero-text">
+                    <h1>한복</h1>
+                    <h2>한국의 전통의상</h2>
+                    <p>
+                        “ 아름다운 우리 옷 한복<br />
+                        전통에 스며들다. ”
+                    </p>
+                </div>
+            </div>
+
+            <div class="feature-banner">
+                <div class="inner feature-inner">
+                    <div class="feature-info">
+                        <div class="feature-num" id="featureNum">01</div>
+
+                        <div>
+                            <small>
+                                <img id="featureIcon" src="./images/태극문양.JPG" alt="태극문양" />
+                                <span id="featureSmall">태극문양디자인등록</span>
+                            </small>
+
+                            <h3 id="featureTitle">한복드레스</h3>
+
+                            <p id="featureDesc">
+                                디자인등록특허<br />
+                                제30-1087062호
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="feature-thumb">
+                        <img id="featureThumb" src="./images/hero.jpg" alt="한복드레스 썸네일" />
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="media-section">
+            <div class="inner media-grid">
+                <article class="media-box">
+                    <div class="media-head">
+                        <div>
+                            <h3>포스터</h3>
+                            <p>Poster</p>
+                        </div>
+                        <button class="plus-btn" type="button" aria-label="포스터 더보기">+</button>
+                    </div>
+
+                    <div class="poster-list">
+                        <img src="./images/poster1.png" alt="포스터 이미지 1" />
+                        <img src="./images/poster2.png" alt="포스터 이미지 2" />
+                    </div>
+                </article>
+
+                <article class="media-box">
+                    <div class="media-head">
+                        <div>
+                            <h3>동영상</h3>
+                            <p>Video</p>
+                        </div>
+                        <button class="plus-btn" type="button" aria-label="동영상 더보기">+</button>
+                    </div>
+
+                    <div class="video-box">
+                        <img src="./images/video.png" alt="동영상 썸네일" />
+                    </div>
+                </article>
+
+                <article class="media-box">
+                    <div class="media-head">
+                        <div>
+                            <h3>유튜브</h3>
+                            <p>Youtube</p>
+                        </div>
+                        <button class="plus-btn" type="button" aria-label="유튜브 더보기">+</button>
+                    </div>
+
+                    <div class="youtube-box"></div>
+                </article>
+            </div>
+        </section>
+
+        <div class="notice-gallery-bg">
+            <section class="notice-section">
+                <div class="inner">
+                    <div class="section-title">
+                        <h2>공지사항</h2>
+                        <p>한국한복문화예술협회 문화 소통구</p>
+                    </div>
+
+                    <div class="notice-tabs">
+                        <button class="active" type="button" data-filter="all">전체</button>
+                        <button type="button" data-filter="notice">공지사항</button>
+                        <button type="button" data-filter="news">뉴스</button>
+                    </div>
+
+                    <div class="notice-grid">
+                        <article class="notice-card is-active" data-category="notice">
+                            <div>
+                                <span class="notice-label">공지</span>
+                                <h3>2025년도 한국한복문화예술협회 공지사항</h3>
+                                <p>
+                                    행사 및 프로그램과 관련된 중요한 소식을 빠르게 안내해 드립니다.
+                                    업데이트되는 공지사항을 확인하시고, 놓치지 말고 참여해 주세요.
+                                </p>
+                            </div>
+                            <div class="notice-date">2025-01-16</div>
+                        </article>
+
+                        <article class="notice-card" data-category="notice">
+                            <div>
+                                <span class="notice-label">공지</span>
+                                <h3>공지사항</h3>
+                                <p>
+                                    행사 및 프로그램과 관련된 중요한 소식과 안내를 확인하세요.
+                                    최신 정보를 통해 원활한 참여와 소통을 도와드립니다.
+                                </p>
+                            </div>
+                            <div class="notice-date">2025-01-12</div>
+                        </article>
+
+                        <article class="notice-card" data-category="notice">
+                            <div>
+                                <span class="notice-label">공지</span>
+                                <h3>2025 K-선비한복모델 선발대회</h3>
+                                <p>
+                                    전통과 현대가 어우러진 축제의 장으로 여러분을 초대합니다.
+                                    다양한 공연, 체험 프로그램, 전시 등이 마련되어 있습니다.
+                                </p>
+                            </div>
+                            <div class="notice-date">2025-01-09</div>
+                        </article>
+
+                        <article class="notice-card" data-category="notice">
+                            <div>
+                                <span class="notice-label">공지</span>
+                                <h3>2025년도 각 복지센터와 함께하는 순회 기증을 위한 전통문화...</h3>
+                                <p>
+                                    한복을 기부하고 전통문화 체험 프로그램이나 다양한 문화 교류 행사에
+                                    활용하는 참가자 모집 안내입니다.
+                                </p>
+                            </div>
+                            <div class="notice-date">2025-01-03</div>
+                        </article>
+
+                        <article class="notice-card news" data-category="news">
+                            <div>
+                                <span class="notice-label">뉴스</span>
+                                <h3>[MJ포토] 아젤리아드레스 입은 주 모델 지킴이·알리미 디자인...</h3>
+                                <p>
+                                    대한민국 명장실리기포럼 데이터자산등재와 중장기 자산 운영 관련
+                                    협약 및 주요 소식을 전합니다.
+                                </p>
+                            </div>
+                            <div class="notice-date">2021-07-05</div>
+                        </article>
+
+                        <article class="notice-card news" data-category="news">
+                            <div>
+                                <span class="notice-label">뉴스</span>
+                                <h3>[MJ포토] 아젤리아드레스 입은 주 모델 지킴이·알리미 디자인...</h3>
+                                <p>
+                                    대한민국 명장실리기포럼 데이터자산등재와 중장기 자산 운영 관련
+                                    협약 및 주요 소식을 전합니다.
+                                </p>
+                            </div>
+                            <div class="notice-date">2021-07-05</div>
+                        </article>
+
+                        <article class="notice-card news" data-category="news">
+                            <div>
+                                <span class="notice-label">뉴스</span>
+                                <h3>[MJ포토] 아젤리아드레스 입은 주 모델 지킴이·알리미 디자인...</h3>
+                                <p>
+                                    대한민국 명장실리기포럼 데이터자산등재와 중장기 자산 운영 관련
+                                    협약 및 주요 소식을 전합니다.
+                                </p>
+                            </div>
+                            <div class="notice-date">2021-07-05</div>
+                        </article>
+
+                        <article class="notice-card news" data-category="news">
+                            <div>
+                                <span class="notice-label">뉴스</span>
+                                <h3>[MJ포토] 아젤리아드레스 입은 주 모델 지킴이·알리미 디자인...</h3>
+                                <p>
+                                    대한민국 명장실리기포럼 데이터자산등재와 중장기 자산 운영 관련
+                                    협약 및 주요 소식을 전합니다.
+                                </p>
+                            </div>
+                            <div class="notice-date">2021-07-05</div>
+                        </article>
+                    </div>
+                </div>
+            </section>
+
+            <section class="gallery-section">
+                <div class="inner gallery-wrap">
+                    <div class="gallery-title">
+                        <h2>갤러리</h2>
+                        <p>사진으로 본 문화현장</p>
+                    </div>
+
+                    <div class="gallery-banner">
+                        <div class="gallery-list">
+                            <article class="gallery-card">
+                                <img src="./images/image.png" alt="갤러리 이미지 1" />
+                                <h3>제13회 효창원 8월선열 추모제전</h3>
+                                <p class="date">2023-11-15</p>
+                            </article>
+
+                            <article class="gallery-card">
+                                <img src="./images/image2.png" alt="갤러리 이미지 2" />
+                                <h3>한복 문화 행사 현장</h3>
+                                <p class="date">2023-11-15</p>
+                            </article>
+
+                            <article class="gallery-card">
+                                <img src="./images/image3.png" alt="갤러리 이미지 3" />
+                                <h3>전통문화 체험 프로그램</h3>
+                                <p class="date">2023-11-15</p>
+                            </article>
+
+                            <article class="gallery-card">
+                                <img src="./images/image4.png" alt="갤러리 이미지 4" />
+                                <h3>한복 모델 행사</h3>
+                                <p class="date">2023-11-15</p>
+                            </article>
+
+                            <article class="gallery-card">
+                                <img src="./images/image3.png" alt="갤러리 이미지 5" />
+                                <h3>한국 전통문화 교류 행사</h3>
+                                <p class="date">2023-11-15</p>
+                            </article>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="inner">
+            <img class="footer-logo" src="./images/logo.png" alt="한국한복문화예술협회 로고" />
+
+            <div class="footer-info">
+                Homepage : www.khanbok.kr &nbsp;&nbsp; Mobile : 010-7385-7898 &nbsp;&nbsp;
+                Email : jj423636@naver.com &nbsp;&nbsp;
+                Office : 서울특별시 용산구 효창원길 64, 6층
+            </div>
+
+            <div class="sns">
+                <img src="./images/sns.png" alt="SNS 채널 이미지" />
+            </div>
+        </div>
+    </footer>
+
+    <button class="top-btn" type="button" aria-label="맨 위로 이동">↑</button>
+
+    <script>
+        const topBtn = document.querySelector(".top-btn");
+
+        if (topBtn) {
+            window.addEventListener("scroll", () => {
+                topBtn.classList.toggle("show", window.scrollY > 400);
+            });
+
+            topBtn.addEventListener("click", () => {
+                window.scrollTo({
+                    top: 0,
+                    behavior: "smooth"
+                });
+            });
+        }
+
+        const heroSlides = document.querySelectorAll(".hero-slide");
+
+        const featureNum = document.getElementById("featureNum");
+        const featureIcon = document.getElementById("featureIcon");
+        const featureSmall = document.getElementById("featureSmall");
+        const featureTitle = document.getElementById("featureTitle");
+        const featureDesc = document.getElementById("featureDesc");
+        const featureThumb = document.getElementById("featureThumb");
+
+        let heroIndex = 0;
+
+        const heroBannerData = [
+            {
+                num: "01",
+                icon: "./images/태극문양.JPG",
+                small: "태극문양디자인등록",
+                title: "한복드레스",
+                desc: "디자인등록특허<br />제30-1087062호",
+                thumb: "./images/hero.jpg"
+            },
+            {
+                num: "02",
+                icon: "./images/태극문양.JPG",
+                small: "전통문화예술",
+                title: "K-선비한복모델",
+                desc: "전통의 품격을 현대적으로<br />해석한 한복문화 콘텐츠",
+                thumb: "./images/hero-banner02.jpg"
+            },
+            {
+                num: "03",
+                icon: "./images/태극문양.JPG",
+                small: "국제교류문화",
+                title: "한복문화교류",
+                desc: "한국의 아름다움을 세계와<br />함께 나누는 문화예술 활동",
+                thumb: "./images/hero-banner03.jpg"
+            }
+        ];
+
+        function updateFeatureInfo(index) {
+            const data = heroBannerData[index];
+
+            featureNum.textContent = data.num;
+            featureIcon.src = data.icon;
+            featureSmall.textContent = data.small;
+            featureTitle.textContent = data.title;
+            featureDesc.innerHTML = data.desc;
+            featureThumb.src = data.thumb;
+        }
+
+        if (heroSlides.length > 0) {
+            setInterval(() => {
+                heroSlides[heroIndex].classList.remove("active");
+
+                heroIndex = (heroIndex + 1) % heroSlides.length;
+
+                heroSlides[heroIndex].classList.add("active");
+                updateFeatureInfo(heroIndex);
+            }, 4000);
+        }
+
+        const tabButtons = document.querySelectorAll(".notice-tabs button");
+        const noticeCards = document.querySelectorAll(".notice-card");
+
+        tabButtons.forEach((button) => {
+            button.addEventListener("click", () => {
+                const filter = button.dataset.filter;
+
+                tabButtons.forEach((btn) => btn.classList.remove("active"));
+                button.classList.add("active");
+
+                noticeCards.forEach((card) => {
+                    const category = card.dataset.category;
+                    card.style.display = filter === "all" || filter === category ? "flex" : "none";
+                });
+            });
+        });
+
+        const galleryList = document.querySelector(".gallery-list");
+
+        if (galleryList) {
+            setInterval(() => {
+                if (window.innerWidth <= 768) return;
+
+                const firstCard = galleryList.querySelector(".gallery-card:first-child");
+
+                if (firstCard) {
+                    galleryList.appendChild(firstCard);
+                }
+            }, 5000);
+        }
+    </script>
+</body>
+
+</html>
