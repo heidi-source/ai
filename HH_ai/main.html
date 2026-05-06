@@ -25,6 +25,16 @@
             --hwahae-red: #FF5A5A;
         }
 
+        * {
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+        }
+
         body {
             font-family: 'Noto Sans KR', sans-serif;
             background-color: #f0f0f0;
@@ -32,12 +42,14 @@
             padding: 0;
             display: flex;
             justify-content: center;
+            overflow: hidden;
         }
 
         .mobile-container {
             width: 100%;
             max-width: 450px;
             height: 100vh;
+            height: 100dvh;
             position: relative;
             background-color: white;
             display: flex;
@@ -46,28 +58,15 @@
             overflow: hidden;
         }
 
-        .status-bar {
-            height: 44px;
-            padding: 0 24px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 14px;
-            font-weight: 600;
-            background: white;
-            position: sticky;
-            top: 0;
-            z-index: 60;
-            margin-bottom: 0;
-            flex-shrink: 0;
-        }
-
         .main-content {
             flex: 1;
-            padding-bottom: 120px;
+            height: 100%;
+            padding-bottom: 105px;
             overflow-x: hidden;
             overflow-y: auto;
             -webkit-overflow-scrolling: touch;
+            scroll-behavior: smooth;
+            background: #fff;
         }
 
         /* 공통 인터랙션 */
@@ -92,114 +91,13 @@
             opacity: 1 !important;
         }
 
-        /* 개인화 섹션 카드 스타일 */
-        .personal-section {
-            margin: 0 20px 16px 20px;
-            padding: 20px;
-            border-radius: 24px;
-            transition: all 0.2s ease;
-            display: block;
-            text-decoration: none;
-            color: inherit;
-        }
-
-        .personal-section:hover {
-            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.05);
-            transform: translateY(-2px);
-        }
-
-        .personal-section:active {
-            transform: scale(0.98);
-        }
-
-        .personal-title-area {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            margin-bottom: 14px;
-        }
-
-        .name-tag {
-            background-color: var(--hwahae-primary);
-            color: white;
-            padding: 2px 6px;
-            border-radius: 4px;
-            font-weight: 700;
-            font-size: 13px;
-            margin-right: 2px;
-        }
-
-        .product-info-flat {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            position: relative;
-        }
-
-        /* 신제품 이미지 */
-        .new-product-img {
-            aspect-ratio: 1 / 1;
-            width: 100%;
-            object-fit: cover;
-            border-radius: 16px;
-            background-color: #f7f7f7;
-            transition: filter 0.3s ease, opacity 0.3s ease;
-            transform: none !important;
-        }
-
-        .new-product-card:hover .new-product-img {
-            filter: saturate(0.6) brightness(1.02);
-            opacity: 0.9;
-            transform: none !important;
-        }
-
-        /* 하단 탭 스타일 */
-        .fixed-bottom {
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-            max-width: 450px;
-            background: white;
-            z-index: 100;
-            border-top: 1px solid #F1F1F1;
-        }
-
-        .bottom-tab {
-            height: 65px;
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-            padding: 0 10px;
-        }
-
-        .tab-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 4px;
-            cursor: pointer;
-            flex: 1;
-            transition: all 0.2s ease;
-        }
-
-        .tab-item:hover i {
-            transform: translateY(-2px);
-        }
-
-        .tab-item i {
-            font-size: 20px;
-            color: var(--hwahae-text-gray);
-            transition: transform 0.2s ease;
-        }
-
-        .tab-item span {
-            font-size: 11px;
-            color: var(--hwahae-text-gray);
-        }
-
-        .tab-item.active i,
-        .tab-item.active span {
-            color: var(--hwahae-primary);
+        /* Header */
+        .main-header {
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            background: #fff;
+            box-shadow: 0 1px 8px rgba(0, 0, 0, 0.03);
         }
 
         .search-box {
@@ -268,32 +166,29 @@
             text-decoration: none;
         }
 
-        .tab-active {
-            color: #1E4F98;
-            font-weight: 700;
-            border-bottom: 2px solid #1E4F98;
+        .top-tabs {
+            display: flex;
+            border-bottom: 1px solid #f1f1f1;
+            background: #fff;
         }
 
-        .icon-box {
-            width: 48px;
-            height: 48px;
+        .top-tab {
+            flex: 1;
+            height: 44px;
             display: flex;
             align-items: center;
             justify-content: center;
-            border: 1px solid #F1F3F5;
-            border-radius: 16px;
-            background-color: white;
-            font-size: 1.3rem;
-            transition: all 0.2s ease;
+            text-decoration: none;
+            font-size: 14px;
+            color: #9ca3af;
+            border-bottom: 2px solid transparent;
+            transition: color 0.18s ease, border-color 0.18s ease;
         }
 
-        .clickable:hover .icon-box {
-            border-color: #000;
-            background-color: var(--hwahae-mint-bg);
-        }
-
-        .icon-box i {
-            color: var(--quick-menu-main);
+        .top-tab.tab-active {
+            color: #1E4F98;
+            font-weight: 700;
+            border-bottom-color: #1E4F98;
         }
 
         /* 배너 영역 */
@@ -337,6 +232,139 @@
             pointer-events: none;
         }
 
+        .icon-box {
+            width: 48px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid #F1F3F5;
+            border-radius: 16px;
+            background-color: white;
+            font-size: 1.3rem;
+            transition: all 0.2s ease;
+        }
+
+        .clickable:hover .icon-box {
+            border-color: #000;
+            background-color: var(--hwahae-mint-bg);
+        }
+
+        .icon-box i {
+            color: var(--quick-menu-main);
+        }
+
+        /* 개인화 섹션 카드 스타일 */
+        .personal-section {
+            margin: 0 20px 16px 20px;
+            padding: 20px;
+            border-radius: 24px;
+            transition: all 0.2s ease;
+            display: block;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .personal-section:hover {
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.05);
+            transform: translateY(-2px);
+        }
+
+        .personal-section:active {
+            transform: scale(0.98);
+        }
+
+        .personal-title-area {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 14px;
+        }
+
+        .name-tag {
+            background-color: var(--hwahae-primary);
+            color: white;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: 700;
+            font-size: 13px;
+            margin-right: 2px;
+        }
+
+        .product-info-flat {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            position: relative;
+        }
+
+        /* 신제품 이미지 */
+        .new-product-img {
+            aspect-ratio: 1 / 1;
+            width: 100%;
+            object-fit: cover;
+            border-radius: 16px;
+            background-color: #f7f7f7;
+            transition: filter 0.3s ease, opacity 0.3s ease;
+            transform: none !important;
+        }
+
+        .new-product-card:hover .new-product-img {
+            filter: saturate(0.6) brightness(1.02);
+            opacity: 0.9;
+            transform: none !important;
+        }
+
+        /* 하단 탭 스타일 */
+        .fixed-bottom {
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            max-width: 450px;
+            background: white;
+            z-index: 100;
+            border-top: 1px solid #F1F1F1;
+        }
+
+        .bottom-tab {
+            height: 65px;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding: 0 10px;
+        }
+
+        .tab-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            cursor: pointer;
+            flex: 1;
+            transition: all 0.2s ease;
+        }
+
+        .tab-item:hover i {
+            transform: translateY(-2px);
+        }
+
+        .tab-item i {
+            font-size: 20px;
+            color: var(--hwahae-text-gray);
+            transition: transform 0.2s ease;
+        }
+
+        .tab-item span {
+            font-size: 11px;
+            color: var(--hwahae-text-gray);
+        }
+
+        .tab-item.active i,
+        .tab-item.active span {
+            color: var(--hwahae-primary);
+        }
+
         ::-webkit-scrollbar {
             display: none;
         }
@@ -365,8 +393,8 @@
 
         /* TOP 버튼 */
         .top-button {
-            position: fixed;
-            right: calc(50% - 225px + 18px);
+            position: absolute;
+            right: 18px;
             bottom: 96px;
             width: 44px;
             height: 44px;
@@ -404,33 +432,15 @@
         .top-button:active {
             transform: scale(0.92);
         }
-
-        @media (max-width: 450px) {
-            .top-button {
-                right: 18px;
-            }
-        }
     </style>
 </head>
 
 <body>
-
     <div class="mobile-container">
-        <!-- 상태 표시줄 -->
-        <div class="status-bar">
-            <div id="status-time">09:41</div>
-            <div class="flex gap-2 text-sm">
-                <i class="fa-solid fa-signal"></i>
-                <i class="fa-solid fa-wifi"></i>
-                <i class="fa-solid fa-battery-three-quarters"></i>
-            </div>
-        </div>
-
         <div class="main-content">
             <!-- 헤더 및 검색 -->
-            <header class="bg-white sticky top-0 z-50 shadow-sm shadow-gray-50">
+            <header class="main-header">
                 <div class="px-5 flex items-center gap-3 pt-2 pb-2">
-
                     <a href="scan.html" class="clickable p-1 no-hover">
                         <i class="fa-solid fa-expand text-xl text-gray-400"></i>
                     </a>
@@ -443,28 +453,20 @@
                     <a href="aimode.html" class="ai-btn clickable">AI</a>
                 </div>
 
-                <div class="flex border-b border-gray-50">
-                    <div class="flex-1 text-center py-3 text-sm tab-active cursor-pointer clickable no-hover">홈</div>
+                <nav class="top-tabs">
+                    <a href="main.html" class="top-tab tab-active clickable no-hover">홈</a>
+                    <a href="rank.html" class="top-tab clickable no-hover">랭킹</a>
+                    <a href="commu.html" class="top-tab clickable no-hover">커뮤니티</a>
 
-                    <a href="rank.html"
-                        class="flex-1 text-center py-3 text-sm text-gray-400 cursor-pointer clickable no-hover">
-                        랭킹
-                    </a>
-
-                    <div class="flex-1 text-center py-3 text-sm text-gray-400 cursor-pointer clickable no-hover">
-                        커뮤니티
-                    </div>
-                </div>
+                </nav>
             </header>
 
             <!-- 배너 -->
-            <!-- 배너 -->
             <section class="banner-container px-5 mt-4">
                 <div class="banner-wrapper clickable no-hover">
-
                     <!-- slide 1 -->
                     <div class="banner-slide active">
-                        <img src="https://images.unsplash.com/photo-1612817288484-6f916006741a?auto=format&fit=crop&q=80&w=300"
+                        <img src="https://images.unsplash.com/photo-1612817288484-6f916006741a?auto=format&fit=crop&q=80&w=600"
                             alt="Banner 1">
                         <div class="banner-overlay"></div>
                         <div class="banner-text absolute bottom-6 left-5">
@@ -486,8 +488,7 @@
 
                     <!-- slide 3 -->
                     <div class="banner-slide">
-                        <img src="https://images.unsplash.com/photo-1556228578-8c7c2f971c91?auto=format&fit=crop&q=80&w=600"
-                            alt="Banner 3">
+                        <img src="./images/toprank.png" alt="Banner 3">
                         <div class="banner-overlay"></div>
                         <div class="banner-text absolute bottom-6 left-5">
                             <p class="text-xs font-bold mb-1 text-gray-600">지금 가장 인기있는 제품</p>
@@ -522,7 +523,8 @@
                     <div class="icon-box"><i class="fa-solid fa-trophy"></i></div>
                     <span class="text-[11px] font-medium text-[#595959] group-hover:text-teal-500">어워드</span>
                 </div>
-                <div class="flex flex-col items-center gap-2 clickable group">
+                <div class="flex flex-col items-center gap-2 clickable group"
+                    onclick="window.location.href='rank.html';">
                     <div class="icon-box"><i class="fa-solid fa-chart-simple"></i></div>
                     <span class="text-[11px] font-medium text-[#595959] group-hover:text-teal-500">랭킹</span>
                 </div>
@@ -591,10 +593,25 @@
                 </div>
 
                 <div class="grid grid-cols-2 gap-4">
+                    <style>
+                        .product-link {
+                            display: block;
+                            color: inherit;
+                            text-decoration: none;
+                            cursor: pointer;
+                        }
+
+                        .product-link:active {
+                            opacity: 0.7;
+                            transform: scale(0.95);
+                            transition: all 0.1s ease;
+                        }
+                    </style>
+
                     <!-- 신제품 카드 1 -->
-                    <div class="clickable new-product-card" onclick="window.location.href='product.html';">
+                    <a href="product.html?id=rice-cleanser" class="clickable new-product-card product-link">
                         <div class="overflow-hidden rounded-2xl mb-2 bg-gray-100">
-                            <img src="./images/에스트라.webp" class="new-product-img" alt="New product 1">
+                            <img src="./images/rice_c_milk.webp" class="new-product-img" alt="New product 1">
                         </div>
                         <div class="px-1">
                             <p class="text-[10px] text-gray-400 mb-0.5">에스네이처</p>
@@ -610,12 +627,12 @@
                                 <span class="text-[10px] text-gray-800">원</span>
                             </div>
                         </div>
-                    </div>
+                    </a>
 
                     <!-- 신제품 카드 2 -->
-                    <div class="clickable new-product-card" onclick="window.location.href='product.html';">
+                    <a href="product.html?id=pdrn-essence" class="clickable new-product-card product-link">
                         <div class="overflow-hidden rounded-2xl mb-2 bg-gray-100">
-                            <img src="./images/펩타톡스.png" class="new-product-img" alt="New product 2">
+                            <img src="./images/vtcosmetic100.webp" class="new-product-img" alt="New product 2">
                         </div>
                         <div class="px-1">
                             <p class="text-[10px] text-gray-400 mb-0.5">브이티코스메틱</p>
@@ -631,8 +648,49 @@
                                 <span class="text-[10px] text-gray-800">원</span>
                             </div>
                         </div>
-                    </div>
-                </div>
+                    </a>
+
+                    <!-- 신제품 카드 3 -->
+                    <a href="product.html?id=product03" class="clickable new-product-card product-link">
+                        <div class="overflow-hidden rounded-2xl mb-2 bg-gray-100">
+                            <img src="./images/에스트라.webp" class="new-product-img" alt="New product 2">
+                        </div>
+                        <div class="px-1">
+                            <p class="text-[10px] text-gray-400 mb-0.5">에스트라</p>
+                            <p class="text-xs font-bold text-gray-800 leading-tight mb-1">아토 베리어365 크림</p>
+                            <div class="flex items-center gap-1 mb-1">
+                                <i class="fa-solid fa-star text-yellow-400 text-[10px]"></i>
+                                <span class="text-[10px] font-bold text-gray-800">4.68</span>
+                                <span class="text-[10px] text-gray-300">(204)</span>
+                            </div>
+                            <div class="flex items-center gap-1">
+                                <span class="text-xs font-bold text-red-500">53%</span>
+                                <span class="text-xs font-bold text-gray-800">20,900</span>
+                                <span class="text-[10px] text-gray-800">원</span>
+                            </div>
+                        </div>
+                    </a>
+
+                    <!-- 신제품 카드 4 -->
+                    <a href="product.html?id=product04" class="clickable new-product-card product-link">
+                        <div class="overflow-hidden rounded-2xl mb-2 bg-gray-100">
+                            <img src="./images/snature_aqua.webp" class="new-product-img" alt="New product 2">
+                        </div>
+                        <div class="px-1">
+                            <p class="text-[10px] text-gray-400 mb-0.5">에스네이처</p>
+                            <p class="text-xs font-bold text-gray-800 leading-tight mb-1">아쿠아 오아시스 토너</p>
+                            <div class="flex items-center gap-1 mb-1">
+                                <i class="fa-solid fa-star text-yellow-400 text-[10px]"></i>
+                                <span class="text-[10px] font-bold text-gray-800">4.74</span>
+                                <span class="text-[10px] text-gray-300">(204)</span>
+                            </div>
+                            <div class="flex items-center gap-1">
+                                <span class="text-xs font-bold text-red-500">53%</span>
+                                <span class="text-xs font-bold text-gray-800">20,900</span>
+                                <span class="text-[10px] text-gray-800">원</span>
+                            </div>
+                        </div>
+                    </a>
             </section>
         </div>
 
@@ -641,23 +699,23 @@
             <nav class="bottom-tab">
                 <div class="tab-item" onclick="setActiveTab(this)">
                     <i class="fa-solid fa-bars"></i>
-                    <span class="text-[10px]">카테고리</span>
+                    <span>카테고리</span>
                 </div>
                 <div class="tab-item" onclick="setActiveTab(this)">
                     <i class="fa-solid fa-diamond"></i>
-                    <span class="text-[10px]">혜택</span>
+                    <span>혜택</span>
                 </div>
                 <div class="tab-item active" onclick="setActiveTab(this)">
                     <i class="fa-solid fa-house"></i>
-                    <span class="text-[10px]">홈</span>
+                    <span>홈</span>
                 </div>
                 <div class="tab-item" onclick="setActiveTab(this)">
                     <i class="fa-solid fa-cart-shopping"></i>
-                    <span class="text-[10px]">쇼핑</span>
+                    <span>쇼핑</span>
                 </div>
                 <div class="tab-item" onclick="setActiveTab(this)">
                     <i class="fa-regular fa-user"></i>
-                    <span class="text-[10px]">마이</span>
+                    <span>마이</span>
                 </div>
             </nav>
             <div class="h-6 flex justify-center items-center">
@@ -696,18 +754,6 @@
             element.classList.add('active');
         }
 
-        document.querySelectorAll('.main-content header .flex div').forEach(tab => {
-            tab.addEventListener('click', function () {
-                document.querySelectorAll('.main-content header .flex div').forEach(t => {
-                    t.classList.remove('tab-active');
-                    t.classList.add('text-gray-400');
-                });
-
-                this.classList.add('tab-active');
-                this.classList.remove('text-gray-400');
-            });
-        });
-
         function handleCardClick(name) {
             console.log(name + ' 카드 전체 클릭됨');
         }
@@ -724,6 +770,24 @@
                 keyboard.classList.remove('is-visible');
             }
         });
+
+        // 배너 자동 슬라이드 기능
+        const bannerSlides = document.querySelectorAll('.banner-slide');
+        const bannerCurrent = document.getElementById('bannerCurrent');
+        const bannerTotal = document.getElementById('bannerTotal');
+
+        let currentBannerIndex = 0;
+
+        if (bannerSlides.length > 0) {
+            bannerTotal.textContent = bannerSlides.length;
+
+            setInterval(() => {
+                bannerSlides[currentBannerIndex].classList.remove('active');
+                currentBannerIndex = (currentBannerIndex + 1) % bannerSlides.length;
+                bannerSlides[currentBannerIndex].classList.add('active');
+                bannerCurrent.textContent = currentBannerIndex + 1;
+            }, 5000);
+        }
 
         // TOP 버튼 기능
         const topButton = document.getElementById('topButton');

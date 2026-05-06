@@ -40,74 +40,9 @@
             overflow-y: visible;
         }
 
-        /* Status Bar */
-        .status-bar {
-            position: sticky;
-            top: 0;
-            z-index: 80;
-            width: 100%;
-            height: 25px;
-            min-height: 25px;
-            margin: 0;
-            padding: 4px 24px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            background: #fff;
-        }
-
-        .status-time {
-            font-size: 15px;
-            font-weight: 700;
-            color: #111;
-            letter-spacing: -0.2px;
-            line-height: 1;
-        }
-
-        .status-icons {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            color: #111;
-            font-size: 13px;
-            line-height: 1;
-        }
-
-        .battery {
-            position: relative;
-            width: 23px;
-            height: 12px;
-            border: 1.5px solid #111;
-            border-radius: 3px;
-            margin-left: 2px;
-        }
-
-        .battery::before {
-            content: "";
-            position: absolute;
-            top: 2px;
-            left: 2px;
-            width: 16px;
-            height: 6px;
-            border-radius: 1.5px;
-            background: #111;
-        }
-
-        .battery::after {
-            content: "";
-            position: absolute;
-            top: 3px;
-            right: -4px;
-            width: 2px;
-            height: 5px;
-            border-radius: 0 2px 2px 0;
-            background: #111;
-        }
-
-        /* Header */
         .header {
             position: sticky;
-            top: 25px;
+            top: 0;
             z-index: 70;
             width: 100%;
             height: 48px;
@@ -115,10 +50,6 @@
             padding: 0;
             background: #fff;
             border-bottom: 1px solid #e5e5e5;
-        }
-
-        .status-bar+.header {
-            margin-top: 0;
         }
 
         .header-inner {
@@ -662,39 +593,51 @@
             word-break: keep-all;
         }
 
-        /* Top Button */
-        .top-btn {
+        /* Bottom Purchase Bar */
+        .purchase-bar {
             position: fixed;
-            right: calc(50% - 165px);
-            bottom: 86px;
-            z-index: 190;
-            width: 32px;
-            height: 32px;
-            border: none;
-            border-radius: 50%;
-            background: #a3d9c9;
-            color: #fff;
+            left: 50%;
+            bottom: 70px;
+            transform: translateX(-50%);
+            z-index: 150;
+            width: 100%;
+            max-width: 375px;
+            height: 64px;
+            padding: 8px 16px;
+            background: #fff;
             display: flex;
             align-items: center;
-            justify-content: center;
-            font-size: 16px;
-            box-shadow: 0 8px 18px rgba(39, 137, 112, 0.28);
+            gap: 10px;
+        }
+
+        .purchase-bar button {
+            height: 46px;
+            border: none;
+            border-radius: 14px;
+            font-size: 15px;
+            font-weight: 800;
             cursor: pointer;
-            opacity: 1;
-            visibility: visible;
-            transform: translateY(0);
-            transition: opacity 0.25s ease, visibility 0.25s ease, transform 0.25s ease;
         }
 
-        .top-btn.show {
-            opacity: 1;
-            visibility: visible;
-            transform: translateY(0);
+        .cart-btn {
+            flex: 1;
+            background: #f2f8f6;
+            color: #1b4f4d;
+            border: 1px solid #a3d9c9;
         }
 
-        .top-btn:active {
-            transform: scale(0.94);
-            opacity: 0.8;
+        .buy-btn {
+            flex: 1.25;
+            background: #a3d9c9;
+            color: #fff;
+            box-shadow: 0 8px 18px rgba(39, 137, 112, 0.22);
+        }
+
+        .cart-btn:active,
+        .buy-btn:active {
+            opacity: 0.75;
+            transform: scale(0.97);
+            transition: all 0.1s ease;
         }
 
         /* Bottom Tab Bar */
@@ -787,14 +730,6 @@
 
 <body>
     <div class="app" id="top">
-        <div class="status-bar">
-            <div class="status-time">9:41</div>
-            <div class="status-icons">
-                <i class="fa-solid fa-signal"></i>
-                <i class="fa-solid fa-wifi"></i>
-                <div class="battery"></div>
-            </div>
-        </div>
 
         <header class="header">
             <div class="header-inner">
@@ -985,6 +920,17 @@
             <i class="fa-solid fa-chevron-up"></i>
         </button>
 
+        <!-- Bottom Purchase Bar -->
+        <div class="purchase-bar">
+            <button class="cart-btn" type="button">
+                장바구니 담기
+            </button>
+
+            <button class="buy-btn" type="button">
+                구매하기
+            </button>
+        </div>
+
         <nav class="bottom-tabbar" aria-label="하단 탭 메뉴">
             <button class="tab-item" type="button" onclick="window.location.href='category.html'" aria-label="카테고리로 이동">
                 <i class="fa-solid fa-bars"></i>
@@ -1015,12 +961,292 @@
     </div>
 
     <script>
+        const products = {
+            /* =========================
+               메인화면 신상품 상세 데이터
+               - main.html 신상품 카드에서 product.html?id=new-... 로 연결
+            ========================= */
+            "new-rice-cleanser": {
+                image: "./images/rice_c_milk.webp",
+                alt: "에스네이처 아쿠아 라이스 클렌징 밀크",
+                brand: "에스네이처 >",
+                title: "아쿠아 라이스 클렌징 밀크",
+                sub: "제품구성",
+                volume: "200ml",
+                rating: "4.61",
+                ratingCount: "(1,672)",
+                discount: "45%",
+                price: "24,900원",
+                aiSummary: `
+                    이 제품은 <strong>라이스 성분과 밀크 타입 제형</strong>을 중심으로 한 클렌징 제품입니다.
+                    피부 표면의 메이크업과 노폐물을 부드럽게 녹여내는 데 초점을 둔 타입이라
+                    세안 후 건조함이 부담스러운 사용자에게 적합합니다.
+                    <br />
+                    다만, 유분감이 남는 사용감을 싫어하는 피부라면 2차 세안 여부를 함께 고려하는 것이 좋습니다.
+                `,
+                ingredientCount: "전체성분 42개",
+                bars: {
+                    safe: 88,
+                    unknown: 12,
+                    medium: 8
+                }
+            },
+            "new-pdrn-essence": {
+                image: "./images/펩타톡스.png",
+                alt: "브이티코스메틱 피디알엔 에센스 100",
+                brand: "브이티코스메틱 >",
+                title: "피디알엔 에센스 100",
+                sub: "제품구성",
+                volume: "30ml",
+                rating: "4.54",
+                ratingCount: "(204)",
+                discount: "53%",
+                price: "20,900원",
+                aiSummary: `
+                    이 제품은 <strong>PDRN 콘셉트의 에센스</strong>로 피부 컨디션 케어와 윤기 개선을
+                    중심으로 설계된 제품입니다. 가벼운 에센스 타입이라 스킨케어 루틴 중간 단계에
+                    배치하기 좋습니다.
+                    <br />
+                    민감 피부라면 고기능성 콘셉트 성분에 대한 반응을 확인하기 위해 소량 테스트 후 사용하는 것이 좋습니다.
+                `,
+                ingredientCount: "전체성분 35개",
+                bars: {
+                    safe: 84,
+                    unknown: 15,
+                    medium: 10
+                }
+            },
+            "new-product03": {
+                image: "./images/에스트라.webp",
+                alt: "아토 베리어 365크림",
+                brand: "에스트라",
+                title: "아토 베리어 365크림",
+                sub: "제품구성",
+                volume: "80ml",
+                rating: "4.63",
+                ratingCount: "(120)",
+                discount: "30%",
+                price: "20,900원",
+                aiSummary: `
+                     무너진 피부 장벽을 강화하고 100시간 동안 보습력을 유지해주는 '장벽 크림'의 대명사입니다. 특히 피부 지질 성분인 '세라마이드, 콜레스테롤, 지방산'을 결합한 더마온(DermaON®) 캡슐이 함유되어 있어 민감하고 건조한 피부에 탁월한 효과를 보입니다.
+                `,
+                ingredientCount: "전체성분 30개",
+                bars: {
+                    safe: 80,
+                    unknown: 14,
+                    medium: 7
+                }
+            },
+            "new-product04": {
+                image: "./images/oasis.jpg",
+                alt: "아쿠아 오아시스 토너",
+                brand: "에스네이처",
+                title: "아쿠아 오아시스 토너",
+                sub: "[only화해] 아쿠아 오아시스 토너 300ml 더블 기획",
+                volume: "300ml+300ml",
+                rating: "4.70",
+                ratingCount: "(320)",
+                discount: "25%",
+                price: "22,000원",
+                aiSummary: `
+                    주로 피부에 깊은 수분을 공급하고 진정시키는 효과로 유명한 제품들입니다. 현재 시장에서 가장 인지도 높은 제품은 나인위시스(9wishes)의 제품이며, 유사한 컨셉의 웰라쥬(Wellage) 제품도 인기가 많습니다.
+                `,
+                ingredientCount: "전체성분 33개",
+                bars: {
+                    safe: 86,
+                    unknown: 10,
+                    medium: 5
+                }
+            },
+
+            /* =========================
+               랭킹화면 상품 상세 데이터
+               - rank.html 랭킹 카드에서 product.html?id=rank-... 로 연결
+            ========================= */
+            "rank-beplain-cleanser": {
+                image: "./images/비플레인.webp",
+                alt: "비플레인 녹두 약산성 클렌징폼",
+                brand: "비플레인 >",
+                title: "[화해기획상품] 녹두 약산성 클렌징폼 200ml기획",
+                sub: "제품구성",
+                volume: "120ml +80ml +수딩크림10ml",
+                rating: "4.36",
+                ratingCount: "(46,708)",
+                discount: "40%",
+                price: "20,800원",
+                aiSummary: `
+                    이 제품은 <strong>녹두추출물(32~33%)</strong>과 녹두가루를 주성분으로 하여
+                    모공 노폐물 세정과 진정에 특화된
+                    <strong>약산성(pH 5.5~6.5)</strong> 제품입니다.
+                    아미노산계 세정 성분과 보습제인 글리세린이 베이스라
+                    세안 후 당김이 적고 피부 장벽 보호 효과를 기대할 수 있습니다.
+                    <br />
+                    다만, 미세한 녹두가루 입자가 포함되어 있어 극도로 예민한 피부라면
+                    물리적 마찰에 의한 자극을 느낄 수 있으니 주의가 필요합니다.
+                `,
+                ingredientCount: "전체성분 37개",
+                bars: {
+                    safe: 92,
+                    unknown: 9,
+                    medium: 6
+                }
+            },
+            "rank-torriden-ampoule": {
+                image: "./images/톨든.jpg",
+                alt: "토리든 다이브인 저분자 앰플",
+                brand: "토리든 >",
+                title: "다이브인 저분자 히알루론산 앰플",
+                sub: "제품구성",
+                volume: "50ml",
+                rating: "4.58",
+                ratingCount: "(23,421)",
+                discount: "35%",
+                price: "18,900원",
+                aiSummary: `
+                    이 제품은 <strong>저분자 히알루론산</strong>을 중심으로 한 수분 앰플입니다.
+                    건조함이 느껴지는 피부에 수분감을 빠르게 공급하고,
+                    산뜻한 사용감을 원하는 사용자에게 적합합니다.
+                    <br />
+                    끈적임이 부담스러운 피부라면 소량씩 레이어링해서 사용하는 방식이 좋습니다.
+                `,
+                ingredientCount: "전체성분 31개",
+                bars: {
+                    safe: 88,
+                    unknown: 7,
+                    medium: 5
+                }
+            },
+            "rank-aestura-cream": {
+                image: "./images/에스트라.webp",
+                alt: "에스트라 아토 베리어 크림",
+                brand: "에스트라 >",
+                title: "아토 베리어 크림",
+                sub: "제품구성",
+                volume: "80ml",
+                rating: "4.67",
+                ratingCount: "(18,204)",
+                discount: "28%",
+                price: "24,500원",
+                aiSummary: `
+                    이 제품은 <strong>피부 장벽 케어</strong>에 초점을 둔 고보습 크림입니다.
+                    건조하고 예민한 피부에 보습막을 형성해주며,
+                    피부 유사 성분을 통해 편안한 사용감을 기대할 수 있습니다.
+                    <br />
+                    유분감이 부담스러운 피부라면 낮보다는 밤 루틴에 사용하는 것이 적합합니다.
+                `,
+                ingredientCount: "전체성분 42개",
+                bars: {
+                    safe: 90,
+                    unknown: 8,
+                    medium: 4
+                }
+            },
+            "rank-raceltice-ampoule": {
+                image: "./images/펩타톡스.png",
+                alt: "라셀틱스 스킨 리커버리 펩타 톡스 앰플",
+                brand: "라셀틱스 >",
+                title: "스킨 리커버리 펩타 톡스 앰플",
+                sub: "제품구성",
+                volume: "30ml",
+                rating: "4.54",
+                ratingCount: "(204)",
+                discount: "53%",
+                price: "20,900원",
+                aiSummary: `
+                    이 제품은 <strong>펩타이드 성분</strong>을 중심으로 한 탄력 케어 앰플입니다.
+                    피부 컨디션 회복과 윤기 개선을 원하는 사용자에게 적합하며,
+                    미백과 탄력 케어를 함께 어필할 수 있는 제품입니다.
+                    <br />
+                    기능성 케어 제품에 민감한 피부라면 사용 전 패치 테스트를 권장합니다.
+                `,
+                ingredientCount: "전체성분 35개",
+                bars: {
+                    safe: 86,
+                    unknown: 10,
+                    medium: 6
+                }
+            },
+            "rank-anua-ampoule": {
+                image: "./images/아누아.webp",
+                alt: "아누아 PDRN 히알루론산 앰플",
+                brand: "아누아 >",
+                title: "PDRN 히알루론산 앰플",
+                sub: "제품구성",
+                volume: "30ml",
+                rating: "4.62",
+                ratingCount: "(3,812)",
+                discount: "32%",
+                price: "21,900원",
+                aiSummary: `
+                    이 제품은 <strong>PDRN과 히알루론산</strong>을 중심으로 한 수분·진정 앰플입니다.
+                    건조함, 피부 컨디션 저하, 푸석함이 고민인 사용자에게 적합한 제품입니다.
+                    <br />
+                    수분 앰플을 여러 단계로 사용하는 경우에는 제형이 가벼운 순서로 배치하는 것이 좋습니다.
+                `,
+                ingredientCount: "전체성분 39개",
+                bars: {
+                    safe: 89,
+                    unknown: 8,
+                    medium: 5
+                }
+            },
+
+            /* 기존 링크 호환용 alias */
+            "beplain-cleansing-foam": null,
+            "rice-cleanser": null,
+            "pdrn-essence": null,
+            "product03": null,
+            "product04": null
+        };
+
+        products["beplain-cleansing-foam"] = products["rank-beplain-cleanser"];
+        products["rice-cleanser"] = products["new-rice-cleanser"];
+        products["pdrn-essence"] = products["new-pdrn-essence"];
+        products["product03"] = products["new-product03"];
+        products["product04"] = products["new-product04"];
+
         document.addEventListener("DOMContentLoaded", () => {
+            const params = new URLSearchParams(window.location.search);
+            const productId = params.get("id") || "rank-beplain-cleanser";
+            const product = products[productId] || products["rank-beplain-cleanser"];
+
+            const productImg = document.querySelector(".product-img");
+            const brand = document.querySelector(".brand");
+            const title = document.querySelector(".product-title");
+            const sub = document.querySelector(".product-sub");
+            const volume = document.querySelector(".product-volume");
+            const ratingScore = document.querySelector(".rating-score");
+            const ratingCount = document.querySelector(".rating-count");
+            const discount = document.querySelector(".discount");
+            const price = document.querySelector(".price");
+            const aiText = document.querySelector(".ai-text");
+            const ingredientCount = document.querySelector(".info-item.active span");
+            const safeBar = document.querySelector(".bar-fill.safe");
+            const unknownBar = document.querySelector(".bar-fill.unknown");
+            const mediumBar = document.querySelector(".bar-fill.medium");
             const bars = document.querySelectorAll(".bar-fill");
             const topButton = document.querySelector(".top-btn");
             const ewgAlert = document.querySelector(".ewg-alert");
             const ewgGuide = document.querySelector(".ewg-guide");
             const ewgBox = document.querySelector(".ewg-box");
+
+            if (productImg) {
+                productImg.src = product.image;
+                productImg.alt = product.alt;
+            }
+            if (brand) brand.textContent = product.brand;
+            if (title) title.textContent = product.title;
+            if (sub) sub.textContent = product.sub;
+            if (volume) volume.textContent = product.volume;
+            if (ratingScore) ratingScore.textContent = product.rating;
+            if (ratingCount) ratingCount.textContent = product.ratingCount;
+            if (discount) discount.textContent = product.discount;
+            if (price) price.textContent = product.price;
+            if (aiText) aiText.innerHTML = product.aiSummary;
+            if (ingredientCount) ingredientCount.textContent = product.ingredientCount;
+            if (safeBar) safeBar.dataset.width = product.bars.safe;
+            if (unknownBar) unknownBar.dataset.width = product.bars.unknown;
+            if (mediumBar) mediumBar.dataset.width = product.bars.medium;
 
             setTimeout(() => {
                 bars.forEach((bar) => {

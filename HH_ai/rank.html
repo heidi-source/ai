@@ -42,87 +42,6 @@
         }
 
         /* =========================
-           Status Bar
-        ========================= */
-        .status-bar {
-            width: 100%;
-            height: 44px;
-            background: #fff;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 22px;
-            font-size: 14px;
-            font-weight: 600;
-            color: #111;
-        }
-
-        .status-icons {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-
-        .signal {
-            display: flex;
-            align-items: end;
-            gap: 2px;
-        }
-
-        .signal span {
-            display: block;
-            width: 3px;
-            background: #111;
-            border-radius: 2px;
-        }
-
-        .signal span:nth-child(1) {
-            height: 4px;
-        }
-
-        .signal span:nth-child(2) {
-            height: 6px;
-        }
-
-        .signal span:nth-child(3) {
-            height: 8px;
-        }
-
-        .signal span:nth-child(4) {
-            height: 10px;
-        }
-
-        .wifi {
-            width: 15px;
-            height: 11px;
-            border: 2px solid #111;
-            border-left-color: transparent;
-            border-right-color: transparent;
-            border-bottom-color: transparent;
-            border-radius: 50%;
-            transform: translateY(4px);
-        }
-
-        .battery {
-            width: 22px;
-            height: 11px;
-            border: 1.8px solid #111;
-            border-radius: 3px;
-            position: relative;
-        }
-
-        .battery::after {
-            content: "";
-            position: absolute;
-            right: -4px;
-            top: 3px;
-            width: 2px;
-            height: 5px;
-            background: #111;
-            border-radius: 2px;
-        }
-
-        /* =========================
            Header
         ========================= */
         .header {
@@ -264,13 +183,19 @@
         }
 
         .top-nav a {
+            position: relative;
             flex: 1;
+            height: 100%;
             text-align: center;
             text-decoration: none;
             font-size: 14px;
             font-weight: 700;
             color: #b5b5b5;
             transition: color 0.18s ease;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .top-nav a:hover {
@@ -281,9 +206,18 @@
             color: #1e56a0;
         }
 
-        /* =========================
-           Category Tab
-        ========================= */
+        .top-nav a.active::after {
+            content: "";
+            position: absolute;
+            left: 50%;
+            bottom: 0;
+            width: 110px;
+            height: 3px;
+            background: #1e56a0;
+            border-radius: 999px;
+            transform: translateX(-50%);
+        }
+
         .category-tabs {
             position: relative;
             height: 78px;
@@ -376,7 +310,7 @@
         ========================= */
         .content {
             position: relative;
-            height: calc(100dvh - 44px - 56px - 42px - 78px - 74px - 34px);
+            height: calc(100dvh - 56px - 42px - 78px - 74px);
             overflow-y: auto;
             padding-bottom: 24px;
             background: linear-gradient(110deg,
@@ -728,7 +662,7 @@
         .bottom-tabbar {
             position: absolute;
             left: 0;
-            bottom: 34px;
+            bottom: 0;
             width: 100%;
             height: 74px;
             background: #fff;
@@ -783,30 +717,6 @@
         }
 
         /* =========================
-           Home Bar
-        ========================= */
-        .home-bar {
-            position: absolute;
-            left: 0;
-            bottom: 0;
-            width: 100%;
-            height: 34px;
-            background: #fff;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 26;
-        }
-
-        .home-indicator {
-            width: 135px;
-            height: 5px;
-            background: #000;
-            border-radius: 10px;
-        }
-
-
-        /* =========================
            Search Keyboard Overlay
         ========================= */
         .keyboard-overlay {
@@ -859,19 +769,6 @@
 
 <body>
     <div class="app">
-
-        <!-- Status Bar -->
-        <div class="status-bar">
-            <div class="time">9:41</div>
-            <div class="status-icons">
-                <div class="signal">
-                    <span></span><span></span><span></span><span></span>
-                </div>
-                <div class="wifi"></div>
-                <div class="battery"></div>
-            </div>
-        </div>
-
         <!-- Header -->
         <header class="header">
             <div class="menu-icon clickable no-hover" onclick="window.location.href='scan.html';" aria-label="scan">
@@ -889,7 +786,7 @@
         <!-- Top Nav -->
         <nav class="top-nav">
             <a href="main.html">홈</a>
-            <a href="#" class="active" aria-current="page">랭킹</a>
+            <a href="rank.html" class="active" aria-current="page">랭킹</a>
             <a href="commu.html">커뮤니티</a>
         </nav>
 
@@ -962,7 +859,6 @@
             <i class="fa-solid fa-chevron-up"></i>
         </button>
 
-
         <!-- Keyboard Overlay -->
         <div class="keyboard-overlay" id="keyboardOverlay" aria-hidden="true">
             <div class="keyboard-panel">
@@ -997,44 +893,49 @@
                 <span>마이</span>
             </a>
         </nav>
-
-        <!-- Home Bar -->
-        <div class="home-bar">
-            <div class="home-indicator"></div>
-        </div>
     </div>
 
     <script>
         const products = [
             {
+                id: "rank-beplain-cleanser",
                 image: "./images/비플레인.webp",
                 brand: "비플레인",
                 name: "녹두 약산성 클렌징",
-                tags: ["#바르는 보톡스", "#펩타이드"]
+                tags: ["#각질제거", "#촉촉보습"],
+                detailUrl: "product.html?id=rank-beplain-cleanser"
             },
             {
+                id: "rank-torriden-ampoule",
                 image: "./images/톨든.jpg",
                 brand: "토리든",
                 name: "다이브인 저분자 앰플",
-                tags: ["#수분진정", "#물광피부"]
+                tags: ["#수분진정", "#물광피부"],
+                detailUrl: "product.html?id=rank-torriden-ampoule"
             },
             {
+                id: "rank-aestura-cream",
                 image: "./images/에스트라.webp",
                 brand: "에스트라",
                 name: "아토 베리어 크림",
-                tags: ["#엑스트라보습", "#피부유사성분"]
+                tags: ["#엑스트라보습", "#피부유사성분"],
+                detailUrl: "product.html?id=rank-aestura-cream"
             },
             {
-                image: "./images/비플레인.webp",
-                brand: "비플레인",
-                name: "녹두 약산성 클렌징",
-                tags: ["#미백", "#비건"]
+                id: "rank-raceltice-ampoule",
+                image: "./images/펩타톡스.png",
+                brand: "라셀틱스",
+                name: "스킨 리커버리 펩타 톡스 앰플",
+                tags: ["#미백", "#바르는보톡스"],
+                detailUrl: "product.html?id=rank-raceltice-ampoule"
             },
             {
+                id: "rank-anua-ampoule",
                 image: "./images/아누아.webp",
                 brand: "아누아",
                 name: "PDRN 히알루론산 앰플",
-                tags: ["#PDRN", "#연어수출성분"]
+                tags: ["#PDRN", "#연어수출성분"],
+                detailUrl: "product.html?id=rank-anua-ampoule"
             }
         ];
 
@@ -1045,52 +946,65 @@
         products.forEach((item, index) => {
             const card = document.createElement("article");
             card.className = "product-card";
+            card.setAttribute("role", "button");
+            card.setAttribute("tabindex", "0");
+            card.setAttribute("aria-label", `${item.brand} ${item.name} 상세페이지로 이동`);
 
             card.innerHTML = `
-                <div class="product-img-box">
-                    <div class="rank-area">
-                        <div class="rank-star">★</div>
-                        <div class="rank-bars">
-                            <span></span>
-                            <span></span>
-                            <span></span>
-                        </div>
-                    </div>
+    <div class="product-img-box">
+        <div class="rank-area">
+            <div class="rank-star">★</div>
+            <div class="rank-bars">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
 
-                    <img src="${item.image}" alt="${item.name}" class="product-img">
-                </div>
+        <img src="${item.image}" alt="${item.name}" class="product-img">
+    </div>
 
-                <div class="product-info">
-                    <h3 class="product-name">
-                        <span class="rank-num">${index + 1}</span>
-                        <span class="brand">${item.brand}</span> ${item.name}
-                    </h3>
+    <div class="product-info">
+        <h3 class="product-name">
+            <span class="rank-num">${index + 1}</span>
+            <span class="brand">${item.brand}</span> ${item.name}
+        </h3>
 
-                    <div class="rating">
-                        <span class="star">★</span>
-                        <span>4.61</span>
-                        <span class="review-count">(1,672)</span>
-                    </div>
+        <div class="rating">
+            <span class="star">★</span>
+            <span>4.61</span>
+            <span class="review-count">(1,672)</span>
+        </div>
 
-                    <div class="price-row">
-                        <span class="discount">45%</span>
-                        <span class="price">24,900 원</span>
-                    </div>
+        <div class="price-row">
+            <span class="discount">45%</span>
+            <span class="price">24,900 원</span>
+        </div>
 
-                    <div class="point-row">
-                        <span class="point">P</span>
-                        <span>최대 3,590P</span>
-                    </div>
+        <div class="point-row">
+            <span class="point">P</span>
+            <span>최대 3,590P</span>
+        </div>
 
-                    <div class="tag-row">
-                        ${item.tags.map(tag => `<span class="tag">${tag}</span>`).join("")}
-                    </div>
-                </div>
-            `;
+        <div class="tag-row">
+            ${item.tags.map(tag => `<span class="tag">${tag}</span>`).join("")}
+        </div>
+    </div>
+`;
+
+            card.addEventListener("click", () => {
+                window.location.href = item.detailUrl;
+            });
+
+            card.addEventListener("keydown", (event) => {
+                if (event.key === "Enter" || event.key === " ") {
+                    event.preventDefault();
+                    window.location.href = item.detailUrl;
+                }
+            });
 
             productList.appendChild(card);
         });
-
 
         const searchBox = document.getElementById("searchBox");
         const keyboardOverlay = document.getElementById("keyboardOverlay");
@@ -1132,7 +1046,6 @@
                 behavior: "smooth"
             });
         });
-
     </script>
 </body>
 

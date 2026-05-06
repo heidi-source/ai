@@ -37,16 +37,6 @@
         }
 
         /* =========================
-       Status Bar - h44px
-    ========================= */
-        .statusbar {
-            width: 100%;
-            height: 44px;
-            background: #fff;
-            flex-shrink: 0;
-        }
-
-        /* =========================
        Header
     ========================= */
         .header {
@@ -349,26 +339,6 @@
         }
 
         /* =========================
-       Homebar - no gap
-    ========================= */
-        .homebar {
-            width: 100%;
-            height: 34px;
-            background: #fff;
-            display: flex;
-            justify-content: center;
-            align-items: flex-start;
-            padding-top: 8px;
-        }
-
-        .homebar-line {
-            width: 135px;
-            height: 5px;
-            border-radius: 999px;
-            background: #000;
-        }
-
-        /* =========================
        Keyboard Overlay
     ========================= */
         .keyboard-overlay {
@@ -469,9 +439,6 @@
 
 <body>
     <div class="app">
-        <!-- Status Bar -->
-        <div class="statusbar"></div>
-
         <!-- Header -->
         <header class="header">
             <div class="scan-btn clickable no-hover" onclick="window.location.href='scan.html';" aria-label="스캔">
@@ -555,10 +522,6 @@
                     <span>마이</span>
                 </button>
             </nav>
-
-            <div class="homebar">
-                <div class="homebar-line"></div>
-            </div>
         </div>
 
         <!-- Keyboard Overlay -->
